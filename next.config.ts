@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
-  // Build standalone de dong goi Docker gon nhe (Viettel Cloud)
-  output: 'standalone',
+  // Standalone cho Docker (Viettel IDC); tren Vercel bo di de build sach.
+  output: process.env.VERCEL ? undefined : 'standalone',
   images: {
     localPatterns: [
       {
