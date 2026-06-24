@@ -1,0 +1,60 @@
+{
+  "name": "viettel-khdn-hcm",
+  "version": "1.0.0",
+  "description": "Landing page Phong KHDN Viettel Ho Chi Minh - gioi thieu giai phap chuyen doi so, dat lich tu van/demo, tin tuc & chinh sach",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "seed": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/seed/index.ts",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
+    "@payloadcms/db-postgres": "latest",
+    "@payloadcms/db-sqlite": "latest",
+    "@payloadcms/email-nodemailer": "latest",
+    "@payloadcms/next": "latest",
+    "@payloadcms/richtext-lexical": "latest",
+    "@payloadcms/storage-s3": "latest",
+    "@payloadcms/ui": "latest",
+    "clsx": "^2.1.1",
+    "cross-env": "10.1.0",
+    "dotenv": "16.4.7",
+    "graphql": "^16.8.1",
+    "lucide-react": "^1.21.0",
+    "next": "16.2.9",
+    "nodemailer": "^6.9.16",
+    "payload": "latest",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-hook-form": "^7.54.2",
+    "sharp": "0.34.2",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "24.12.3",
+    "@types/nodemailer": "^6.4.17",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^9.16.0",
+    "eslint-config-next": "16.2.9",
+    "postcss": "^8.5.1",
+    "prettier": "^3.4.2",
+    "tailwindcss": "^4.0.0",
+    "tsx": "4.22.4",
+    "typescript": "6.0.3"
+  },
+  "engines": {
+    "node": ">=24.15.0"
+  }
+}

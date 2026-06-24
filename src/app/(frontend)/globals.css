@@ -1,0 +1,152 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Brand tokens - Phong KHDN Viettel Ho Chi Minh
+   Mau chu dao Viettel (#EE0033) + 6 mau tru cot tu infographic he sinh thai.
+   ========================================================================== */
+@theme {
+  /* Mau thuong hieu */
+  --color-viettel-red: #ee0033;
+  --color-viettel-red-dark: #c4002b;
+  --color-viettel-red-light: #ff3355;
+
+  /* 6 tru cot he sinh thai */
+  --color-pillar-telecom: #f9b233; /* 1. Vien thong */
+  --color-pillar-digital: #29abe2; /* 2. Chuyen doi so */
+  --color-pillar-datacenter: #2e3192; /* 3. Data Center - An ninh mang */
+  --color-pillar-governance: #39b54a; /* 4. Quan tri doanh nghiep */
+  --color-pillar-logistics: #f7931e; /* 5. Logistics - Van tai - Nang luong */
+  --color-pillar-partner: #ed1c24; /* 6. San pham hop tac */
+
+  /* Nen / chu - he "Trust & Authority" (navy + slate) hoa voi do Viettel */
+  --color-ink: #0f172a; /* navy 900 - heading */
+  --color-ink-soft: #334155; /* slate 700 - body phu */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc; /* slate 50 */
+  --color-border-soft: #e2e8f0; /* slate 200 */
+
+  /* Accent & semantic (dung tiet che, do Viettel van la CTA chinh) */
+  --color-accent: #0369a1; /* xanh corporate cho link/thong tin */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-destructive: #dc2626;
+
+  /* Font */
+  --font-sans:
+    var(--font-be-vietnam), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Bo tron & shadow brand */
+  --radius-brand: 0.875rem;
+  --shadow-brand: 0 10px 30px -12px rgba(238, 0, 51, 0.25);
+}
+
+/* Reset nhe + base typography */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Accessibility: ton trong giam chuyen dong */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus ring nhat quan cho dieu huong ban phim */
+:focus-visible {
+  outline: 2px solid var(--color-viettel-red);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Hero - animation nen sinh dong (chi dung transform/opacity; tu tat khi reduced-motion)
+   ========================================================================== */
+@keyframes heroKenburns {
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.1) translate3d(-1.5%, -1%, 0); }
+}
+@keyframes heroSweep {
+  0% { transform: translateX(-120%) skewX(-12deg); opacity: 0; }
+  35% { opacity: 0.6; }
+  100% { transform: translateX(220%) skewX(-12deg); opacity: 0; }
+}
+@keyframes heroFloat {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(-160px); opacity: 0; }
+}
+@keyframes heroGlow {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.32; transform: scale(1.08); }
+}
+
+/* Goi du lieu chay doc duong mang (data packet) */
+@keyframes heroDataFlow {
+  to { stroke-dashoffset: -520; }
+}
+/* Radar HUD quet xoay */
+@keyframes heroRadar {
+  to { transform: rotate(360deg); }
+}
+/* Node mang nhip nhang (scale + opacity) */
+@keyframes heroNode {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.6); }
+}
+
+.hero-kenburns {
+  animation: heroKenburns 24s ease-in-out infinite alternate;
+}
+.hero-sweep {
+  animation: heroSweep 9s ease-in-out infinite;
+}
+.hero-glow {
+  animation: heroGlow 6s ease-in-out infinite;
+}
+.hero-particle {
+  animation: heroFloat 7s ease-in-out infinite;
+}
+.hero-dataflow {
+  stroke-dasharray: 24 480;
+  animation: heroDataFlow 5s linear infinite;
+}
+.hero-radar {
+  animation: heroRadar 7s linear infinite;
+}
+.hero-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: heroNode 3.5s ease-in-out infinite;
+}
+
+/* Tien ich nho dung lai nhieu noi */
+@layer components {
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 80rem; /* 1280px */
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+}

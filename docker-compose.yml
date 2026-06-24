@@ -1,0 +1,53 @@
+# Trien khai production: Next.js + Payload (app) + PostgreSQL (db)
+# Su dung cho Viettel Cloud / VPS co Docker.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?Bat buoc dat PAYLOAD_SECRET}
+      DB_ADAPTER: postgres
+      DATABASE_URI: postgres://${POSTGRES_USER:-khdn}:${POSTGRES_PASSWORD:-khdn}@db:5432/${POSTGRES_DB:-khdn}
+      # Lan dau dat DB_PUSH=true de tao schema, sau do bo ve false va dung migration
+      DB_PUSH: ${DB_PUSH:-false}
+      # Email / thong bao / chong spam (xem .env.example)
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SALES_NOTIFY_EMAILS: ${SALES_NOTIFY_EMAILS:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
+    volumes:
+      - media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-khdn}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-khdn}
+      POSTGRES_DB: ${POSTGRES_DB:-khdn}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-khdn}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+  media:
