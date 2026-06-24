@@ -41,6 +41,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'captcha' }, { status: 400 })
   }
 
+  // Chuyen chuoi rong -> undefined: field 'select' cua Payload khong chap nhan ''
+  const clean = (v?: string | null) => (v && v.trim() !== '' ? v : undefined)
+
   try {
     const payload = await getPayloadClient()
     const doc = await payload.create({
@@ -49,19 +52,23 @@ export async function POST(req: Request) {
       data: {
         name: data.name,
         phone: data.phone,
-        email: data.email || undefined,
-        company: data.company,
+        email: clean(data.email),
+        company: clean(data.company),
         type: data.type ?? 'tu-van',
-        companySize: data.companySize as never,
-        message: data.message,
+        companySize: clean(data.companySize) as never,
+        message: clean(data.message),
         preferredDate: data.preferredDate ? new Date(data.preferredDate).toISOString() : undefined,
-        timeSlot: data.timeSlot as never,
-        interestedSolutions: data.interestedSolutions as never,
+        timeSlot: clean(data.timeSlot) as never,
+        interestedSolutions:
+          data.interestedSolutions && data.interestedSolutions.length > 0
+            ? (data.interestedSolutions as never)
+            : undefined,
         source: 'website',
       },
     })
     return NextResponse.json({ ok: true, id: doc.id })
   } catch (err) {
+    console.error('[api/lead] create failed:', err)
     return NextResponse.json({ ok: false, error: 'server' }, { status: 500 })
   }
 }
