@@ -83,6 +83,13 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      // Dashboard lead: tong quan + breakdown trang thai + phan cong; roi thong bao ca nhan
+      beforeDashboard: [
+        '/components/admin/AdminLeadDashboard#AdminLeadDashboard',
+        '/components/admin/LeadNotifications#LeadNotifications',
+      ],
+    },
     meta: {
       title: 'Quan tri',
       titleSuffix: ' | KHDN Viettel HCM',
