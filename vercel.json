@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/cron/crawl-policies", "schedule": "0 1 * * *" }
+  ]
+}
