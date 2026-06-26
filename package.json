@@ -14,7 +14,9 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "seed": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" tsx src/seed/index.ts",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -25,6 +27,7 @@
     "@payloadcms/richtext-lexical": "latest",
     "@payloadcms/storage-s3": "latest",
     "@payloadcms/ui": "latest",
+    "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "cross-env": "10.1.0",
     "dotenv": "16.4.7",
@@ -52,7 +55,8 @@
     "prettier": "^3.4.2",
     "tailwindcss": "^4.0.0",
     "tsx": "4.22.4",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "^4.1.9"
   },
   "engines": {
     "node": ">=24.15.0"
