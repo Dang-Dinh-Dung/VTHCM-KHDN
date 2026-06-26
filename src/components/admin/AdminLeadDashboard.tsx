@@ -45,6 +45,13 @@ export async function AdminLeadDashboard({
     .find({ collection: 'users', limit: 200, depth: 0, overrideAccess: true })
     .catch(() => ({ docs: [] as Record<string, unknown>[] }))
 
+  const pendingPolicies = await payload
+    .count({
+      collection: 'policies',
+      where: { and: [{ source: { equals: 'crawl' } }, { status: { equals: 'draft' } }] },
+    })
+    .catch(() => ({ totalDocs: 0 }))
+
   const leads = leadsRes.docs as unknown as Array<{ leadStatus?: string; assignedTo?: string | number | null }>
   const total = leadsRes.totalDocs ?? leads.length
 
@@ -104,6 +111,13 @@ export async function AdminLeadDashboard({
         <a href={leadsListUrl} style={{ ...cardBase, borderLeft: '4px solid #0f172a' }}>
           <div style={{ fontSize: '12px', color: 'var(--theme-elevation-600)' }}>Tổng đã đặt lịch</div>
           <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--theme-text)' }}>{total}</div>
+        </a>
+        <a
+          href={`/admin/collections/policies?where[and][0][source][equals]=crawl&where[and][1][status][equals]=draft`}
+          style={{ ...cardBase, borderLeft: '4px solid #f7931e' }}
+        >
+          <div style={{ fontSize: '12px', color: 'var(--theme-elevation-600)' }}>Văn bản chờ duyệt</div>
+          <div style={{ fontSize: '26px', fontWeight: 800, color: '#f7931e' }}>{pendingPolicies.totalDocs}</div>
         </a>
         {LEAD_STATUSES.map((s) => {
           const color = STATUS_COLOR[s.value] ?? '#64748b'
