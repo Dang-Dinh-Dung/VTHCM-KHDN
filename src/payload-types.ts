@@ -914,6 +914,19 @@ export interface SiteSetting {
     | null;
   footerNote?: string | null;
   copyright?: string | null;
+  /**
+   * Khi bật, hệ thống chạy theo lịch hằng ngày, lấy văn bản khớp từ khóa vào hàng chờ duyệt (trạng thái nháp).
+   */
+  policyCrawlEnabled?: boolean | null;
+  /**
+   * Chỉ lấy văn bản có tiêu đề/tóm tắt chứa ít nhất một từ khóa.
+   */
+  policyCrawlKeywords?:
+    | {
+        keyword: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -951,6 +964,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
       };
   footerNote?: T;
   copyright?: T;
+  policyCrawlEnabled?: T;
+  policyCrawlKeywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

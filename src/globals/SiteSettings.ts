@@ -127,6 +127,26 @@ export const SiteSettings: GlobalConfig = {
             { name: 'copyright', type: 'text', label: 'Dòng bản quyền', defaultValue: '© Viettel Telecom - KHDN Hồ Chí Minh' },
           ],
         },
+        {
+          label: 'Crawl chính sách',
+          fields: [
+            {
+              name: 'policyCrawlEnabled',
+              type: 'checkbox',
+              label: 'Bật tự động crawl văn bản từ chinhphu.vn',
+              defaultValue: false,
+              admin: { description: 'Khi bật, hệ thống chạy theo lịch hằng ngày, lấy văn bản khớp từ khóa vào hàng chờ duyệt (trạng thái nháp).' },
+            },
+            {
+              name: 'policyCrawlKeywords',
+              type: 'array',
+              label: 'Từ khóa lọc',
+              labels: { singular: 'Từ khóa', plural: 'Từ khóa' },
+              admin: { description: 'Chỉ lấy văn bản có tiêu đề/tóm tắt chứa ít nhất một từ khóa.' },
+              fields: [{ name: 'keyword', type: 'text', label: 'Từ khóa', required: true }],
+            },
+          ],
+        },
       ],
     },
   ],

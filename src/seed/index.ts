@@ -107,6 +107,17 @@ async function run() {
         { value: '24/7', label: 'Hỗ trợ khách hàng' },
         { value: '100%', label: 'Hạ tầng trong nước' },
       ],
+      policyCrawlEnabled: false,
+      policyCrawlKeywords: [
+        { keyword: 'hóa đơn điện tử' },
+        { keyword: 'chữ ký số' },
+        { keyword: 'bảo hiểm xã hội' },
+        { keyword: 'thuế' },
+        { keyword: 'hợp đồng điện tử' },
+        { keyword: 'vận tải' },
+        { keyword: 'chuyển đổi số' },
+        { keyword: 'an toàn thông tin' },
+      ],
     },
   })
   log('Cap nhat Site settings.')
