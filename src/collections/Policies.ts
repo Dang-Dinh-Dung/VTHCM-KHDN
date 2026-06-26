@@ -10,7 +10,7 @@ export const Policies: CollectionConfig = {
   labels: { singular: 'Chính sách', plural: 'Nghị định & chính sách' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'documentType', 'documentNumber', 'effectiveDate', 'status'],
+    defaultColumns: ['title', 'documentType', 'documentNumber', 'effectiveDate', 'source', 'status'],
     group: 'Nội dung',
     listSearchableFields: ['title', 'documentNumber', 'summary', 'issuingBody'],
     description: 'Nghị định, thông tư, chính sách nhà nước liên quan tới giải pháp Viettel.',
@@ -79,6 +79,24 @@ export const Policies: CollectionConfig = {
       label: 'Ngày đăng',
       defaultValue: () => new Date().toISOString(),
       admin: { position: 'sidebar' },
+    },
+    {
+      name: 'source',
+      type: 'select',
+      label: 'Nguồn',
+      options: [
+        { value: 'manual', label: 'Nhập tay' },
+        { value: 'crawl', label: 'Tự động (chinhphu.vn)' },
+      ],
+      defaultValue: 'manual',
+      index: true,
+      admin: { position: 'sidebar', description: 'Văn bản tự động cần duyệt trước khi xuất bản.' },
+    },
+    {
+      name: 'crawledAt',
+      type: 'date',
+      label: 'Thời điểm crawl',
+      admin: { position: 'sidebar', readOnly: true, condition: (data) => data?.source === 'crawl' },
     },
     statusField,
     slugField('title'),

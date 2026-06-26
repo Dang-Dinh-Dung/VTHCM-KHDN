@@ -428,6 +428,11 @@ export interface Policy {
   effectiveDate?: string | null;
   publishedAt?: string | null;
   /**
+   * Văn bản tự động cần duyệt trước khi xuất bản.
+   */
+  source?: ('manual' | 'crawl') | null;
+  crawledAt?: string | null;
+  /**
    * Chỉ nội dung "Đã xuất bản" mới hiển thị công khai.
    */
   status: 'draft' | 'published';
@@ -712,6 +717,8 @@ export interface PoliciesSelect<T extends boolean = true> {
   issuingBody?: T;
   effectiveDate?: T;
   publishedAt?: T;
+  source?: T;
+  crawledAt?: T;
   status?: T;
   slug?: T;
   updatedAt?: T;
