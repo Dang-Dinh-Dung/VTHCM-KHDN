@@ -32,7 +32,7 @@ export function mapDocumentType(raw: string): string {
 
 /** Parse ngay dd/mm/yyyy -> ISO string; loi -> undefined. */
 export function parseVnDate(raw: string): string | undefined {
-  const m = raw.trim().match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)
+  const m = raw.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
   if (!m) return undefined
   const [, dd, mm, yyyy] = m
   const d = new Date(Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd)))

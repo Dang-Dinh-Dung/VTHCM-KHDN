@@ -38,8 +38,9 @@ export function PolicyFilters({
           setParam('q', q.trim() || undefined)
         }}
       >
-        <label className="mb-1 block text-sm font-semibold text-ink">Tìm kiếm</label>
+        <label htmlFor="policy-search" className="mb-1 block text-sm font-semibold text-ink">Tìm kiếm</label>
         <input
+          id="policy-search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Số hiệu, từ khóa..."
@@ -60,7 +61,7 @@ export function PolicyFilters({
       {issuingBodies.length > 0 && (
         <div>
           <div className="mb-2 text-sm font-semibold text-ink">Cơ quan ban hành</div>
-          <select value={issuingBody} onChange={(e) => setParam('issuingBody', e.target.value || undefined)} className="w-full rounded-lg border border-border-soft bg-surface px-3 py-2 text-sm">
+          <select aria-label="Cơ quan ban hành" value={issuingBody} onChange={(e) => setParam('issuingBody', e.target.value || undefined)} className="w-full rounded-lg border border-border-soft bg-surface px-3 py-2 text-sm">
             <option value="">Tất cả</option>
             {issuingBodies.map((b) => <option key={b} value={b}>{b}</option>)}
           </select>
@@ -70,7 +71,7 @@ export function PolicyFilters({
       {years.length > 0 && (
         <div>
           <div className="mb-2 text-sm font-semibold text-ink">Năm hiệu lực</div>
-          <select value={year} onChange={(e) => setParam('year', e.target.value || undefined)} className="w-full rounded-lg border border-border-soft bg-surface px-3 py-2 text-sm">
+          <select aria-label="Năm hiệu lực" value={year} onChange={(e) => setParam('year', e.target.value || undefined)} className="w-full rounded-lg border border-border-soft bg-surface px-3 py-2 text-sm">
             <option value="">Tất cả</option>
             {years.map((y) => <option key={y} value={y}>{y}</option>)}
           </select>

@@ -2,6 +2,37 @@ import * as cheerio from 'cheerio'
 
 import { mapDocumentType, parseVnDate } from './normalize'
 
+/**
+ * Kiem tra robots.txt: tra ve true neu targetUrl bi Disallow duoi User-agent: *.
+ * Loi fetch/parse -> false (fail-open: tiep tuc crawl).
+ */
+async function isDisallowedByRobots(targetUrl: string): Promise<boolean> {
+  try {
+    const url = new URL(targetUrl)
+    const robotsUrl = `${url.origin}/robots.txt`
+    const res = await fetch(robotsUrl)
+    if (!res.ok) return false
+    const text = await res.text()
+    const lines = text.split(/\r?\n/)
+    let inStarGroup = false
+    for (const raw of lines) {
+      const line = raw.trim()
+      if (line.startsWith('User-agent:')) {
+        const agent = line.slice('User-agent:'.length).trim()
+        inStarGroup = agent === '*'
+      } else if (inStarGroup && line.startsWith('Disallow:')) {
+        const disallowedPath = line.slice('Disallow:'.length).trim()
+        if (disallowedPath && url.pathname.startsWith(disallowedPath)) {
+          return true
+        }
+      }
+    }
+    return false
+  } catch {
+    return false
+  }
+}
+
 export type CrawledPolicy = {
   title: string
   documentNumber?: string
@@ -53,6 +84,9 @@ export function parseListingHtml(html: string, baseUrl: string): CrawledPolicy[]
 export async function fetchPolicyCandidates(
   opts: { maxItems?: number } = {},
 ): Promise<CrawledPolicy[]> {
+  if (await isDisallowedByRobots(LISTING_URL)) {
+    throw new Error('Bi chan boi robots.txt: ' + LISTING_URL)
+  }
   const res = await fetch(LISTING_URL, {
     headers: { 'User-Agent': 'KHDN-Viettel-HCM-bot/1.0 (+landing page tra cuu chinh sach)' },
   })

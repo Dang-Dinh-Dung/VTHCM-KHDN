@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
+import type { Where } from 'payload'
 
+import type { Policy } from '@/payload-types'
 import { getPayloadClient } from '@/lib/payload'
 import { fetchPolicyCandidates } from '@/lib/crawler/chinhphu'
 import { matchesKeywords } from '@/lib/crawler/normalize'
@@ -47,7 +49,7 @@ export async function GET(req: Request) {
         matched += 1
 
         // Dedupe theo documentNumber roi toi sourceUrl
-        const or = []
+        const or: Where[] = []
         if (c.documentNumber) or.push({ documentNumber: { equals: c.documentNumber } })
         or.push({ sourceUrl: { equals: c.sourceUrl } })
         const existing = await payload.find({
@@ -68,7 +70,7 @@ export async function GET(req: Request) {
           data: {
             title: c.title,
             summary: c.summary || c.title,
-            documentType: c.documentType as never,
+            documentType: c.documentType as Policy['documentType'],
             documentNumber: c.documentNumber,
             issuingBody: c.issuingBody,
             effectiveDate: c.effectiveDate,
