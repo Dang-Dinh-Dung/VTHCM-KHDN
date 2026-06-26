@@ -133,18 +133,51 @@ export async function getNewsList(opts: { category?: string; page?: number; limi
   })
 }
 
-export async function getPoliciesList(opts: { documentType?: string; page?: number; limit?: number } = {}) {
+export async function getPoliciesList(
+  opts: { documentType?: string; q?: string; issuingBody?: string; year?: string; page?: number; limit?: number } = {},
+) {
   const payload = await getPayloadClient()
   const and: Where[] = [{ status: { equals: 'published' } }]
   if (opts.documentType) and.push({ documentType: { equals: opts.documentType } })
+  if (opts.issuingBody) and.push({ issuingBody: { equals: opts.issuingBody } })
+  if (opts.q && opts.q.trim()) {
+    const q = opts.q.trim()
+    and.push({
+      or: [
+        { title: { like: q } },
+        { documentNumber: { like: q } },
+        { summary: { like: q } },
+      ],
+    })
+  }
+  if (opts.year && /^\d{4}$/.test(opts.year)) {
+    and.push({ effectiveDate: { greater_than_equal: `${opts.year}-01-01T00:00:00.000Z` } })
+    and.push({ effectiveDate: { less_than_equal: `${opts.year}-12-31T23:59:59.999Z` } })
+  }
   return payload.find({
     collection: 'policies',
     where: { and },
     sort: '-effectiveDate',
     page: opts.page ?? 1,
-    limit: opts.limit ?? 9,
+    limit: opts.limit ?? 12,
     depth: 1,
   })
+}
+
+/** Danh sach co quan ban hanh (distinct, da xuat ban) cho bo loc. */
+export async function getPolicyIssuingBodies(): Promise<string[]> {
+  const payload = await getPayloadClient()
+  const res = await payload.find({
+    collection: 'policies',
+    where: { status: { equals: 'published' } },
+    limit: 500,
+    depth: 0,
+  })
+  const set = new Set<string>()
+  for (const d of res.docs as Array<{ issuingBody?: string | null }>) {
+    if (d.issuingBody) set.add(d.issuingBody)
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b, 'vi'))
 }
 
 export async function getNewsBySlug(slug: string): Promise<News | null> {
