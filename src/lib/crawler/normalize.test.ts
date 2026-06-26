@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { stripDiacritics, matchesKeywords } from './normalize'
+import { stripDiacritics, matchesKeywords, mapDocumentType, parseVnDate } from './normalize'
 
 describe('stripDiacritics', () => {
   it('bo dau tieng Viet va thuong hoa giu nguyen chu', () => {
@@ -17,5 +17,28 @@ describe('matchesKeywords', () => {
   })
   it('danh sach rong -> false', () => {
     expect(matchesKeywords('bất kỳ', [])).toBe(false)
+  })
+})
+
+describe('mapDocumentType', () => {
+  it('nhan dien cac loai pho bien', () => {
+    expect(mapDocumentType('Nghị định')).toBe('nghi-dinh')
+    expect(mapDocumentType('THÔNG TƯ 12')).toBe('thong-tu')
+    expect(mapDocumentType('Quyết định')).toBe('quyet-dinh')
+    expect(mapDocumentType('Luật')).toBe('luat')
+    expect(mapDocumentType('Công văn')).toBe('cong-van')
+  })
+  it('khong nhan dien -> nghi-dinh', () => {
+    expect(mapDocumentType('Văn bản lạ')).toBe('nghi-dinh')
+  })
+})
+
+describe('parseVnDate', () => {
+  it('dd/mm/yyyy -> ISO', () => {
+    expect(parseVnDate('15/03/2026')?.slice(0, 10)).toBe('2026-03-15')
+  })
+  it('chuoi rac -> undefined', () => {
+    expect(parseVnDate('không phải ngày')).toBeUndefined()
+    expect(parseVnDate('')).toBeUndefined()
   })
 })

@@ -18,3 +18,24 @@ export function matchesKeywords(text: string, keywords: string[]): boolean {
     return needle.length > 0 && haystack.includes(needle)
   })
 }
+
+/** Map text loai van ban -> value trong POLICY_TYPES; mac dinh nghi-dinh. */
+export function mapDocumentType(raw: string): string {
+  const t = stripDiacritics(raw)
+  if (t.includes('thong tu')) return 'thong-tu'
+  if (t.includes('quyet dinh')) return 'quyet-dinh'
+  if (t.includes('cong van')) return 'cong-van'
+  if (t.includes('luat')) return 'luat'
+  if (t.includes('nghi dinh')) return 'nghi-dinh'
+  return 'nghi-dinh'
+}
+
+/** Parse ngay dd/mm/yyyy -> ISO string; loi -> undefined. */
+export function parseVnDate(raw: string): string | undefined {
+  const m = raw.trim().match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)
+  if (!m) return undefined
+  const [, dd, mm, yyyy] = m
+  const d = new Date(Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd)))
+  if (Number.isNaN(d.getTime())) return undefined
+  return d.toISOString()
+}
