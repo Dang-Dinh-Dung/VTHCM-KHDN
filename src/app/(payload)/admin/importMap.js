@@ -23,7 +23,6 @@ import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { AdminLeadDashboard as AdminLeadDashboard_507b8e9e964c619cd254ac28485a1598 } from '../../../components/admin/AdminLeadDashboard'
 import { LeadNotifications as LeadNotifications_c1f148cbb7ef1c059ab0c2c79210a996 } from '../../../components/admin/LeadNotifications'
-import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -53,6 +52,5 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/AdminLeadDashboard#AdminLeadDashboard": AdminLeadDashboard_507b8e9e964c619cd254ac28485a1598,
   "/components/admin/LeadNotifications#LeadNotifications": LeadNotifications_c1f148cbb7ef1c059ab0c2c79210a996,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
