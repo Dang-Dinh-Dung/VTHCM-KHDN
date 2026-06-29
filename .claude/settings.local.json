@@ -5,7 +5,8 @@
       "Bash(echo \"npm: $\\(npm -v 2>/dev/null || echo MISSING\\)\")",
       "Bash(pnpm -v)",
       "Bash(echo \"pnpm: $\\(pnpm -v 2>/dev/null || echo MISSING\\)\")",
-      "Bash(yarn -v)"
+      "Bash(yarn -v)",
+      "PowerShell($env:Path = \"C:\\\\Program Files\\\\nodejs;$env:APPDATA\\\\npm;\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); npm test 2>&1 | Select-Object -Last 8)"
     ]
   }
 }
