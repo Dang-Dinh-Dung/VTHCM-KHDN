@@ -65,9 +65,13 @@ export function parseListingHtml(html: string, baseUrl: string): CrawledPolicy[]
     const title = row.find('span.substract').first().text().trim()
     if (!code || !title) return // bo qua hang tieu de (th) / hang thieu du lieu
 
-    const href =
+    // Link trang chi tiet tren chinhphu.vn
+    const detailHref =
       row.find("a[href*='docid']").first().attr('href')?.trim() ||
       row.find('td a').first().attr('href')?.trim()
+    // Link file PDF dinh kem (neu co) - uu tien lam nguon chinh thuc
+    const fileHref = row.find('.bl-doc-file a[href]').first().attr('href')?.trim()
+    const href = fileHref || detailHref
     if (!href) return
     const sourceUrl = new URL(href, baseUrl).toString()
 
