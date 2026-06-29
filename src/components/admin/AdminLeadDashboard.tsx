@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import type { Payload } from 'payload'
 
 import { LEAD_STATUSES } from '@/lib/taxonomy'
+import { CrawlNowButton } from './CrawlNowButton'
 
 type AdminUser = { id: string | number; roles?: string[] | null }
 
@@ -132,6 +133,11 @@ export async function AdminLeadDashboard({
             </a>
           )
         })}
+      </div>
+
+      {/* Nut crawl thu cong (ngoai lich cron hang ngay) */}
+      <div style={{ marginTop: '12px' }}>
+        <CrawlNowButton />
       </div>
 
       {/* Bang phan cong theo nhan su */}
