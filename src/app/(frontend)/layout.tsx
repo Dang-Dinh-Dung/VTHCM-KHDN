@@ -15,6 +15,10 @@ const beVietnam = Be_Vietnam_Pro({
   variable: '--font-be-vietnam',
 })
 
+// Layout doc site-settings tu DB (CMS-driven) -> khong prerender frontend luc build,
+// tranh query DB khi schema chua dong bo. Ap dung cho TAT CA trang con.
+export const dynamic = 'force-dynamic'
+
 const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
 export const metadata: Metadata = {
