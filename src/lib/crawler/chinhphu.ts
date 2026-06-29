@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio'
 
-import { mapDocumentType, parseVnDate } from './normalize'
+import { mapDocumentTypeFromCode, parseVnDate } from './normalize'
 
 /**
  * Kiem tra robots.txt: tra ve true neu targetUrl bi Disallow duoi User-agent: *.
@@ -47,31 +47,37 @@ const LISTING_URL =
   process.env.POLICY_SOURCE_URL || 'https://vanban.chinhphu.vn/he-thong-van-ban'
 
 /**
- * Parse HTML trang danh sach -> CrawledPolicy[].
- * SELECTOR duoi day theo cau truc bang gia dinh; chinh theo HTML that.
+ * Parse HTML danh sach van ban cua vanban.chinhphu.vn -> CrawledPolicy[].
+ * Moi van ban la 1 <tr> trong table.search-result:
+ *  - span.code     : so hieu (vd "239/2026/NĐ-CP")
+ *  - span.issued-date: ngay ban hanh (dd/mm/yyyy)
+ *  - span.substract: trich yeu (tieu de)
+ *  - a[href*=docid]: link trang chi tiet
+ * Loai van ban suy tu duoi ma so (trang khong hien chu loai).
  */
 export function parseListingHtml(html: string, baseUrl: string): CrawledPolicy[] {
   const $ = cheerio.load(html)
   const out: CrawledPolicy[] = []
 
-  $('table.list-vb tbody tr').each((_, el) => {
+  $('table.search-result tr').each((_, el) => {
     const row = $(el)
-    const link = row.find('td.col-title a').first()
-    const title = link.text().trim()
-    const href = link.attr('href')?.trim()
-    if (!title || !href) return // bo qua hang thieu du lieu
+    const code = row.find('span.code').first().text().trim()
+    const title = row.find('span.substract').first().text().trim()
+    if (!code || !title) return // bo qua hang tieu de (th) / hang thieu du lieu
 
+    const href =
+      row.find("a[href*='docid']").first().attr('href')?.trim() ||
+      row.find('td a').first().attr('href')?.trim()
+    if (!href) return
     const sourceUrl = new URL(href, baseUrl).toString()
-    const typeText = row.find('td.col-type').text().trim()
-    const number = row.find('td.col-number').text().trim()
-    const body = row.find('td.col-body').text().trim()
-    const dateText = row.find('td.col-date').text().trim()
+
+    const dateText = row.find('span.issued-date').first().text().trim()
 
     out.push({
       title,
-      documentNumber: number || undefined,
-      documentType: mapDocumentType(typeText || title),
-      issuingBody: body || undefined,
+      documentNumber: code || undefined,
+      documentType: mapDocumentTypeFromCode(code),
+      issuingBody: undefined, // trang danh sach khong hien co quan ban hanh
       effectiveDate: parseVnDate(dateText),
       sourceUrl,
     })
