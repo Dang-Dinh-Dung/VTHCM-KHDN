@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { NewsCard, PolicyCard } from '@/components/content/ContentCards'
 import { EcosystemSection } from '@/components/home/EcosystemSection'
+import { CustomerLogos } from '@/components/home/CustomerLogos'
 import { FeaturedSolutions } from '@/components/home/FeaturedSolutions'
 import { Hero } from '@/components/home/Hero'
 import { WhyChooseUs } from '@/components/home/WhyChooseUs'
@@ -36,6 +37,9 @@ export default async function HomePage() {
 
       {/* Giai phap noi bat - slide keo qua lai, nen do, the trang */}
       {featured.length > 0 && <FeaturedSolutions solutions={featured} />}
+
+      {/* Logo khach hang tin dung - slide chay tu dong (chi hien khi co logo) */}
+      <CustomerLogos logos={settings.customerLogos} />
 
       {/* Cong cu tim giai phap (CTA) - nen do + hoa tiet chuyen doi so */}
       <Section className="bg-surface-muted">

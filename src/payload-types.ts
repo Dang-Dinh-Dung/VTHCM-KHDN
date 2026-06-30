@@ -912,6 +912,17 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Logo các khách hàng đang dùng dịch vụ Viettel — hiển thị dạng slide chạy tự động ở trang chủ. Khuyến nghị PNG nền trong suốt.
+   */
+  customerLogos?:
+    | {
+        logo: number | Media;
+        name: string;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   footerNote?: string | null;
   copyright?: string | null;
   /**
@@ -960,6 +971,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         value?: T;
         label?: T;
+        id?: T;
+      };
+  customerLogos?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        url?: T;
         id?: T;
       };
   footerNote?: T;

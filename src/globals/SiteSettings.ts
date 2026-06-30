@@ -118,6 +118,21 @@ export const SiteSettings: GlobalConfig = {
                 { name: 'label', type: 'text', label: 'Nhãn', required: true },
               ],
             },
+            {
+              name: 'customerLogos',
+              type: 'array',
+              label: 'Logo khách hàng tin dùng',
+              labels: { singular: 'Logo', plural: 'Logo' },
+              admin: {
+                description:
+                  'Logo các khách hàng đang dùng dịch vụ Viettel — hiển thị dạng slide chạy tự động ở trang chủ. Khuyến nghị PNG nền trong suốt.',
+              },
+              fields: [
+                { name: 'logo', type: 'upload', relationTo: 'media', label: 'Logo', required: true },
+                { name: 'name', type: 'text', label: 'Tên khách hàng', required: true },
+                { name: 'url', type: 'text', label: 'Website (tùy chọn)' },
+              ],
+            },
           ],
         },
         {

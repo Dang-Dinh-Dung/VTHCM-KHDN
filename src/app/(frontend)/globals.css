@@ -67,6 +67,19 @@ body {
   }
 }
 
+/* Marquee logo khach hang - cuon ngang tu dong, lien mach (danh sach nhan doi -> -50%) */
+.marquee-track {
+  animation: marquee 35s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Focus ring nhat quan cho dieu huong ban phim */
 :focus-visible {
   outline: 2px solid var(--color-viettel-red);
