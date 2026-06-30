@@ -41,6 +41,7 @@ export type CrawledPolicy = {
   effectiveDate?: string
   summary?: string
   sourceUrl: string
+  fileUrl?: string // link PDF dinh kem (de tai ve luu vao field attachment)
 }
 
 const LISTING_URL =
@@ -65,15 +66,16 @@ export function parseListingHtml(html: string, baseUrl: string): CrawledPolicy[]
     const title = row.find('span.substract').first().text().trim()
     if (!code || !title) return // bo qua hang tieu de (th) / hang thieu du lieu
 
-    // Link trang chi tiet tren chinhphu.vn
+    // sourceUrl = link trang chi tiet (bai dang) tren vanban.chinhphu.vn
     const detailHref =
       row.find("a[href*='docid']").first().attr('href')?.trim() ||
       row.find('td a').first().attr('href')?.trim()
-    // Link file PDF dinh kem (neu co) - uu tien lam nguon chinh thuc
+    if (!detailHref) return
+    const sourceUrl = new URL(detailHref, baseUrl).toString()
+
+    // fileUrl = link PDF dinh kem (neu co) -> de tai ve luu vao field attachment
     const fileHref = row.find('.bl-doc-file a[href]').first().attr('href')?.trim()
-    const href = fileHref || detailHref
-    if (!href) return
-    const sourceUrl = new URL(href, baseUrl).toString()
+    const fileUrl = fileHref ? new URL(fileHref, baseUrl).toString() : undefined
 
     const dateText = row.find('span.issued-date').first().text().trim()
 
@@ -84,6 +86,7 @@ export function parseListingHtml(html: string, baseUrl: string): CrawledPolicy[]
       issuingBody: undefined, // trang danh sach khong hien co quan ban hanh
       effectiveDate: parseVnDate(dateText),
       sourceUrl,
+      fileUrl,
     })
   })
 

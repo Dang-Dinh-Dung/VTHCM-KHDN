@@ -62,6 +62,28 @@ export async function runPolicyCrawl(payload: Payload): Promise<CrawlResult> {
           continue
         }
 
+        // Tai file PDF dinh kem (neu co) -> luu vao collection media -> gan vao attachment.
+        // Loi tai file khong chan tao van ban (van tao, chi thieu file dinh kem).
+        let attachmentId: number | undefined
+        if (c.fileUrl) {
+          try {
+            const fileRes = await fetch(c.fileUrl)
+            if (fileRes.ok) {
+              const buffer = Buffer.from(await fileRes.arrayBuffer())
+              const name = c.fileUrl.split('/').pop()?.split('?')[0] || `${c.documentNumber || 'vanban'}.pdf`
+              const media = await payload.create({
+                collection: 'media',
+                overrideAccess: true,
+                data: { alt: c.title.slice(0, 200) },
+                file: { data: buffer, mimetype: 'application/pdf', name, size: buffer.length },
+              })
+              attachmentId = media.id as number
+            }
+          } catch (fileErr) {
+            errors.push(`pdf "${c.title}": ${String(fileErr)}`)
+          }
+        }
+
         await payload.create({
           collection: 'policies',
           overrideAccess: true,
@@ -73,6 +95,7 @@ export async function runPolicyCrawl(payload: Payload): Promise<CrawlResult> {
             issuingBody: c.issuingBody,
             effectiveDate: c.effectiveDate,
             sourceUrl: c.sourceUrl,
+            attachment: attachmentId,
             source: 'crawl',
             crawledAt: new Date().toISOString(),
             status: 'draft',

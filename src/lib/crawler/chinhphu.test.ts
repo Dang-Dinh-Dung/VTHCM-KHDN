@@ -19,13 +19,15 @@ describe('parseListingHtml', () => {
     expect(first.effectiveDate?.slice(0, 10)).toBe('2026-06-26')
     expect(first.issuingBody).toBeUndefined()
   })
-  it('uu tien link file PDF dinh kem lam sourceUrl', () => {
-    expect(items[0].sourceUrl).toBe(
+  it('sourceUrl tro ve trang chi tiet (bai dang), khong phai PDF', () => {
+    expect(items[0].sourceUrl).toBe('https://vanban.chinhphu.vn/?pageid=27160&docid=218591')
+    expect(items[1].sourceUrl).toBe('https://vanban.chinhphu.vn/?pageid=27160&docid=218593')
+  })
+  it('fileUrl bat link PDF dinh kem (de tai vao field attachment)', () => {
+    expect(items[0].fileUrl).toBe(
       'https://datafiles.chinhphu.vn/cpp/files/vbpq/2026/6/239-ndcp.signed.pdf',
     )
-  })
-  it('khong co PDF -> dung link trang chi tiet', () => {
-    expect(items[1].sourceUrl).toBe('https://vanban.chinhphu.vn/?pageid=27160&docid=218593')
+    expect(items[1].fileUrl).toBeUndefined() // hang 2 khong co PDF
   })
   it('suy loai van ban tu duoi ma so (QĐ -> quyet-dinh)', () => {
     expect(items[1].documentType).toBe('quyet-dinh')
