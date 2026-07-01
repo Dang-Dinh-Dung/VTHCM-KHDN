@@ -135,8 +135,26 @@ export async function AdminLeadDashboard({
         })}
       </div>
 
-      {/* Nut crawl thu cong (ngoai lich cron hang ngay) */}
-      <div style={{ marginTop: '12px' }}>
+      {/* Nut xuat Excel + crawl thu cong */}
+      <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        <a
+          href="/api/admin/leads-export"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            borderRadius: '8px',
+            border: '1px solid var(--theme-elevation-150)',
+            background: 'var(--theme-elevation-50)',
+            color: 'var(--theme-text)',
+            padding: '8px 14px',
+            fontSize: '13px',
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}
+        >
+          ⬇️ Xuất Excel (.xlsx)
+        </a>
         <CrawlNowButton />
       </div>
 

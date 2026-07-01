@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone, isAdminOrSales, isAdminOrSalesFieldLevel, isSignedIn } from '@/lib/access'
 import { notifyNewLead } from '@/lib/notify'
+import { syncLeadToSheet } from '@/lib/gsheet'
 import { COMPANY_SIZES, LEAD_STATUSES, LEAD_TYPES, TIME_SLOTS } from '@/lib/taxonomy'
 
 export const Leads: CollectionConfig = {
@@ -24,8 +25,9 @@ export const Leads: CollectionConfig = {
     afterChange: [
       async ({ doc, operation, req }) => {
         if (operation === 'create') {
-          // Khong chan luong tao lead neu thong bao loi
+          // Khong chan luong tao lead neu thong bao/dong bo loi
           void notifyNewLead(req.payload, doc as Parameters<typeof notifyNewLead>[1])
+          void syncLeadToSheet(doc as Record<string, unknown>)
         }
       },
     ],
