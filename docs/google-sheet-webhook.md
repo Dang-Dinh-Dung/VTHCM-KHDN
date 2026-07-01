@@ -16,6 +16,11 @@ Cách này nhẹ, không cần Google API key / service account.
 const SECRET = 'DOI_THANH_CHUOI_BI_MAT_CUA_BAN'
 const HEADERS = ['Thời gian', 'Họ tên', 'Doanh nghiệp', 'SĐT', 'Email', 'Loại', 'Quy mô', 'Nội dung', 'Ngày mong muốn', 'Khung giờ', 'Nguồn']
 
+// Mo URL bang trinh duyet (GET) -> chi de kiem tra webhook con song.
+function doGet() {
+  return ContentService.createTextOutput('Webhook OK - dang hoat dong (chi nhan POST tu app).')
+}
+
 function doPost(e) {
   try {
     const body = JSON.parse(e.postData.contents)
