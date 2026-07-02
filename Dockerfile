@@ -7,6 +7,8 @@ RUN apk add --no-cache libc6-compat
 # --- deps: cai dependencies ---
 FROM base AS deps
 WORKDIR /app
+# Cong cu bien dich cho native module (better-sqlite3) tren Alpine
+RUN apk add --no-cache python3 make g++
 COPY package.json package-lock.json* ./
 RUN npm ci
 
@@ -15,6 +17,8 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Dam bao co thu muc public (repo co the khong co) de runner COPY khong loi
+RUN mkdir -p public
 ENV NEXT_TELEMETRY_DISABLED=1
 # PAYLOAD_SECRET can co khi build (generate importmap/types). Dung gia tri tam khi build.
 ENV PAYLOAD_SECRET=build-time-placeholder
