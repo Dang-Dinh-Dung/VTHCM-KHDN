@@ -22,6 +22,11 @@ COPY . .
 # Dam bao co thu muc public (repo co the khong co) de runner COPY khong loi
 RUN mkdir -p public
 ENV NEXT_TELEMETRY_DISABLED=1
+# NEXT_PUBLIC_* phai co luc build de nhung vao client bundle (vd Turnstile site key)
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ARG NEXT_PUBLIC_SERVER_URL
+ENV NEXT_PUBLIC_TURNSTILE_SITE_KEY=$NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ENV NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL
 # PAYLOAD_SECRET can co khi build (generate importmap/types). Dung gia tri tam khi build.
 ENV PAYLOAD_SECRET=build-time-placeholder
 RUN npm run build
