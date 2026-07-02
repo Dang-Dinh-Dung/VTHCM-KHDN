@@ -10,7 +10,9 @@ WORKDIR /app
 # Cong cu bien dich cho native module (better-sqlite3) tren Alpine
 RUN apk add --no-cache python3 make g++
 COPY package.json package-lock.json* ./
-RUN npm ci
+# Dung npm install (khong phai npm ci) vi lock co the khuyet dep con cua Payload;
+# phien ban da pin 3.85.1 nen van deterministic.
+RUN npm install --no-audit --no-fund
 
 # --- builder: build ung dung ---
 FROM base AS builder
