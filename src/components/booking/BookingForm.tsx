@@ -236,26 +236,36 @@ export function BookingForm({
       {solutions.length > 0 && (
         <div>
           <span className={labelClass}>Giải pháp quan tâm</span>
-          <div className="flex max-h-40 flex-wrap gap-2 overflow-y-auto rounded-lg border border-border-soft p-3">
+          <div className="flex flex-wrap gap-2 rounded-lg border border-border-soft p-3">
             {solutions.map((s) => {
               const active = selected.includes(s.id)
               return (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => toggleSolution(s.id)}
-                  aria-pressed={active}
-                  title={s.desc || undefined}
-                  className={cn(
-                    'rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
-                    s.desc && 'cursor-help',
-                    active
-                      ? 'border-viettel-red bg-viettel-red text-white'
-                      : 'border-border-soft text-ink-soft hover:border-viettel-red/40',
+                <span key={s.id} className="group relative inline-flex">
+                  <button
+                    type="button"
+                    onClick={() => toggleSolution(s.id)}
+                    aria-pressed={active}
+                    className={cn(
+                      'rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+                      s.desc && 'cursor-help',
+                      active
+                        ? 'border-viettel-red bg-viettel-red text-white'
+                        : 'border-border-soft text-ink-soft hover:border-viettel-red/40',
+                    )}
+                  >
+                    {s.title}
+                  </button>
+                  {s.desc && (
+                    <span
+                      role="tooltip"
+                      className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 hidden w-60 -translate-x-1/2 rounded-lg bg-ink px-3 py-2 text-left text-xs font-normal leading-snug text-white shadow-xl group-hover:block"
+                    >
+                      <span className="mb-0.5 block font-semibold text-white">{s.title}</span>
+                      {s.desc}
+                      <span className="absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-x-4 border-t-4 border-x-transparent border-t-ink" />
+                    </span>
                   )}
-                >
-                  {s.title}
-                </button>
+                </span>
               )
             })}
           </div>
