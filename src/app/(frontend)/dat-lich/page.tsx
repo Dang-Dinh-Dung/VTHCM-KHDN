@@ -27,7 +27,12 @@ export default async function BookingPage({
   const typeParam = first(sp.type)
 
   const [settings, solRes] = await Promise.all([getSiteSettings(), getSolutions({ limit: 100 })])
-  const solutions = solRes.docs.map((s) => ({ id: s.id, title: s.shortName || s.title, slug: s.slug }))
+  const solutions = solRes.docs.map((s) => ({
+    id: s.id,
+    title: s.shortName || s.title,
+    slug: s.slug,
+    desc: s.shortDesc || undefined,
+  }))
   const defaultSolutionId = solutionSlug ? solutions.find((s) => s.slug === solutionSlug)?.id : undefined
   const defaultType = (['tu-van', 'demo', 'bao-gia'] as const).includes(typeParam as never)
     ? (typeParam as 'tu-van' | 'demo' | 'bao-gia')
@@ -101,7 +106,7 @@ export default async function BookingPage({
           <div className="lg:col-span-2">
             <div className="rounded-2xl border border-border-soft bg-surface p-6 md:p-8">
               <BookingForm
-                solutions={solutions.map(({ id, title }) => ({ id, title }))}
+                solutions={solutions.map(({ id, title, desc }) => ({ id, title, desc }))}
                 defaultSolutionId={defaultSolutionId}
                 defaultType={defaultType}
               />

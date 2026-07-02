@@ -25,7 +25,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-type SolutionOption = { id: string | number; title: string }
+type SolutionOption = { id: string | number; title: string; desc?: string }
 
 const fieldClass =
   'w-full rounded-lg border border-border-soft bg-surface px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft/60 focus:border-viettel-red focus:outline-none focus:ring-1 focus:ring-viettel-red'
@@ -245,8 +245,10 @@ export function BookingForm({
                   type="button"
                   onClick={() => toggleSolution(s.id)}
                   aria-pressed={active}
+                  title={s.desc || undefined}
                   className={cn(
                     'rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+                    s.desc && 'cursor-help',
                     active
                       ? 'border-viettel-red bg-viettel-red text-white'
                       : 'border-border-soft text-ink-soft hover:border-viettel-red/40',
