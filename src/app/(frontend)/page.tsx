@@ -4,6 +4,7 @@ import { NewsCard, PolicyCard } from '@/components/content/ContentCards'
 import { EcosystemSection } from '@/components/home/EcosystemSection'
 import { CustomerLogos } from '@/components/home/CustomerLogos'
 import { FeaturedSolutions } from '@/components/home/FeaturedSolutions'
+import { SnapController } from '@/components/home/SnapController'
 import { Hero } from '@/components/home/Hero'
 import { WhyChooseUs } from '@/components/home/WhyChooseUs'
 import { ButtonLink, Container, Section, SectionHeading } from '@/components/ui/primitives'
@@ -31,10 +32,11 @@ export default async function HomePage() {
 
   return (
     <>
+      <SnapController />
       <Hero settings={settings} />
 
       {/* Noi dung trang = tam trang bo goc tren, de len hero do (lo goc do 2 ben) */}
-      <div className="relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
+      <div className="snap-hero-point relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
       <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
 
       <WhyChooseUs />
