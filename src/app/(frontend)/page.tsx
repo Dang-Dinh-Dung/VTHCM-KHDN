@@ -36,7 +36,7 @@ export default async function HomePage() {
       <Hero settings={settings} />
 
       {/* Noi dung trang = tam trang bo goc tren, de len hero do (lo goc do 2 ben) */}
-      <div className="snap-hero-point relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
+      <div id="home-content" className="relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
       <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
 
       <WhyChooseUs />

@@ -23,7 +23,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
   const bgUrl = heroBgUrl(settings.heroImage)
   return (
     <section
-      className="snap-hero-point relative -mt-[60px] overflow-hidden text-white md:-mt-[72px] lg:h-svh"
+      className="relative -mt-[60px] overflow-hidden text-white md:-mt-[72px] lg:h-svh"
       style={{
         background:
           'linear-gradient(135deg, #8f0c22 0%, #c8132f 40%, #e11537 65%, #a30e28 100%)',
