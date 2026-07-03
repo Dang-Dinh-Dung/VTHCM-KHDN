@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { ChevronRight, Menu, Phone, Search, X } from 'lucide-react'
+import { ChevronRight, Menu, Phone, X } from 'lucide-react'
 
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
@@ -33,18 +33,18 @@ export function SiteHeader({
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <header className="sticky top-0 z-50">
-      {/* Thanh chinh */}
-      <div className="border-b border-border-soft bg-surface/95 backdrop-blur">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
+    <header className="sticky top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
+      {/* Thanh nav dang pill noi (bo tron, do bong, nhan do Viettel) */}
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="flex h-14 items-center justify-between gap-3 rounded-full border border-border-soft bg-surface/85 pl-5 pr-2 shadow-lg shadow-ink/5 backdrop-blur-md md:h-16 md:pl-6">
           <Link href="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
             {logoUrl ? (
               // Logo Viettel upload trong admin
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="Viettel KHDN Hồ Chí Minh" className="h-9 w-auto object-contain md:h-10" />
+              <img src={logoUrl} alt="Viettel KHDN Hồ Chí Minh" className="h-8 w-auto object-contain md:h-9" />
             ) : (
               <>
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-viettel-red text-lg font-black text-white">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-viettel-red text-lg font-black text-white">
                   V
                 </span>
                 <span className="leading-tight">
@@ -62,39 +62,33 @@ export function SiteHeader({
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 className={cn(
-                  'relative rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'rounded-full px-3.5 py-2 text-sm font-medium transition-colors',
                   isActive(item.href)
-                    ? 'text-viettel-red'
-                    : 'text-ink hover:text-viettel-red',
+                    ? 'bg-viettel-red/10 text-viettel-red'
+                    : 'text-ink hover:bg-surface-muted hover:text-viettel-red',
                 )}
               >
                 {item.label}
-                {isActive(item.href) && (
-                  <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-viettel-red" aria-hidden />
-                )}
               </Link>
             ))}
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Link
-              href="/giai-phap"
-              aria-label="Tìm kiếm giải pháp"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink transition-colors hover:bg-surface-muted"
-            >
-              <Search className="h-5 w-5" aria-hidden />
-            </Link>
             {hotline && (
               <a
                 href={telHref}
-                className="inline-flex items-center gap-2 rounded-xl border border-viettel-red/30 px-3 py-2 text-sm font-bold text-viettel-red transition-colors hover:bg-viettel-red/5"
+                className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-viettel-red transition-colors hover:bg-viettel-red/5"
               >
                 <Phone className="h-4 w-4" aria-hidden />
                 {hotline}
               </a>
             )}
-            <Link href="/dat-lich" className={buttonClass('primary', 'md')}>
+            <Link
+              href="/dat-lich"
+              className="inline-flex items-center gap-1.5 rounded-full bg-viettel-red px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-viettel-red-dark"
+            >
               Đăng ký tư vấn
+              <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
 
@@ -103,16 +97,16 @@ export function SiteHeader({
             aria-label={open ? 'Đóng menu' : 'Mở menu'}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-ink transition-colors hover:bg-surface-muted lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface-muted lg:hidden"
           >
             {open ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
           </button>
         </div>
 
-        {/* Menu mobile */}
+        {/* Menu mobile - the noi bo tron */}
         {open && (
-          <div className="border-t border-border-soft bg-surface lg:hidden">
-            <nav className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-3" aria-label="Điều hướng di động">
+          <div className="mt-2 rounded-3xl border border-border-soft bg-surface p-2 shadow-lg shadow-ink/5 lg:hidden">
+            <nav className="flex flex-col gap-1" aria-label="Điều hướng di động">
               {NAV.map((item) => (
                 <Link
                   key={item.href}
