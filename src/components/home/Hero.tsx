@@ -23,7 +23,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
   const bgUrl = heroBgUrl(settings.heroImage)
   return (
     <section
-      className="relative overflow-hidden text-white"
+      className="relative -mt-[60px] overflow-hidden text-white md:-mt-[72px]"
       style={{
         background:
           'linear-gradient(135deg, #8f0c22 0%, #c8132f 40%, #e11537 65%, #a30e28 100%)',
@@ -144,7 +144,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
         style={{ background: 'linear-gradient(to top, rgba(120,8,24,0.55), transparent)' }}
         aria-hidden
       />
-      <Container className="relative py-16 md:py-24">
+      <Container className="relative pb-16 pt-20 md:pb-24 md:pt-28">
         <div className="max-w-3xl">
           <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-white ring-1 ring-white/15">
             <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
