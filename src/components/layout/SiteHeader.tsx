@@ -36,7 +36,7 @@ export function SiteHeader({
     <header className="sticky top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
       {/* Thanh nav dang pill noi (bo tron, do bong, nhan do Viettel) */}
       <div className="mx-auto w-full max-w-7xl">
-        <div className="flex h-12 items-center justify-between gap-3 rounded-full border border-border-soft bg-surface/85 pl-5 pr-2 shadow-lg shadow-ink/5 backdrop-blur-md md:h-14 md:pl-6">
+        <div className="flex h-12 items-center justify-between gap-3 rounded-full border border-border-soft bg-surface/85 px-3 pl-5 shadow-lg shadow-ink/5 backdrop-blur-md md:h-14 md:pl-6">
           <Link href="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
             {logoUrl ? (
               // Logo Viettel upload trong admin
