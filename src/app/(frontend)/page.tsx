@@ -38,7 +38,7 @@ export default async function HomePage() {
       {/* Tam trang bo goc = so do he sinh thai, de len hero do roi ket thuc */}
       <div
         id="home-content"
-        className="relative z-10 flex min-h-svh flex-col justify-center overflow-hidden rounded-[2rem] bg-surface shadow-2xl shadow-ink/10 md:rounded-[3rem]"
+        className="relative z-10 mx-3 flex min-h-svh flex-col justify-center overflow-hidden rounded-[2rem] bg-surface shadow-2xl shadow-ink/10 md:mx-6 md:rounded-[3rem]"
       >
         <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
       </div>
