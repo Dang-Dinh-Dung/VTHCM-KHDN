@@ -25,11 +25,14 @@ export function SnapController() {
       const content = document.getElementById('home-content')
       if (!content) return
       const contentTop = content.getBoundingClientRect().top + window.scrollY
+      // Dung thap hon nav mot khoang -> chua dai do tren cung cho nav noi bat
+      const NAV_GAP = 88
+      const snapPos = Math.max(0, contentTop - NAV_GAP)
 
-      // Dang trong vung hero (giua dau trang va khung noi dung)
-      if (y > 4 && y < contentTop - 4) {
+      // Dang trong vung hero (giua dau trang va vi tri snap)
+      if (y > 4 && y < snapPos - 4) {
         locked = true
-        const target = dir === 'up' ? 0 : contentTop
+        const target = dir === 'up' ? 0 : snapPos
         window.scrollTo({ top: target, behavior: 'smooth' })
         window.setTimeout(() => {
           locked = false
