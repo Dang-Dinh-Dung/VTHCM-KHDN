@@ -22,7 +22,7 @@ const PILLAR_ICONS: Record<string, LucideIcon> = {
   'san-pham-hop-tac': Handshake,
 }
 
-/** The tru cot dang ngang gon (dung o 2 cot ben canh loi) */
+/** The tru cot: icon mau + ten + so giai phap + mo ta san pham chi tiet */
 function PillarCard({ value, count }: { value: string; count?: number }) {
   const pillar = PILLARS.find((p) => p.value === value)
   if (!pillar) return null
@@ -31,26 +31,42 @@ function PillarCard({ value, count }: { value: string; count?: number }) {
   return (
     <Link
       href={`/giai-phap?pillar=${pillar.value}`}
-      className="group flex items-center gap-3 rounded-2xl border border-border-soft bg-surface p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-viettel-red/40 hover:shadow-brand"
+      className="group relative overflow-hidden rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-brand"
     >
+      {/* Thanh mau nhan dien ben trai */}
+      <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: color }} aria-hidden />
+      {/* Vang mau nhe goc tren phai */}
       <span
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-        style={{ backgroundColor: `${color}18`, color }}
-      >
-        <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-viettel-red">
-          {pillar.label}
-        </span>
-        <span className="block text-xs text-ink-soft">
-          {count ? `${count} giải pháp` : 'Khám phá giải pháp'}
-        </span>
-      </span>
-      <ArrowRight
-        className="h-4 w-4 shrink-0 text-ink-soft/40 transition-all group-hover:translate-x-0.5 group-hover:text-viettel-red"
+        className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-[0.12] blur-2xl transition-opacity duration-200 group-hover:opacity-25"
+        style={{ backgroundColor: color }}
         aria-hidden
       />
+      <div className="relative flex items-start gap-3 pl-1.5">
+        <span
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+          style={{ backgroundColor: `${color}1f`, color }}
+        >
+          <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="truncate text-sm font-bold text-ink transition-colors group-hover:text-viettel-red">
+              {pillar.label}
+            </h3>
+            <span
+              className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold"
+              style={{ backgroundColor: `${color}1f`, color }}
+            >
+              {count ? `${count} giải pháp` : 'Mới'}
+            </span>
+          </div>
+          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink-soft">{pillar.description}</p>
+        </div>
+        <ArrowRight
+          className="mt-1 h-4 w-4 shrink-0 text-ink-soft/40 transition-all group-hover:translate-x-0.5 group-hover:text-viettel-red"
+          aria-hidden
+        />
+      </div>
     </Link>
   )
 }
