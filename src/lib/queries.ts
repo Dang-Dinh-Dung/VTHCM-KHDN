@@ -8,6 +8,41 @@ import type { News, Policy, SiteSetting, Solution } from '@/payload-types'
  * nen cac ham doc cong khai PHAI tu loc status = 'published'.
  */
 
+export type PillarSolutionItem = {
+  id: string | number
+  name: string
+  slug: string
+  slogan: string
+  logoUrl?: string
+}
+
+/** Nhom giai phap (da xuat ban) theo tru cot: dung cho accordion so do he sinh thai. */
+export async function getSolutionsByPillar(): Promise<Record<string, PillarSolutionItem[]>> {
+  const payload = await getPayloadClient()
+  const res = await payload.find({
+    collection: 'solutions',
+    where: { status: { equals: 'published' } },
+    limit: 500,
+    depth: 1,
+    sort: 'title',
+  })
+  const out: Record<string, PillarSolutionItem[]> = {}
+  for (const s of res.docs as Solution[]) {
+    const pillar = s.pillar
+    if (!pillar) continue
+    const logo = s.logo && typeof s.logo === 'object' ? (s.logo.sizes?.thumbnail?.url ?? s.logo.url ?? undefined) : undefined
+    if (!s.slug) continue
+    ;(out[pillar] ??= []).push({
+      id: s.id,
+      name: s.shortName || s.title,
+      slug: s.slug,
+      slogan: s.shortDesc || '',
+      logoUrl: logo ?? undefined,
+    })
+  }
+  return out
+}
+
 export type SolutionFilters = {
   pillar?: string
   productGroup?: string

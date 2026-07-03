@@ -13,16 +13,18 @@ import {
   getLatestPolicies,
   getPillarCounts,
   getSiteSettings,
+  getSolutionsByPillar,
 } from '@/lib/queries'
 
 // Render dong de phan anh thay doi tu CMS va tranh phu thuoc DB luc build (CI).
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const [settings, featured, counts, news, policies] = await Promise.all([
+  const [settings, featured, counts, solutionsByPillar, news, policies] = await Promise.all([
     getSiteSettings(),
     getFeaturedSolutions(4),
     getPillarCounts(),
+    getSolutionsByPillar(),
     getLatestNews(3),
     getLatestPolicies(4),
   ])
@@ -33,7 +35,7 @@ export default async function HomePage() {
 
       {/* Noi dung trang = tam trang bo goc tren, de len hero do (lo goc do 2 ben) */}
       <div className="relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
-      <EcosystemSection counts={counts} />
+      <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
 
       <WhyChooseUs />
 
