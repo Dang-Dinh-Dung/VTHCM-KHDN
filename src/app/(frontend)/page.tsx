@@ -5,6 +5,7 @@ import { EcosystemSection } from '@/components/home/EcosystemSection'
 import { CustomerLogos } from '@/components/home/CustomerLogos'
 import { FeaturedSolutions } from '@/components/home/FeaturedSolutions'
 import { SnapController } from '@/components/home/SnapController'
+import { WaveDivider } from '@/components/home/WaveDivider'
 import { Hero } from '@/components/home/Hero'
 import { WhyChooseUs } from '@/components/home/WhyChooseUs'
 import { ButtonLink, Container, Section, SectionHeading } from '@/components/ui/primitives'
@@ -51,18 +52,18 @@ export default async function HomePage() {
       {/* Logo khach hang tin dung - slide chay tu dong (chi hien khi co logo) */}
       <CustomerLogos logos={settings.customerLogos} />
 
-      {/* Cong cu tim giai phap (CTA) - nen do + hoa tiet chuyen doi so */}
-      <Section className="bg-surface-muted">
-        <Container>
-          <div
-            className="relative overflow-hidden rounded-3xl px-6 py-12 text-center text-white md:px-12 md:py-16"
-            style={{
-              background:
-                'linear-gradient(120deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
-            }}
-          >
-            {/* Hoa tiet: luoi + node nhip + duong du lieu chay */}
-            <svg
+      {/* CTA - dai do full-width co duong luon song tren/duoi */}
+      <section
+        className="relative overflow-hidden py-16 text-center text-white md:py-24"
+        style={{
+          background:
+            'linear-gradient(120deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
+        }}
+      >
+        <WaveDivider position="top" fill="var(--color-surface)" />
+        <div className="relative">
+          {/* Hoa tiet: luoi + node nhip + duong du lieu chay */}
+          <svg
               className="pointer-events-none absolute inset-0 h-full w-full"
               viewBox="0 0 1200 360"
               preserveAspectRatio="xMidYMid slice"
@@ -96,7 +97,7 @@ export default async function HomePage() {
               aria-hidden
             />
 
-            <div className="relative">
+            <div className="relative mx-auto max-w-3xl px-4">
               <h2 className="mx-auto max-w-2xl text-2xl font-extrabold md:text-3xl">
                 Chưa biết giải pháp nào phù hợp với doanh nghiệp của bạn?
               </h2>
@@ -122,8 +123,10 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </Container>
-      </Section>
+      </section>
+
+      {/* Khoi tin tuc + chinh sach: tam bo goc noi tren dai do (goc lo nen do) */}
+      <div className="relative -mt-10 overflow-hidden rounded-t-[2.5rem] bg-surface-muted pt-6 md:-mt-14 md:rounded-t-[3.5rem] md:pt-10">
 
       {/* Tin tuc */}
       {news.length > 0 && (
@@ -167,6 +170,7 @@ export default async function HomePage() {
           </Container>
         </Section>
       )}
+      </div>
     </>
   )
 }
