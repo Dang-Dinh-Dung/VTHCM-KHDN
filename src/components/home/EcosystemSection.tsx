@@ -22,7 +22,44 @@ const PILLAR_ICONS: Record<string, LucideIcon> = {
   'san-pham-hop-tac': Handshake,
 }
 
+/** The tru cot dang ngang gon (dung o 2 cot ben canh loi) */
+function PillarCard({ value, count }: { value: string; count?: number }) {
+  const pillar = PILLARS.find((p) => p.value === value)
+  if (!pillar) return null
+  const Icon = PILLAR_ICONS[pillar.value] ?? ShieldCheck
+  const color = pillar.color
+  return (
+    <Link
+      href={`/giai-phap?pillar=${pillar.value}`}
+      className="group flex items-center gap-3 rounded-2xl border border-border-soft bg-surface p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-viettel-red/40 hover:shadow-brand"
+    >
+      <span
+        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+        style={{ backgroundColor: `${color}18`, color }}
+      >
+        <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-viettel-red">
+          {pillar.label}
+        </span>
+        <span className="block text-xs text-ink-soft">
+          {count ? `${count} giải pháp` : 'Khám phá giải pháp'}
+        </span>
+      </span>
+      <ArrowRight
+        className="h-4 w-4 shrink-0 text-ink-soft/40 transition-all group-hover:translate-x-0.5 group-hover:text-viettel-red"
+        aria-hidden
+      />
+    </Link>
+  )
+}
+
 export function EcosystemSection({ counts }: { counts: Record<string, number> }) {
+  const totalSolutions = Object.values(counts).reduce((a, b) => a + (b || 0), 0)
+  const left = PILLARS.slice(0, 3)
+  const right = PILLARS.slice(3, 6)
+
   return (
     <Section className="relative overflow-hidden bg-surface">
       {/* Nen trang tri do nhe */}
@@ -38,51 +75,61 @@ export function EcosystemSection({ counts }: { counts: Record<string, number> })
           description="Đồng hành cùng doanh nghiệp trên mọi hành trình chuyển đổi số."
         />
 
-        {/* Nen tang cot loi */}
-        <div className="mb-10 flex justify-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-viettel-red/20 bg-viettel-red/5 px-4 py-2 text-sm font-semibold text-viettel-red">
-            <ShieldCheck className="h-4 w-4" aria-hidden />
-            Nền tảng cốt lõi · Tin cậy &amp; Bảo mật
-          </span>
+        {/* So do the: loi trung tam + 3 the moi ben */}
+        <div className="grid items-center gap-5 lg:grid-cols-[1fr_auto_1fr] lg:gap-8">
+          {/* Cot trai */}
+          <div className="order-2 grid gap-3 sm:grid-cols-2 lg:order-1 lg:flex lg:flex-col">
+            {left.map((p) => (
+              <PillarCard key={p.value} value={p.value} count={counts[p.value]} />
+            ))}
+          </div>
+
+          {/* Loi trung tam */}
+          <div className="order-1 flex justify-center lg:order-2">
+            <div className="relative">
+              {/* Duong noi gach dut sang 2 ben (chi desktop) */}
+              <span
+                className="absolute right-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block"
+                aria-hidden
+              />
+              <span
+                className="absolute left-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block"
+                aria-hidden
+              />
+              <div
+                className="flex h-44 w-44 flex-col items-center justify-center rounded-full text-center text-white shadow-brand ring-8 ring-viettel-red/5"
+                style={{
+                  background:
+                    'radial-gradient(circle at 30% 25%, #e11537 0%, #c8132f 45%, #a30e28 100%)',
+                }}
+              >
+                <span className="text-2xl font-black leading-none">Viettel</span>
+                <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wide text-white/85">
+                  Hệ sinh thái
+                </span>
+                <span className="mt-2 rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-semibold">
+                  {totalSolutions > 0 ? `${totalSolutions}+ giải pháp` : '6 trụ cột'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Cot phai */}
+          <div className="order-3 grid gap-3 sm:grid-cols-2 lg:flex lg:flex-col">
+            {right.map((p) => (
+              <PillarCard key={p.value} value={p.value} count={counts[p.value]} />
+            ))}
+          </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {PILLARS.map((pillar) => {
-            const Icon = PILLAR_ICONS[pillar.value] ?? ShieldCheck
-            return (
-              <Link
-                key={pillar.value}
-                href={`/giai-phap?pillar=${pillar.value}`}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-viettel-red/40 hover:shadow-brand"
-              >
-                {/* vien do hien khi hover */}
-                <span
-                  className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-viettel-red transition-transform duration-200 group-hover:scale-x-100"
-                  aria-hidden
-                />
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-viettel-red/10 text-viettel-red transition-colors duration-200 group-hover:bg-viettel-red group-hover:text-white">
-                    <Icon className="h-7 w-7" aria-hidden strokeWidth={1.75} />
-                  </span>
-                  {counts[pillar.value] ? (
-                    <span className="rounded-full bg-surface-muted px-2.5 py-1 text-xs font-semibold text-ink-soft">
-                      {counts[pillar.value]} giải pháp
-                    </span>
-                  ) : null}
-                </div>
-                <h3 className="mb-1.5 text-lg font-bold text-ink transition-colors group-hover:text-viettel-red">
-                  {pillar.label}
-                </h3>
-                <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-ink-soft">
-                  {pillar.description}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-viettel-red">
-                  Khám phá
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
-                </span>
-              </Link>
-            )
-          })}
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/giai-phap"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-viettel-red/30 px-5 py-2.5 text-sm font-semibold text-viettel-red transition-colors hover:bg-viettel-red/5"
+          >
+            Xem tất cả giải pháp
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
         </div>
       </Container>
     </Section>
