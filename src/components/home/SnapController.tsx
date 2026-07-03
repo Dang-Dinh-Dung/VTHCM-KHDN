@@ -26,7 +26,7 @@ export function SnapController() {
       if (!content) return
       const contentTop = content.getBoundingClientRect().top + window.scrollY
       // Dung thap hon nav mot khoang -> chua dai do tren cung cho nav noi bat
-      const NAV_GAP = 140
+      const NAV_GAP = 96
       const snapPos = Math.max(0, contentTop - NAV_GAP)
 
       // Dang trong vung hero (giua dau trang va vi tri snap)
