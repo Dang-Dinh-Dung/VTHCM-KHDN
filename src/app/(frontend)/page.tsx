@@ -35,9 +35,13 @@ export default async function HomePage() {
       <SnapController />
       <Hero settings={settings} />
 
-      {/* Noi dung trang = tam trang bo goc tren, de len hero do (lo goc do 2 ben) */}
-      <div id="home-content" className="relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
-      <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
+      {/* Tam trang bo goc = so do he sinh thai, de len hero do roi ket thuc */}
+      <div
+        id="home-content"
+        className="relative z-10 -mt-6 overflow-hidden rounded-[2rem] bg-surface shadow-2xl shadow-ink/10 md:-mt-10 md:rounded-[3rem]"
+      >
+        <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
+      </div>
 
       <WhyChooseUs />
 
@@ -163,7 +167,6 @@ export default async function HomePage() {
           </Container>
         </Section>
       )}
-      </div>
     </>
   )
 }
