@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 
 import { Container } from '@/components/ui/primitives'
+import { WaveDivider } from '@/components/home/WaveDivider'
 import { PILLARS } from '@/lib/taxonomy'
 import type { Solution } from '@/payload-types'
 
@@ -113,9 +114,13 @@ export function FeaturedSolutions({ solutions }: { solutions: Solution[] }) {
 
   return (
     <section
-      className="relative overflow-hidden py-14 text-white md:py-20"
+      className="relative overflow-hidden py-16 text-white md:py-24"
       style={{ background: 'linear-gradient(135deg, #c8132f 0%, #e11537 50%, #b3112b 100%)' }}
     >
+      {/* Duong luon song trang o tren va duoi (khoi trang tran vao khoi do) */}
+      <WaveDivider position="top" fill="var(--color-surface)" />
+      <WaveDivider position="bottom" fill="var(--color-surface)" />
+
       {/* Hoa tiet chuyen doi so: luoi tech + cham + mang luoi node + vong song tin hieu */}
       <svg
         className="pointer-events-none absolute inset-0 h-full w-full"
