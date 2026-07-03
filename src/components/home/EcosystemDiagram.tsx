@@ -19,6 +19,7 @@ import {
 import { cn } from '@/lib/cn'
 import type { PillarSolutionItem } from '@/lib/queries'
 import { PILLARS } from '@/lib/taxonomy'
+import { Reveal } from '@/components/ui/Reveal'
 
 const PILLAR_ICONS: Record<string, LucideIcon> = {
   'vien-thong': RadioTower,
@@ -100,13 +101,15 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
     <>
       <div className="grid items-center gap-4 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
         <div className="order-2 grid gap-2.5 sm:grid-cols-2 lg:order-1 lg:flex lg:flex-col">
-          {left.map((p) => (
-            <PillarCard key={p.value} value={p.value} />
+          {left.map((p, i) => (
+            <Reveal key={p.value} delay={i * 90}>
+              <PillarCard value={p.value} />
+            </Reveal>
           ))}
         </div>
 
         <div className="order-1 flex justify-center lg:order-2">
-          <div className="relative">
+          <Reveal delay={140} className="relative">
             <span className="absolute right-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block" aria-hidden />
             <span className="absolute left-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block" aria-hidden />
             <div
@@ -119,12 +122,14 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                 {total > 0 ? `${total}+ giải pháp` : '6 trụ cột'}
               </span>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         <div className="order-3 grid gap-3 sm:grid-cols-2 lg:flex lg:flex-col">
-          {right.map((p) => (
-            <PillarCard key={p.value} value={p.value} />
+          {right.map((p, i) => (
+            <Reveal key={p.value} delay={i * 90 + 60}>
+              <PillarCard value={p.value} />
+            </Reveal>
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { Container, Section } from '@/components/ui/primitives'
+import { Reveal } from '@/components/ui/Reveal'
 import type { PillarSolutionItem } from '@/lib/queries'
 
 import { EcosystemDiagram } from './EcosystemDiagram'
@@ -20,11 +21,11 @@ export function EcosystemSection({
       />
       <Container className="relative">
         {/* Heading gon de vua man hinh khi mo tru cot */}
-        <div className="mb-6 text-center">
+        <Reveal className="mb-6 text-center">
           <p className="mb-1.5 text-sm font-bold uppercase tracking-wider text-viettel-red">Hệ sinh thái sản phẩm</p>
           <h2 className="text-2xl font-extrabold leading-tight text-ink md:text-3xl">Giải pháp toàn diện theo 6 trụ cột</h2>
           <p className="mt-2 text-sm text-ink-soft md:text-base">Nhấn vào từng trụ cột để xem toàn bộ giải pháp bên trong.</p>
-        </div>
+        </Reveal>
         <EcosystemDiagram counts={counts} solutionsByPillar={solutionsByPillar} />
       </Container>
     </Section>
