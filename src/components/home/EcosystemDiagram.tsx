@@ -53,29 +53,39 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
         onClick={() => setOpen(active ? null : pillar.value)}
         aria-expanded={active}
         className={cn(
-          'group relative w-full overflow-hidden rounded-xl border bg-surface p-3 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-brand',
+          'group relative w-full overflow-hidden rounded-2xl border bg-surface p-4 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-brand',
           active ? 'border-viettel-red shadow-brand ring-1 ring-viettel-red/30' : 'border-border-soft',
         )}
       >
         <span className="absolute inset-y-0 left-0 w-1.5" style={{ backgroundColor: color }} aria-hidden />
-        <div className="relative flex items-center gap-3 pl-1.5">
+        <span
+          className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-[0.12] blur-2xl transition-opacity duration-200 group-hover:opacity-25"
+          style={{ backgroundColor: color }}
+          aria-hidden
+        />
+        <div className="relative flex items-start gap-3 pl-1.5">
           <span
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
             style={{ backgroundColor: `${color}1f`, color }}
           >
-            <Icon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
+            <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
           </span>
-          <h3 className={cn('min-w-0 flex-1 truncate text-sm font-bold transition-colors', active ? 'text-viettel-red' : 'text-ink group-hover:text-viettel-red')}>
-            {pillar.label}
-          </h3>
-          <span
-            className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold"
-            style={{ backgroundColor: `${color}1f`, color }}
-          >
-            {count ? `${count} giải pháp` : 'Mới'}
-          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className={cn('truncate text-base font-bold transition-colors', active ? 'text-viettel-red' : 'text-ink group-hover:text-viettel-red')}>
+                {pillar.label}
+              </h3>
+              <span
+                className="shrink-0 rounded-full px-2 py-0.5 text-xs font-bold"
+                style={{ backgroundColor: `${color}1f`, color }}
+              >
+                {count ? `${count} giải pháp` : 'Mới'}
+              </span>
+            </div>
+            <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-ink-soft">{pillar.description}</p>
+          </div>
           <ChevronDown
-            className={cn('h-4 w-4 shrink-0 text-ink-soft/50 transition-transform duration-200', active && 'rotate-180 text-viettel-red')}
+            className={cn('mt-1 h-5 w-5 shrink-0 text-ink-soft/50 transition-transform duration-200', active && 'rotate-180 text-viettel-red')}
             aria-hidden
           />
         </div>
@@ -100,12 +110,12 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             <span className="absolute right-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block" aria-hidden />
             <span className="absolute left-full top-1/2 hidden h-px w-8 -translate-y-1/2 border-t border-dashed border-viettel-red/30 lg:block" aria-hidden />
             <div
-              className="flex h-36 w-36 flex-col items-center justify-center rounded-full text-center text-white shadow-brand ring-8 ring-viettel-red/5"
+              className="flex h-44 w-44 flex-col items-center justify-center rounded-full text-center text-white shadow-brand ring-8 ring-viettel-red/5"
               style={{ background: 'radial-gradient(circle at 30% 25%, #e11537 0%, #c8132f 45%, #a30e28 100%)' }}
             >
-              <span className="text-xl font-black leading-none">Viettel</span>
-              <span className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-white/85">Hệ sinh thái</span>
-              <span className="mt-1.5 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-semibold">
+              <span className="text-2xl font-black leading-none">Viettel</span>
+              <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wide text-white/85">Hệ sinh thái</span>
+              <span className="mt-2 rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-semibold">
                 {total > 0 ? `${total}+ giải pháp` : '6 trụ cột'}
               </span>
             </div>
@@ -175,20 +185,20 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                               className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-[color:var(--pc)] transition-transform duration-200 group-hover:scale-y-100"
                               aria-hidden
                             />
-                            <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-muted ring-1 ring-border-soft">
+                            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-muted ring-1 ring-border-soft">
                               {s.logoUrl ? (
                                 // eslint-disable-next-line @next/next/no-img-element
-                                <img src={s.logoUrl} alt={s.name} className="h-8 w-8 object-contain" loading="lazy" />
+                                <img src={s.logoUrl} alt={s.name} className="h-9 w-9 object-contain" loading="lazy" />
                               ) : (
                                 <Layers className="h-5 w-5 text-ink-soft/50" aria-hidden />
                               )}
                             </span>
                             <span className="min-w-0 flex-1">
-                              <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
+                              <span className="block truncate text-[15px] font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
                                 {s.name}
                               </span>
                               {s.slogan && (
-                                <span className="line-clamp-1 text-xs text-ink-soft">{s.slogan}</span>
+                                <span className="line-clamp-1 text-[13px] text-ink-soft">{s.slogan}</span>
                               )}
                             </span>
                             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-muted text-ink-soft transition-colors duration-200 group-hover:bg-[color:var(--pc)] group-hover:text-white">
