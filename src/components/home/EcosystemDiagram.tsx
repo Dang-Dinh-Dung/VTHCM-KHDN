@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { useState } from 'react'
 import {
   ArrowRight,
@@ -131,50 +132,91 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
       {/* Bang xo xuong: danh sach giai phap cua tru cot dang mo */}
       <div className={cn('grid transition-all duration-300 ease-out', open ? 'mt-6 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
         <div className="overflow-hidden">
-          {openPillar && (
-            <div className="rounded-2xl border border-border-soft bg-surface-muted/60 p-5 md:p-6">
-              <div className="mb-4 flex items-center gap-2">
-                <span className="h-4 w-1.5 rounded-full" style={{ backgroundColor: openPillar.color }} aria-hidden />
-                <h4 className="text-base font-bold text-ink">
-                  Giải pháp {openPillar.label}
-                </h4>
-                <span className="text-sm text-ink-soft">({openItems.length})</span>
-              </div>
-              {openItems.length === 0 ? (
-                <p className="text-sm text-ink-soft">Chưa có giải pháp trong trụ cột này.</p>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {openItems.map((s) => (
-                    <Link
-                      key={s.id}
-                      href={`/giai-phap/${s.slug}`}
-                      className="group flex items-center gap-3 rounded-xl border border-border-soft bg-surface p-3 transition-all hover:-translate-y-0.5 hover:border-viettel-red/40 hover:shadow-sm"
+          {openPillar &&
+            (() => {
+              const color = openPillar.color
+              const OpenIcon = PILLAR_ICONS[openPillar.value] ?? ShieldCheck
+              const cssVar = { ['--pc']: color } as CSSProperties
+              return (
+                <div
+                  className="overflow-hidden rounded-3xl border bg-surface shadow-lg shadow-ink/5"
+                  style={{
+                    borderColor: `${color}30`,
+                    backgroundImage: `linear-gradient(180deg, ${color}14, transparent 32%)`,
+                  }}
+                >
+                  {/* Header tru cot */}
+                  <div className="flex items-center gap-3 px-5 pt-5 md:px-6 md:pt-6">
+                    <span
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm"
+                      style={{ backgroundColor: color }}
                     >
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-muted">
-                        {s.logoUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={s.logoUrl} alt={s.name} className="h-9 w-9 object-contain" loading="lazy" />
-                        ) : (
-                          <Layers className="h-5 w-5 text-ink-soft/50" aria-hidden />
-                        )}
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-semibold text-ink group-hover:text-viettel-red">{s.name}</span>
-                        {s.slogan && <span className="line-clamp-1 text-xs text-ink-soft">{s.slogan}</span>}
-                      </span>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-ink-soft/30 transition-all group-hover:translate-x-0.5 group-hover:text-viettel-red" aria-hidden />
-                    </Link>
-                  ))}
+                      <OpenIcon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0">
+                      <h4 className="truncate text-base font-extrabold text-ink md:text-lg">
+                        Giải pháp {openPillar.label}
+                      </h4>
+                      <p className="text-xs text-ink-soft">
+                        {openItems.length} sản phẩm trong hệ sinh thái Viettel
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-5 md:p-6">
+                    {openItems.length === 0 ? (
+                      <p className="text-sm text-ink-soft">Chưa có giải pháp trong trụ cột này.</p>
+                    ) : (
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {openItems.map((s) => (
+                          <Link
+                            key={s.id}
+                            href={`/giai-phap/${s.slug}`}
+                            style={cssVar}
+                            className="group relative flex items-center gap-3.5 overflow-hidden rounded-2xl border border-border-soft bg-surface p-3.5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--pc)] hover:shadow-lg"
+                          >
+                            {/* Vach mau nhan dien ben trai hien khi hover */}
+                            <span
+                              className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-[color:var(--pc)] transition-transform duration-200 group-hover:scale-y-100"
+                              aria-hidden
+                            />
+                            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface-muted ring-1 ring-border-soft">
+                              {s.logoUrl ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={s.logoUrl} alt={s.name} className="h-9 w-9 object-contain" loading="lazy" />
+                              ) : (
+                                <Layers className="h-5 w-5 text-ink-soft/50" aria-hidden />
+                              )}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
+                                {s.name}
+                              </span>
+                              {s.slogan && (
+                                <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-ink-soft">{s.slogan}</span>
+                              )}
+                            </span>
+                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-muted text-ink-soft transition-colors duration-200 group-hover:bg-[color:var(--pc)] group-hover:text-white">
+                              <ArrowRight className="h-4 w-4" aria-hidden />
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                    <div className="mt-5">
+                      <Link
+                        href={`/giai-phap?pillar=${openPillar.value}`}
+                        style={{ backgroundColor: color }}
+                        className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+                      >
+                        Xem chi tiết {openPillar.label}
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              )}
-              <div className="mt-4">
-                <Link href={`/giai-phap?pillar=${openPillar.value}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-viettel-red">
-                  Xem chi tiết {openPillar.label}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-              </div>
-            </div>
-          )}
+              )
+            })()}
         </div>
       </div>
 
