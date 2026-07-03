@@ -17,7 +17,7 @@ export default function FindSolutionPage() {
   return (
     <div className="bg-surface-muted">
       <div
-        className="relative overflow-hidden text-white"
+        className="relative -mt-[60px] overflow-hidden text-white md:-mt-[72px]"
         style={{
           background:
             'linear-gradient(120deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
@@ -64,7 +64,7 @@ export default function FindSolutionPage() {
           aria-hidden
         />
 
-        <Container className="relative py-12 text-center md:py-16">
+        <Container className="relative pb-12 pt-24 text-center md:pb-16 md:pt-28">
           <h1 className="mx-auto max-w-2xl text-3xl font-extrabold md:text-4xl">
             Tìm giải pháp phù hợp với doanh nghiệp của bạn
           </h1>
