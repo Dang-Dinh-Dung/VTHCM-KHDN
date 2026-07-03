@@ -41,7 +41,7 @@ export default async function BookingPage({
   return (
     <>
       <div
-        className="relative overflow-hidden text-white"
+        className="relative -mt-[60px] overflow-hidden text-white md:-mt-[72px]"
         style={{
           background:
             'linear-gradient(120deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
@@ -88,7 +88,7 @@ export default async function BookingPage({
           aria-hidden
         />
 
-        <Container className="relative py-12 md:py-14">
+        <Container className="relative pb-12 pt-24 md:pb-14 md:pt-28">
           <nav className="mb-3 text-sm text-white/70">
             <Link href="/" className="hover:text-white">Trang chủ</Link>
             <span className="mx-2">/</span>
