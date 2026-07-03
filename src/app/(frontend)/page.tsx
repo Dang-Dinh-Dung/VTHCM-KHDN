@@ -31,6 +31,8 @@ export default async function HomePage() {
     <>
       <Hero settings={settings} />
 
+      {/* Noi dung trang = tam trang bo goc tren, de len hero do (lo goc do 2 ben) */}
+      <div className="relative z-10 -mt-6 overflow-hidden rounded-t-[2rem] bg-surface md:-mt-10 md:rounded-t-[3rem]">
       <EcosystemSection counts={counts} />
 
       <WhyChooseUs />
@@ -157,6 +159,7 @@ export default async function HomePage() {
           </Container>
         </Section>
       )}
+      </div>
     </>
   )
 }
