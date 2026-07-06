@@ -27,7 +27,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
       className="relative -mt-[60px] overflow-hidden text-white md:-mt-[72px] lg:h-svh"
       style={{
         background:
-          'linear-gradient(135deg, #8f0c22 0%, #c8132f 40%, #e11537 65%, #a30e28 100%)',
+          'radial-gradient(120% 95% at 64% 38%, #58061a 0%, #38040f 38%, #1c020a 70%, #0d0105 100%)',
       }}
     >
       {/* Anh nen hero: upload trong admin (SiteSettings > Ảnh nền hero), luu tren server */}
@@ -37,21 +37,21 @@ export function Hero({ settings }: { settings: SiteSetting }) {
           src={bgUrl}
           alt=""
           aria-hidden
-          className="hero-kenburns pointer-events-none absolute inset-0 h-full w-full object-cover object-right will-change-transform"
+          className="hero-kenburns pointer-events-none absolute inset-0 h-full w-full object-cover object-right opacity-40 will-change-transform"
         />
       )}
-      {/* Vang sang nhip nhang o vung qua cau ben phai */}
+      {/* Vang sang do nhip nhang o vung qua cau ben phai */}
       <div
-        className="hero-glow pointer-events-none absolute right-[6%] top-1/2 h-[34rem] w-[34rem] -translate-y-1/2 rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, #ff6b85, transparent 65%)' }}
+        className="hero-glow pointer-events-none absolute right-[6%] top-1/2 h-[36rem] w-[36rem] -translate-y-1/2 rounded-full blur-3xl"
+        style={{ background: 'radial-gradient(circle, rgba(238,0,51,0.5), transparent 65%)' }}
         aria-hidden
       />
-      {/* Lop phu gradient do: dam ben trai de chu de doc, nhat dan sang phai lo qua cau */}
+      {/* Lop phu toi do: dam ben trai de chu de doc, nhat dan sang phai lo qua cau */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'linear-gradient(100deg, rgba(143,12,34,0.94) 0%, rgba(176,17,43,0.82) 38%, rgba(200,19,47,0.5) 70%, rgba(200,19,47,0.28) 100%)',
+            'linear-gradient(100deg, rgba(16,1,7,0.9) 0%, rgba(24,2,9,0.68) 38%, rgba(24,2,9,0.22) 70%, rgba(24,2,9,0) 100%)',
         }}
         aria-hidden
       />
@@ -158,7 +158,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
       {/* Tang do tuong phan o day section */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40"
-        style={{ background: 'linear-gradient(to top, rgba(120,8,24,0.55), transparent)' }}
+        style={{ background: 'linear-gradient(to top, rgba(13,1,5,0.75), transparent)' }}
         aria-hidden
       />
       <Container className="relative flex min-h-[88svh] flex-col justify-center pb-24 pt-24 md:pb-32 md:pt-32 lg:h-full lg:min-h-0">

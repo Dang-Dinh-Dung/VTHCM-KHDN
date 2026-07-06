@@ -189,8 +189,8 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.16) inset;
+  border: 1px solid rgba(255, 118, 140, 0.55);
+  box-shadow: 0 0 16px rgba(238, 0, 51, 0.3) inset;
 }
 /* Vi tuyen: vong tron nam ngang, kich thuoc/vi tri set inline theo vi do */
 .tg-parallel {
@@ -198,7 +198,7 @@ body {
   left: 50%;
   top: 50%;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(255, 110, 135, 0.42);
 }
 /* Diem sang tren be mat cau (bay theo vong xoay) */
 .tg-dot {
@@ -212,29 +212,29 @@ body {
   background: #ffffff;
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.55);
 }
-/* Nen lot toi phia sau qua cau - tach khoi nen do de wireframe noi ro */
+/* Quang do sau lan duoi qua cau */
 .tg-backdrop {
   position: absolute;
-  inset: -8%;
+  inset: -10%;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(52, 2, 11, 0.72), rgba(52, 2, 11, 0.45) 55%, transparent 74%);
-  filter: blur(10px);
+  background: radial-gradient(circle, rgba(238, 0, 51, 0.22), rgba(120, 3, 24, 0.14) 55%, transparent 74%);
+  filter: blur(14px);
 }
-/* Loi cau toi o tam - tao khoi noi tren nen do */
+/* Loi cau do ruc phat sang (nhu qua cau tham khao) */
 .tg-core {
   position: absolute;
   inset: 8%;
   border-radius: 9999px;
-  background: radial-gradient(circle at 36% 30%, rgba(150, 10, 32, 0.95), rgba(84, 4, 16, 0.92) 52%, rgba(44, 2, 9, 0.85) 80%, rgba(44, 2, 9, 0.4) 96%);
-  box-shadow: 0 24px 70px rgba(30, 1, 7, 0.55);
+  background: radial-gradient(circle at 36% 30%, rgba(255, 74, 104, 0.8), rgba(206, 12, 48, 0.68) 48%, rgba(130, 5, 28, 0.6) 76%, rgba(90, 3, 20, 0.3) 94%);
+  box-shadow: 0 0 60px rgba(238, 0, 51, 0.45), 0 30px 80px rgba(10, 0, 4, 0.6);
 }
-/* Quang sang hong bao quanh qua cau (nhip tho) */
+/* Quang sang do bao quanh qua cau (nhip tho) */
 .tg-halo {
   position: absolute;
   inset: -14%;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255, 130, 152, 0.5), rgba(255, 107, 133, 0.18) 55%, transparent 72%);
-  filter: blur(20px);
+  background: radial-gradient(circle, rgba(255, 45, 85, 0.5), rgba(238, 0, 51, 0.18) 55%, transparent 72%);
+  filter: blur(22px);
   animation: tgHalo 6s ease-in-out infinite;
 }
 /* Chu o tam qua cau */
@@ -295,10 +295,9 @@ body {
   width: 3.25rem;
   border-radius: 9999px;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 18px rgba(238, 0, 51, 0.5), 0 0 0 5px rgba(238, 0, 51, 0.12);
-  backdrop-filter: blur(4px);
+  background: radial-gradient(circle at 38% 32%, rgba(150, 10, 34, 0.92), rgba(70, 3, 15, 0.9) 75%);
+  border: 1px solid rgba(255, 105, 130, 0.8);
+  box-shadow: 0 0 22px rgba(238, 0, 51, 0.7), 0 0 0 5px rgba(238, 0, 51, 0.16), 0 0 46px rgba(238, 0, 51, 0.3);
 }
 .tg-icon-badge > svg {
   height: 1.5rem;
@@ -317,7 +316,7 @@ body {
   position: absolute;
   inset: -8%;
   border-radius: 9999px;
-  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border: 1px dashed rgba(255, 110, 135, 0.42);
 }
 .tg-orbit > span {
   position: absolute;
@@ -335,7 +334,7 @@ body {
 }
 .tg-orbit-2 {
   inset: -16%;
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 110, 135, 0.24);
   animation: globeOrbit2 21s linear infinite;
 }
 .tg-orbit-2 > span {
