@@ -35,23 +35,37 @@ export default async function HomePage() {
   return (
     <>
       <SnapController />
-      <Hero settings={settings} />
+      {/* Moi khoi [data-snap] = mot "trang"; lan chuot (desktop) nhay thang giua cac trang */}
+      <div data-snap>
+        <Hero settings={settings} />
+      </div>
 
-      {/* Tam trang bo goc = so do he sinh thai, de len hero do roi ket thuc */}
+      {/* Tam trang bo goc = gioi thieu + so do he sinh thai, de len hero do */}
       <div
         id="home-content"
         className="relative z-10 mx-3 -mt-10 overflow-hidden rounded-[2rem] bg-surface shadow-2xl shadow-ink/10 md:mx-6 md:-mt-14 md:rounded-[3rem]"
       >
-        <AboutViettel settings={settings} />
-        <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
+        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
+          <AboutViettel settings={settings} />
+        </div>
+        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
+          <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
+        </div>
       </div>
 
-      <WhyChooseUs />
+      <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
+        <WhyChooseUs />
+      </div>
 
       {/* Giai phap noi bat - slide keo qua lai, nen do, the trang */}
-      {featured.length > 0 && <FeaturedSolutions solutions={featured} />}
+      {featured.length > 0 && (
+        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
+          <FeaturedSolutions solutions={featured} />
+        </div>
+      )}
 
-      {/* Logo khach hang tin dung - slide chay tu dong (chi hien khi co logo) */}
+      {/* Trang: logo khach hang (slide tu dong) + CTA - hai khoi ngan gop mot man hinh */}
+      <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
       <CustomerLogos logos={settings.customerLogos} />
 
       {/* CTA - dai do full-width co duong luon song tren/duoi */}
@@ -126,12 +140,14 @@ export default async function HomePage() {
             </div>
           </div>
       </section>
+      </div>
 
       {/* Khoi tin tuc + chinh sach: tam bo goc noi tren dai do (goc lo nen do) */}
       <div className="relative -mt-10 overflow-hidden rounded-t-[2.5rem] bg-surface-muted pt-6 md:-mt-14 md:rounded-t-[3.5rem] md:pt-10">
 
       {/* Tin tuc */}
       {news.length > 0 && (
+        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
         <Section>
           <Container>
             <div className="mb-8 flex items-end justify-between gap-4">
@@ -147,10 +163,12 @@ export default async function HomePage() {
             </div>
           </Container>
         </Section>
+        </div>
       )}
 
       {/* Nghi dinh & chinh sach */}
       {policies.length > 0 && (
+        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
         <Section className="bg-surface-muted">
           <Container>
             <div className="mb-8 flex items-end justify-between gap-4">
@@ -171,6 +189,7 @@ export default async function HomePage() {
             </div>
           </Container>
         </Section>
+        </div>
       )}
       </div>
     </>
