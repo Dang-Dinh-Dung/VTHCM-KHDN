@@ -47,6 +47,7 @@ html {
 }
 
 body {
+  overflow-x: hidden; /* chan tran ngang tren mobile (khong scroll ngang) */
   background-color: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-sans);

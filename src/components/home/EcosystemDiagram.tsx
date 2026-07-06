@@ -72,12 +72,12 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
           </span>
           <div className="min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className={cn('truncate text-base font-bold transition-colors', active ? 'text-viettel-red' : 'text-ink group-hover:text-viettel-red')}>
+            <div className="flex items-start justify-between gap-2">
+              <h3 className={cn('text-base font-bold leading-snug transition-colors', active ? 'text-viettel-red' : 'text-ink group-hover:text-viettel-red')}>
                 {pillar.label}
               </h3>
               <span
-                className="shrink-0 rounded-full px-2 py-0.5 text-xs font-bold"
+                className="mt-0.5 shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold"
                 style={{ backgroundColor: `${color}1f`, color }}
               >
                 {count ? `${count} giải pháp` : 'Mới'}
