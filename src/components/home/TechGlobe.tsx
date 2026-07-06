@@ -1,5 +1,15 @@
+import {
+  BarChart3,
+  Bot,
+  Building2,
+  Cloud,
+  type LucideIcon,
+  RadioTower,
+  ShieldCheck,
+} from 'lucide-react'
+
 /**
- * Qua cau cong nghe 3D xoay lien tuc (wireframe globe) cho hero.
+ * Qua cau chuyen doi so 3D xoay lien tuc + cac giai phap bay quanh quy dao.
  * Thuan CSS 3D transforms (styles trong globals.css) - khong can thu vien,
  * tu tat animation khi prefers-reduced-motion (override toan cuc).
  *
@@ -27,9 +37,20 @@ const DOTS = [
   'rotateY(300deg) translate3d(0, -159px, 134px)',
 ]
 
+// Cac giai phap bay quanh quy dao (icon + nhan ngan)
+const ORBIT_ITEMS: Array<{ icon: LucideIcon; label: string }> = [
+  { icon: Cloud, label: 'Điện toán đám mây' },
+  { icon: ShieldCheck, label: 'An toàn thông tin' },
+  { icon: Building2, label: 'Quản trị doanh nghiệp' },
+  { icon: Bot, label: 'Tự động hóa' },
+  { icon: BarChart3, label: 'Phân tích dữ liệu' },
+  { icon: RadioTower, label: 'Kết nối IoT' },
+]
+
 export function TechGlobe() {
   return (
     <div className="tech-globe-wrap" aria-hidden>
+      <div className="tg-halo" />
       <div className="tg-core" />
       <div className="tech-globe-tilt">
         <div className="tech-globe">
@@ -57,6 +78,31 @@ export function TechGlobe() {
         <div className="tg-orbit tg-orbit-2">
           <span />
         </div>
+      </div>
+
+      {/* Chu o tam qua cau */}
+      <div className="tg-center">
+        <span className="tg-center-title">Chuyển đổi số</span>
+        <span className="tg-center-sub">Kết nối · Tối ưu · Bứt phá</span>
+      </div>
+
+      {/* Vanh icon giai phap bay quanh (icon luon thang dung nho counter-rotation) */}
+      <div className="tg-icon-ring">
+        {ORBIT_ITEMS.map(({ icon: Icon, label }, i) => {
+          const angle = (360 / ORBIT_ITEMS.length) * i
+          return (
+            <div key={label} className="tg-icon-arm" style={{ transform: `rotate(${angle}deg)` }}>
+              <div className="tg-icon">
+                <div className="tg-icon-box" style={{ transform: `rotate(${-angle}deg)` }}>
+                  <span className="tg-icon-badge">
+                    <Icon strokeWidth={1.75} />
+                  </span>
+                  <span className="tg-icon-label">{label}</span>
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
