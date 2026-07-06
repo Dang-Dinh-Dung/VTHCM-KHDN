@@ -204,7 +204,7 @@ export function Hero({ settings }: { settings: SiteSetting }) {
         </div>
 
         {stats.length > 0 && (
-          <div className="mt-12 grid max-w-xl grid-cols-2 gap-x-10 gap-y-6 border-t border-white/15 pt-7">
+          <div className="mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-6 border-t border-white/15 pt-7 sm:grid-cols-4">
             {stats.map((s, i) => (
               <div key={i}>
                 <div className="text-3xl font-extrabold tabular-nums text-white md:text-4xl">

@@ -50,6 +50,7 @@ const ORBIT_ITEMS: Array<{ icon: LucideIcon; label: string }> = [
 export function TechGlobe() {
   return (
     <div className="tech-globe-wrap" aria-hidden>
+      <div className="tg-backdrop" />
       <div className="tg-halo" />
       <div className="tg-core" />
       <div className="tech-globe-tilt">
