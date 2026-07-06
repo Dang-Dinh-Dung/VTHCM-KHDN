@@ -145,50 +145,51 @@ export default async function HomePage() {
       {/* Khoi tin tuc + chinh sach: tam bo goc noi tren dai do (goc lo nen do) */}
       <div className="relative -mt-10 overflow-hidden rounded-t-[2.5rem] bg-surface-muted pt-6 md:-mt-14 md:rounded-t-[3.5rem] md:pt-10">
 
-      {/* Tin tuc */}
-      {news.length > 0 && (
+      {/* Trang chung: Tin tuc + Nghi dinh & chinh sach cung mot khung noi dung */}
+      {(news.length > 0 || policies.length > 0) && (
         <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
-        <Section>
-          <Container>
-            <div className="mb-8 flex items-end justify-between gap-4">
-              <SectionHeading align="left" eyebrow="Tin tức" title="Cập nhật mới nhất" />
-              <Link href="/tin-tuc" className="shrink-0 text-sm font-semibold text-viettel-red">
-                Tất cả tin tức →
-              </Link>
-            </div>
-            <div className="grid gap-5 md:grid-cols-3">
-              {news.map((n) => (
-                <NewsCard key={n.id} item={n} />
-              ))}
-            </div>
-          </Container>
-        </Section>
-        </div>
-      )}
+          {/* Tin tuc */}
+          {news.length > 0 && (
+            <Section className="py-9 md:py-12">
+              <Container>
+                <div className="mb-6 flex items-end justify-between gap-4">
+                  <SectionHeading align="left" eyebrow="Tin tức" title="Cập nhật mới nhất" />
+                  <Link href="/tin-tuc" className="shrink-0 text-sm font-semibold text-viettel-red">
+                    Tất cả tin tức →
+                  </Link>
+                </div>
+                <div className="grid gap-5 md:grid-cols-3">
+                  {news.map((n) => (
+                    <NewsCard key={n.id} item={n} />
+                  ))}
+                </div>
+              </Container>
+            </Section>
+          )}
 
-      {/* Nghi dinh & chinh sach */}
-      {policies.length > 0 && (
-        <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
-        <Section className="bg-surface-muted">
-          <Container>
-            <div className="mb-8 flex items-end justify-between gap-4">
-              <SectionHeading
-                align="left"
-                eyebrow="Nghị định & chính sách"
-                title="Quy định liên quan tới doanh nghiệp"
-                description="Cập nhật các văn bản pháp quy tác động trực tiếp tới hoạt động số hóa của doanh nghiệp."
-              />
-              <Link href="/chinh-sach" className="shrink-0 text-sm font-semibold text-viettel-red">
-                Xem tất cả →
-              </Link>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {policies.map((p) => (
-                <PolicyCard key={p.id} item={p} />
-              ))}
-            </div>
-          </Container>
-        </Section>
+          {/* Nghi dinh & chinh sach */}
+          {policies.length > 0 && (
+            <Section className="py-9 md:py-12">
+              <Container>
+                <div className="mb-6 flex items-end justify-between gap-4">
+                  <SectionHeading
+                    align="left"
+                    eyebrow="Nghị định & chính sách"
+                    title="Quy định liên quan tới doanh nghiệp"
+                    description="Cập nhật các văn bản pháp quy tác động trực tiếp tới hoạt động số hóa của doanh nghiệp."
+                  />
+                  <Link href="/chinh-sach" className="shrink-0 text-sm font-semibold text-viettel-red">
+                    Xem tất cả →
+                  </Link>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                  {policies.map((p) => (
+                    <PolicyCard key={p.id} item={p} />
+                  ))}
+                </div>
+              </Container>
+            </Section>
+          )}
         </div>
       )}
       </div>
