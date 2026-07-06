@@ -26,12 +26,36 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
 
   return (
     <Section className="relative overflow-hidden bg-surface pt-12 md:pt-16">
-      {/* Nen trang tri do nhe goc phai */}
-      <div
-        className="pointer-events-none absolute right-0 top-0 h-72 w-[36rem] opacity-[0.05] blur-3xl"
-        style={{ background: 'radial-gradient(circle, #ee0033, transparent 70%)' }}
-        aria-hidden
-      />
+      {/* Anh nen: net ben phai, mo trang dan ve trai de chu de doc (chi desktop) */}
+      {imgUrl ? (
+        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imgUrl}
+            alt=""
+            className="absolute inset-y-0 right-0 h-full w-[72%] object-cover object-center"
+          />
+          {/* Lop phu trang: dac ben trai -> trong dan sang phai */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(90deg, #ffffff 0%, #ffffff 40%, rgba(255,255,255,0.9) 52%, rgba(255,255,255,0.45) 70%, rgba(255,255,255,0.08) 88%, rgba(255,255,255,0) 100%)',
+            }}
+          />
+          {/* Mo nhe mep tren/duoi cho lien mach voi nen trang */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-24"
+            style={{ background: 'linear-gradient(to top, #ffffff, transparent)' }}
+          />
+        </div>
+      ) : (
+        <div
+          className="pointer-events-none absolute right-0 top-0 h-72 w-[36rem] opacity-[0.05] blur-3xl"
+          style={{ background: 'radial-gradient(circle, #ee0033, transparent 70%)' }}
+          aria-hidden
+        />
+      )}
       <Container className="relative">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Cot trai: gioi thieu */}
@@ -95,45 +119,25 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
             </div>
           </Reveal>
 
-          {/* Cot phai: anh minh hoa Viettel */}
-          <Reveal delay={120} className="relative">
-            <div className="relative overflow-hidden rounded-[1.75rem] shadow-2xl shadow-viettel-red/15 ring-1 ring-black/5">
-              {imgUrl ? (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imgUrl}
-                    alt="Viettel - Tập đoàn công nghệ viễn thông hàng đầu Việt Nam"
-                    className="h-[24rem] w-full object-cover md:h-[30rem]"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        'linear-gradient(180deg, transparent 55%, rgba(163,14,40,0.55) 100%)',
-                    }}
-                    aria-hidden
-                  />
-                </>
-              ) : (
-                // Fallback khi chua co anh: tam thuong hieu do
-                <div
-                  className="flex h-[24rem] w-full items-center justify-center md:h-[30rem]"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
-                  }}
-                >
-                  <div className="text-center text-white">
-                    <div className="text-4xl font-black tracking-tight md:text-5xl">Viettel</div>
-                    <div className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-white/85">
-                      Theo cách của bạn
-                    </div>
+          {/* Cot phai: tren desktop anh nen lo ra o day; tren mobile hien tam thuong hieu */}
+          {!imgUrl && (
+            <Reveal delay={120} className="relative lg:hidden">
+              <div
+                className="flex h-[18rem] w-full items-center justify-center rounded-[1.75rem] shadow-2xl shadow-viettel-red/15"
+                style={{
+                  background:
+                    'linear-gradient(135deg, #8f0c22 0%, #c8132f 45%, #e11537 70%, #a30e28 100%)',
+                }}
+              >
+                <div className="text-center text-white">
+                  <div className="text-4xl font-black tracking-tight">Viettel</div>
+                  <div className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-white/85">
+                    Theo cách của bạn
                   </div>
                 </div>
-              )}
-            </div>
-          </Reveal>
+              </div>
+            </Reveal>
+          )}
         </div>
 
         {/* Dai chi so tap doan */}
