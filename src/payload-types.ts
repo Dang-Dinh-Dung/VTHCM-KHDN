@@ -928,10 +928,32 @@ export interface SiteSetting {
   aboutTitleHighlight?: string | null;
   aboutIntro1?: string | null;
   aboutIntro2?: string | null;
-  aboutMissionTitle?: string | null;
-  aboutVisionTitle?: string | null;
-  aboutMissionDesc?: string | null;
-  aboutVisionDesc?: string | null;
+  /**
+   * Các mục nội dung nổi bật (thêm/bớt tùy ý). Bỏ trống sẽ dùng bộ mặc định (Sứ mệnh, Tầm nhìn).
+   */
+  aboutHighlights?:
+    | {
+        icon?:
+          | (
+              | 'rocket'
+              | 'target'
+              | 'users'
+              | 'globe'
+              | 'team'
+              | 'award'
+              | 'star'
+              | 'building'
+              | 'shield'
+              | 'network'
+              | 'heart'
+              | 'lightbulb'
+            )
+          | null;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
   aboutPrimaryCtaLabel?: string | null;
   aboutPrimaryCtaHref?: string | null;
   aboutSecondaryCtaLabel?: string | null;
@@ -1016,10 +1038,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   aboutTitleHighlight?: T;
   aboutIntro1?: T;
   aboutIntro2?: T;
-  aboutMissionTitle?: T;
-  aboutVisionTitle?: T;
-  aboutMissionDesc?: T;
-  aboutVisionDesc?: T;
+  aboutHighlights?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   aboutPrimaryCtaLabel?: T;
   aboutPrimaryCtaHref?: T;
   aboutSecondaryCtaLabel?: T;

@@ -3,6 +3,8 @@ import {
   Award,
   Building2,
   Globe2,
+  Heart,
+  Lightbulb,
   type LucideIcon,
   Network,
   Rocket,
@@ -15,7 +17,18 @@ import {
 
 import { ButtonLink, Container, Section } from '@/components/ui/primitives'
 import { Reveal } from '@/components/ui/Reveal'
+import { cn } from '@/lib/cn'
 import type { Media, SiteSetting } from '@/payload-types'
+
+/** Cac muc noi bat mac dinh (dung khi admin chua cau hinh). */
+const DEFAULT_HIGHLIGHTS = [
+  { icon: 'rocket', title: 'Sứ mệnh', description: 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.' },
+  {
+    icon: 'target',
+    title: 'Tầm nhìn',
+    description: 'Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm thế giới.',
+  },
+]
 
 /** Bo chi so tap doan mac dinh (dung khi admin chua cau hinh). */
 const DEFAULT_STATS = [
@@ -25,7 +38,7 @@ const DEFAULT_STATS = [
   { icon: 'award', value: 'Top 1', label: 'Doanh nghiệp viễn thông lớn nhất Việt Nam' },
 ]
 
-const STAT_ICONS: Record<string, LucideIcon> = {
+const ICONS: Record<string, LucideIcon> = {
   users: Users,
   globe: Globe2,
   team: UsersRound,
@@ -36,6 +49,8 @@ const STAT_ICONS: Record<string, LucideIcon> = {
   network: Network,
   rocket: Rocket,
   target: Target,
+  heart: Heart,
+  lightbulb: Lightbulb,
 }
 
 /** Anh minh hoa: uu tien aboutImage, roi den heroImage, ban lon. */
@@ -59,13 +74,10 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
   const intro2 =
     settings.aboutIntro2 ||
     'Với hạ tầng vững mạnh, hệ sinh thái dịch vụ số đa dạng và đội ngũ chuyên gia giàu kinh nghiệm, Viettel đồng hành cùng doanh nghiệp tối ưu vận hành, nâng cao hiệu quả và bứt phá trong kỷ nguyên số.'
-  const missionTitle = settings.aboutMissionTitle || 'Sứ mệnh'
-  const missionDesc =
-    settings.aboutMissionDesc || 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.'
-  const visionTitle = settings.aboutVisionTitle || 'Tầm nhìn'
-  const visionDesc =
-    settings.aboutVisionDesc ||
-    'Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm thế giới.'
+  const highlights =
+    settings.aboutHighlights && settings.aboutHighlights.length > 0
+      ? settings.aboutHighlights
+      : DEFAULT_HIGHLIGHTS
   const primaryLabel = settings.aboutPrimaryCtaLabel || 'Tìm hiểu thêm'
   const primaryHref = settings.aboutPrimaryCtaHref || '/giai-phap'
   const secondaryLabel = settings.aboutSecondaryCtaLabel || 'Liên hệ tư vấn'
@@ -128,26 +140,27 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
               <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">{intro2}</p>
             )}
 
-            {/* Su menh + Tam nhin */}
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="flex items-start gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-viettel-red/10 text-viettel-red">
-                  <Rocket className="h-5 w-5" aria-hidden strokeWidth={1.75} />
-                </span>
-                <div>
-                  <h3 className="font-bold text-ink">{missionTitle}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{missionDesc}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 sm:border-l sm:border-border-soft sm:pl-6">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-viettel-red/10 text-viettel-red">
-                  <Target className="h-5 w-5" aria-hidden strokeWidth={1.75} />
-                </span>
-                <div>
-                  <h3 className="font-bold text-ink">{visionTitle}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{visionDesc}</p>
-                </div>
-              </div>
+            {/* Cac muc noi bat (Su menh, Tam nhin... - thay doi duoc so luong) */}
+            <div
+              className={cn(
+                'mt-8 grid gap-x-8 gap-y-6',
+                highlights.length >= 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2',
+              )}
+            >
+              {highlights.map((h, i) => {
+                const Icon = ICONS[h.icon ?? 'rocket'] ?? Rocket
+                return (
+                  <div key={i} className="flex items-start gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-viettel-red/10 text-viettel-red">
+                      <Icon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
+                    </span>
+                    <div>
+                      <h3 className="font-bold text-ink">{h.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-ink-soft">{h.description}</p>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -187,7 +200,7 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
         <Reveal delay={80}>
           <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 rounded-3xl border border-border-soft bg-surface-muted/60 p-7 md:mt-14 md:grid-cols-4 md:p-8">
             {stats.map((s, i) => {
-              const Icon = STAT_ICONS[s.icon ?? 'users'] ?? Users
+              const Icon = ICONS[s.icon ?? 'users'] ?? Users
               return (
                 <div key={i} className="flex items-center gap-4">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-viettel-red/10 text-viettel-red">

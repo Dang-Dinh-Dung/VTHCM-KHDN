@@ -166,28 +166,50 @@ export const SiteSettings: GlobalConfig = {
                 'Với hạ tầng vững mạnh, hệ sinh thái dịch vụ số đa dạng và đội ngũ chuyên gia giàu kinh nghiệm, Viettel đồng hành cùng doanh nghiệp tối ưu vận hành, nâng cao hiệu quả và bứt phá trong kỷ nguyên số.',
             },
             {
-              type: 'row',
-              fields: [
-                { name: 'aboutMissionTitle', type: 'text', label: 'Sứ mệnh - tiêu đề', defaultValue: 'Sứ mệnh' },
-                { name: 'aboutVisionTitle', type: 'text', label: 'Tầm nhìn - tiêu đề', defaultValue: 'Tầm nhìn' },
-              ],
-            },
-            {
-              type: 'row',
-              fields: [
+              name: 'aboutHighlights',
+              type: 'array',
+              label: 'Mục nổi bật (Sứ mệnh, Tầm nhìn...)',
+              labels: { singular: 'Mục', plural: 'Mục' },
+              admin: {
+                description:
+                  'Các mục nội dung nổi bật (thêm/bớt tùy ý). Bỏ trống sẽ dùng bộ mặc định (Sứ mệnh, Tầm nhìn).',
+              },
+              defaultValue: [
                 {
-                  name: 'aboutMissionDesc',
-                  type: 'textarea',
-                  label: 'Sứ mệnh - mô tả',
-                  defaultValue: 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.',
+                  icon: 'rocket',
+                  title: 'Sứ mệnh',
+                  description: 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.',
                 },
                 {
-                  name: 'aboutVisionDesc',
-                  type: 'textarea',
-                  label: 'Tầm nhìn - mô tả',
-                  defaultValue:
+                  icon: 'target',
+                  title: 'Tầm nhìn',
+                  description:
                     'Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm thế giới.',
                 },
+              ],
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'select',
+                  label: 'Biểu tượng',
+                  defaultValue: 'rocket',
+                  options: [
+                    { value: 'rocket', label: 'Bứt phá / tên lửa' },
+                    { value: 'target', label: 'Mục tiêu' },
+                    { value: 'users', label: 'Khách hàng (người)' },
+                    { value: 'globe', label: 'Toàn cầu / quốc tế' },
+                    { value: 'team', label: 'Nhân sự / đội ngũ' },
+                    { value: 'award', label: 'Giải thưởng / huy chương' },
+                    { value: 'star', label: 'Ngôi sao' },
+                    { value: 'building', label: 'Doanh nghiệp / tòa nhà' },
+                    { value: 'shield', label: 'Bảo mật / khiên' },
+                    { value: 'network', label: 'Mạng lưới' },
+                    { value: 'heart', label: 'Trái tim / giá trị' },
+                    { value: 'lightbulb', label: 'Sáng tạo / ý tưởng' },
+                  ],
+                },
+                { name: 'title', type: 'text', label: 'Tiêu đề', required: true },
+                { name: 'description', type: 'textarea', label: 'Mô tả', required: true },
               ],
             },
             {
