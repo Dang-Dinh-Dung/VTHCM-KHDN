@@ -923,6 +923,36 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  aboutEyebrow?: string | null;
+  aboutTitleLine1?: string | null;
+  aboutTitleHighlight?: string | null;
+  aboutIntro1?: string | null;
+  aboutIntro2?: string | null;
+  aboutMissionTitle?: string | null;
+  aboutVisionTitle?: string | null;
+  aboutMissionDesc?: string | null;
+  aboutVisionDesc?: string | null;
+  aboutPrimaryCtaLabel?: string | null;
+  aboutPrimaryCtaHref?: string | null;
+  aboutSecondaryCtaLabel?: string | null;
+  aboutSecondaryCtaHref?: string | null;
+  /**
+   * Ảnh làm nền phần Giới thiệu (nét bên phải, mờ trắng dần về trái). Khuyến nghị ảnh ngang, chất lượng cao. Bỏ trống sẽ dùng Ảnh nền hero.
+   */
+  aboutImage?: (number | null) | Media;
+  /**
+   * Dải chỉ số hiển thị bên dưới phần giới thiệu. Bỏ trống sẽ dùng bộ mặc định.
+   */
+  aboutStats?:
+    | {
+        icon?:
+          | ('users' | 'globe' | 'team' | 'award' | 'star' | 'building' | 'shield' | 'network' | 'rocket' | 'target')
+          | null;
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   footerNote?: string | null;
   copyright?: string | null;
   /**
@@ -979,6 +1009,28 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         logo?: T;
         name?: T;
         url?: T;
+        id?: T;
+      };
+  aboutEyebrow?: T;
+  aboutTitleLine1?: T;
+  aboutTitleHighlight?: T;
+  aboutIntro1?: T;
+  aboutIntro2?: T;
+  aboutMissionTitle?: T;
+  aboutVisionTitle?: T;
+  aboutMissionDesc?: T;
+  aboutVisionDesc?: T;
+  aboutPrimaryCtaLabel?: T;
+  aboutPrimaryCtaHref?: T;
+  aboutSecondaryCtaLabel?: T;
+  aboutSecondaryCtaHref?: T;
+  aboutImage?: T;
+  aboutStats?:
+    | T
+    | {
+        icon?: T;
+        value?: T;
+        label?: T;
         id?: T;
       };
   footerNote?: T;

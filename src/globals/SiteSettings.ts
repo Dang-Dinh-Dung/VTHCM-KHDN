@@ -136,6 +136,119 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'Giới thiệu Viettel',
+          fields: [
+            {
+              name: 'aboutEyebrow',
+              type: 'text',
+              label: 'Nhãn nhỏ (eyebrow)',
+              defaultValue: 'Về Viettel',
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'aboutTitleLine1', type: 'text', label: 'Tiêu đề - dòng 1', defaultValue: 'Tiên phong kiến tạo' },
+                { name: 'aboutTitleHighlight', type: 'text', label: 'Tiêu đề - dòng 2 (đỏ)', defaultValue: 'tương lai số' },
+              ],
+            },
+            {
+              name: 'aboutIntro1',
+              type: 'textarea',
+              label: 'Đoạn giới thiệu 1',
+              defaultValue:
+                'Viettel là tập đoàn công nghệ – viễn thông hàng đầu Việt Nam, tiên phong trong lĩnh vực chuyển đổi số và cung cấp các giải pháp công nghệ toàn diện cho doanh nghiệp, tổ chức và cộng đồng.',
+            },
+            {
+              name: 'aboutIntro2',
+              type: 'textarea',
+              label: 'Đoạn giới thiệu 2',
+              defaultValue:
+                'Với hạ tầng vững mạnh, hệ sinh thái dịch vụ số đa dạng và đội ngũ chuyên gia giàu kinh nghiệm, Viettel đồng hành cùng doanh nghiệp tối ưu vận hành, nâng cao hiệu quả và bứt phá trong kỷ nguyên số.',
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'aboutMissionTitle', type: 'text', label: 'Sứ mệnh - tiêu đề', defaultValue: 'Sứ mệnh' },
+                { name: 'aboutVisionTitle', type: 'text', label: 'Tầm nhìn - tiêu đề', defaultValue: 'Tầm nhìn' },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'aboutMissionDesc',
+                  type: 'textarea',
+                  label: 'Sứ mệnh - mô tả',
+                  defaultValue: 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.',
+                },
+                {
+                  name: 'aboutVisionDesc',
+                  type: 'textarea',
+                  label: 'Tầm nhìn - mô tả',
+                  defaultValue:
+                    'Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm thế giới.',
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'aboutPrimaryCtaLabel', type: 'text', label: 'Nút chính - nhãn', defaultValue: 'Tìm hiểu thêm' },
+                { name: 'aboutPrimaryCtaHref', type: 'text', label: 'Nút chính - đường dẫn', defaultValue: '/giai-phap' },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'aboutSecondaryCtaLabel', type: 'text', label: 'Nút phụ - nhãn', defaultValue: 'Liên hệ tư vấn' },
+                { name: 'aboutSecondaryCtaHref', type: 'text', label: 'Nút phụ - đường dẫn', defaultValue: '/lien-he' },
+              ],
+            },
+            {
+              name: 'aboutImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Ảnh nền giới thiệu',
+              admin: {
+                description:
+                  'Ảnh làm nền phần Giới thiệu (nét bên phải, mờ trắng dần về trái). Khuyến nghị ảnh ngang, chất lượng cao. Bỏ trống sẽ dùng Ảnh nền hero.',
+              },
+            },
+            {
+              name: 'aboutStats',
+              type: 'array',
+              label: 'Chỉ số tập đoàn',
+              labels: { singular: 'Chỉ số', plural: 'Chỉ số' },
+              maxRows: 4,
+              admin: {
+                description: 'Dải chỉ số hiển thị bên dưới phần giới thiệu. Bỏ trống sẽ dùng bộ mặc định.',
+              },
+              fields: [
+                {
+                  name: 'icon',
+                  type: 'select',
+                  label: 'Biểu tượng',
+                  defaultValue: 'users',
+                  options: [
+                    { value: 'users', label: 'Khách hàng (người)' },
+                    { value: 'globe', label: 'Toàn cầu / quốc tế' },
+                    { value: 'team', label: 'Nhân sự / đội ngũ' },
+                    { value: 'award', label: 'Giải thưởng / huy chương' },
+                    { value: 'star', label: 'Ngôi sao' },
+                    { value: 'building', label: 'Doanh nghiệp / tòa nhà' },
+                    { value: 'shield', label: 'Bảo mật / khiên' },
+                    { value: 'network', label: 'Mạng lưới' },
+                    { value: 'rocket', label: 'Bứt phá / tên lửa' },
+                    { value: 'target', label: 'Mục tiêu' },
+                  ],
+                },
+                { name: 'value', type: 'text', label: 'Giá trị (vd: 50+)', required: true },
+                { name: 'label', type: 'text', label: 'Nhãn', required: true },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Footer',
           fields: [
             { name: 'footerNote', type: 'textarea', label: 'Ghi chú chân trang' },

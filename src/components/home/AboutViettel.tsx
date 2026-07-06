@@ -1,18 +1,44 @@
-import { ArrowRight, Award, Globe2, Rocket, Target, Users, UsersRound } from 'lucide-react'
+import {
+  ArrowRight,
+  Award,
+  Building2,
+  Globe2,
+  type LucideIcon,
+  Network,
+  Rocket,
+  ShieldCheck,
+  Star,
+  Target,
+  Users,
+  UsersRound,
+} from 'lucide-react'
 
 import { ButtonLink, Container, Section } from '@/components/ui/primitives'
 import { Reveal } from '@/components/ui/Reveal'
 import type { Media, SiteSetting } from '@/payload-types'
 
-/** Chi so tap doan Viettel (cap tap doan - dung chung, khong lay tu DB). */
-const CORP_STATS = [
-  { icon: Users, value: '50+', label: 'Triệu khách hàng' },
-  { icon: Globe2, value: '10+', label: 'Thị trường quốc tế' },
-  { icon: UsersRound, value: '60.000+', label: 'Nhân sự toàn cầu' },
-  { icon: Award, value: 'Top 1', label: 'Doanh nghiệp viễn thông lớn nhất Việt Nam' },
+/** Bo chi so tap doan mac dinh (dung khi admin chua cau hinh). */
+const DEFAULT_STATS = [
+  { icon: 'users', value: '50+', label: 'Triệu khách hàng' },
+  { icon: 'globe', value: '10+', label: 'Thị trường quốc tế' },
+  { icon: 'team', value: '60.000+', label: 'Nhân sự toàn cầu' },
+  { icon: 'award', value: 'Top 1', label: 'Doanh nghiệp viễn thông lớn nhất Việt Nam' },
 ]
 
-/** Anh minh hoa cot phai: uu tien anh nen hero upload trong admin, ban lon. */
+const STAT_ICONS: Record<string, LucideIcon> = {
+  users: Users,
+  globe: Globe2,
+  team: UsersRound,
+  award: Award,
+  star: Star,
+  building: Building2,
+  shield: ShieldCheck,
+  network: Network,
+  rocket: Rocket,
+  target: Target,
+}
+
+/** Anh minh hoa: uu tien aboutImage, roi den heroImage, ban lon. */
 function imageUrl(ref: number | Media | null | undefined): string | undefined {
   if (ref && typeof ref === 'object' && 'url' in ref) {
     const sizes = (ref as Media).sizes
@@ -22,7 +48,31 @@ function imageUrl(ref: number | Media | null | undefined): string | undefined {
 }
 
 export function AboutViettel({ settings }: { settings: SiteSetting }) {
-  const imgUrl = imageUrl(settings.heroImage)
+  const imgUrl = imageUrl(settings.aboutImage) ?? imageUrl(settings.heroImage)
+
+  const eyebrow = settings.aboutEyebrow || 'Về Viettel'
+  const titleLine1 = settings.aboutTitleLine1 || 'Tiên phong kiến tạo'
+  const titleHighlight = settings.aboutTitleHighlight || 'tương lai số'
+  const intro1 =
+    settings.aboutIntro1 ||
+    'Viettel là tập đoàn công nghệ – viễn thông hàng đầu Việt Nam, tiên phong trong lĩnh vực chuyển đổi số và cung cấp các giải pháp công nghệ toàn diện cho doanh nghiệp, tổ chức và cộng đồng.'
+  const intro2 =
+    settings.aboutIntro2 ||
+    'Với hạ tầng vững mạnh, hệ sinh thái dịch vụ số đa dạng và đội ngũ chuyên gia giàu kinh nghiệm, Viettel đồng hành cùng doanh nghiệp tối ưu vận hành, nâng cao hiệu quả và bứt phá trong kỷ nguyên số.'
+  const missionTitle = settings.aboutMissionTitle || 'Sứ mệnh'
+  const missionDesc =
+    settings.aboutMissionDesc || 'Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.'
+  const visionTitle = settings.aboutVisionTitle || 'Tầm nhìn'
+  const visionDesc =
+    settings.aboutVisionDesc ||
+    'Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm thế giới.'
+  const primaryLabel = settings.aboutPrimaryCtaLabel || 'Tìm hiểu thêm'
+  const primaryHref = settings.aboutPrimaryCtaHref || '/giai-phap'
+  const secondaryLabel = settings.aboutSecondaryCtaLabel || 'Liên hệ tư vấn'
+  const secondaryHref = settings.aboutSecondaryCtaHref || '/lien-he'
+
+  const stats =
+    settings.aboutStats && settings.aboutStats.length > 0 ? settings.aboutStats : DEFAULT_STATS
 
   return (
     <Section className="relative overflow-hidden bg-surface pt-12 md:pt-16">
@@ -43,7 +93,7 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
                 'linear-gradient(90deg, #ffffff 0%, #ffffff 40%, rgba(255,255,255,0.9) 52%, rgba(255,255,255,0.45) 70%, rgba(255,255,255,0.08) 88%, rgba(255,255,255,0) 100%)',
             }}
           />
-          {/* Mo nhe mep tren/duoi cho lien mach voi nen trang */}
+          {/* Mo nhe mep duoi cho lien mach voi nen trang */}
           <div
             className="absolute inset-x-0 bottom-0 h-24"
             style={{ background: 'linear-gradient(to top, #ffffff, transparent)' }}
@@ -62,23 +112,21 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
           <Reveal>
             <p className="mb-4 inline-flex items-center gap-3 text-sm font-bold uppercase tracking-wider text-viettel-red">
               <span className="h-0.5 w-8 bg-viettel-red" aria-hidden />
-              Về Viettel
+              {eyebrow}
             </p>
             <h2 className="text-3xl font-extrabold leading-[1.15] text-ink md:text-[2.6rem]">
-              Tiên phong kiến tạo
-              <br />
-              <span className="text-viettel-red">tương lai số</span>
+              {titleLine1}
+              {titleHighlight && (
+                <>
+                  <br />
+                  <span className="text-viettel-red">{titleHighlight}</span>
+                </>
+              )}
             </h2>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft">
-              Viettel là tập đoàn công nghệ – viễn thông hàng đầu Việt Nam, tiên phong trong lĩnh vực
-              chuyển đổi số và cung cấp các giải pháp công nghệ toàn diện cho doanh nghiệp, tổ chức và
-              cộng đồng.
-            </p>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">
-              Với hạ tầng vững mạnh, hệ sinh thái dịch vụ số đa dạng và đội ngũ chuyên gia giàu kinh
-              nghiệm, Viettel đồng hành cùng doanh nghiệp tối ưu vận hành, nâng cao hiệu quả và bứt
-              phá trong kỷ nguyên số.
-            </p>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft">{intro1}</p>
+            {intro2 && (
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">{intro2}</p>
+            )}
 
             {/* Su menh + Tam nhin */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -87,10 +135,8 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
                   <Rocket className="h-5 w-5" aria-hidden strokeWidth={1.75} />
                 </span>
                 <div>
-                  <h3 className="font-bold text-ink">Sứ mệnh</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-                    Tiên phong kiến tạo xã hội số vì một cuộc sống tốt đẹp hơn.
-                  </p>
+                  <h3 className="font-bold text-ink">{missionTitle}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{missionDesc}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 sm:border-l sm:border-border-soft sm:pl-6">
@@ -98,28 +144,25 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
                   <Target className="h-5 w-5" aria-hidden strokeWidth={1.75} />
                 </span>
                 <div>
-                  <h3 className="font-bold text-ink">Tầm nhìn</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-                    Trở thành doanh nghiệp công nghệ dẫn dắt chuyển đổi số tại Việt Nam và vươn tầm
-                    thế giới.
-                  </p>
+                  <h3 className="font-bold text-ink">{visionTitle}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{visionDesc}</p>
                 </div>
               </div>
             </div>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href="/giai-phap" variant="primary" size="lg">
-                Tìm hiểu thêm
+              <ButtonLink href={primaryHref} variant="primary" size="lg">
+                {primaryLabel}
                 <ArrowRight className="h-5 w-5" aria-hidden />
               </ButtonLink>
-              <ButtonLink href="/lien-he" variant="outline" size="lg">
-                Liên hệ tư vấn
+              <ButtonLink href={secondaryHref} variant="outline" size="lg">
+                {secondaryLabel}
                 <ArrowRight className="h-5 w-5" aria-hidden />
               </ButtonLink>
             </div>
           </Reveal>
 
-          {/* Cot phai: tren desktop anh nen lo ra o day; tren mobile hien tam thuong hieu */}
+          {/* Cot phai: tren desktop anh nen lo ra o day; tren mobile hien tam thuong hieu khi chua co anh */}
           {!imgUrl && (
             <Reveal delay={120} className="relative lg:hidden">
               <div
@@ -143,19 +186,22 @@ export function AboutViettel({ settings }: { settings: SiteSetting }) {
         {/* Dai chi so tap doan */}
         <Reveal delay={80}>
           <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 rounded-3xl border border-border-soft bg-surface-muted/60 p-7 md:mt-14 md:grid-cols-4 md:p-8">
-            {CORP_STATS.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-viettel-red/10 text-viettel-red">
-                  <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
-                </span>
-                <div className="min-w-0">
-                  <div className="text-2xl font-extrabold leading-none text-viettel-red md:text-3xl">
-                    {value}
+            {stats.map((s, i) => {
+              const Icon = STAT_ICONS[s.icon ?? 'users'] ?? Users
+              return (
+                <div key={i} className="flex items-center gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-viettel-red/10 text-viettel-red">
+                    <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-2xl font-extrabold leading-none text-viettel-red md:text-3xl">
+                      {s.value}
+                    </div>
+                    <div className="mt-1.5 text-sm leading-snug text-ink-soft">{s.label}</div>
                   </div>
-                  <div className="mt-1.5 text-sm leading-snug text-ink-soft">{label}</div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </Reveal>
       </Container>
