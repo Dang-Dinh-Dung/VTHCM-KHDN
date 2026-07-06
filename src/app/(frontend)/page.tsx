@@ -150,17 +150,17 @@ export default async function HomePage() {
         <div data-snap className="lg:flex lg:min-h-[calc(100svh-96px)] lg:flex-col lg:justify-center">
           {/* Tin tuc */}
           {news.length > 0 && (
-            <Section className="py-9 md:py-12">
+            <Section className="py-6 md:py-8">
               <Container>
-                <div className="mb-6 flex items-end justify-between gap-4">
+                <div className="mb-4 flex items-end justify-between gap-4">
                   <SectionHeading align="left" eyebrow="Tin tức" title="Cập nhật mới nhất" />
                   <Link href="/tin-tuc" className="shrink-0 text-sm font-semibold text-viettel-red">
                     Tất cả tin tức →
                   </Link>
                 </div>
-                <div className="grid gap-5 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-3">
                   {news.map((n) => (
-                    <NewsCard key={n.id} item={n} />
+                    <NewsCard key={n.id} item={n} compact />
                   ))}
                 </div>
               </Container>
@@ -169,22 +169,21 @@ export default async function HomePage() {
 
           {/* Nghi dinh & chinh sach */}
           {policies.length > 0 && (
-            <Section className="py-9 md:py-12">
+            <Section className="py-6 md:py-8">
               <Container>
-                <div className="mb-6 flex items-end justify-between gap-4">
+                <div className="mb-4 flex items-end justify-between gap-4">
                   <SectionHeading
                     align="left"
                     eyebrow="Nghị định & chính sách"
                     title="Quy định liên quan tới doanh nghiệp"
-                    description="Cập nhật các văn bản pháp quy tác động trực tiếp tới hoạt động số hóa của doanh nghiệp."
                   />
                   <Link href="/chinh-sach" className="shrink-0 text-sm font-semibold text-viettel-red">
                     Xem tất cả →
                   </Link>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {policies.map((p) => (
-                    <PolicyCard key={p.id} item={p} />
+                    <PolicyCard key={p.id} item={p} compact />
                   ))}
                 </div>
               </Container>
