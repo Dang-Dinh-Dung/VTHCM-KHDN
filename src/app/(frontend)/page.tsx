@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { NewsCard, PolicyCard } from '@/components/content/ContentCards'
+import { AboutViettel } from '@/components/home/AboutViettel'
 import { EcosystemSection } from '@/components/home/EcosystemSection'
 import { CustomerLogos } from '@/components/home/CustomerLogos'
 import { FeaturedSolutions } from '@/components/home/FeaturedSolutions'
@@ -41,6 +42,7 @@ export default async function HomePage() {
         id="home-content"
         className="relative z-10 mx-3 -mt-10 overflow-hidden rounded-[2rem] bg-surface shadow-2xl shadow-ink/10 md:mx-6 md:-mt-14 md:rounded-[3rem]"
       >
+        <AboutViettel settings={settings} />
         <EcosystemSection counts={counts} solutionsByPillar={solutionsByPillar} />
       </div>
 
