@@ -189,8 +189,8 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 110, 135, 0.4);
-  box-shadow: 0 0 12px rgba(238, 0, 51, 0.18) inset;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1) inset;
 }
 /* Vi tuyen: vong tron nam ngang, kich thuoc/vi tri set inline theo vi do */
 .tg-parallel {
@@ -198,7 +198,7 @@ body {
   left: 50%;
   top: 50%;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 110, 135, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 /* Diem sang tren be mat cau (bay theo vong xoay) */
 .tg-dot {
@@ -212,20 +212,20 @@ body {
   background: #ffffff;
   box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.55);
 }
-/* Loi phat sang do o tam */
+/* Loi cau toi o tam - tao khoi noi tren nen do */
 .tg-core {
   position: absolute;
   inset: 14%;
   border-radius: 9999px;
-  background: radial-gradient(circle at 40% 35%, rgba(255, 70, 100, 0.55), rgba(200, 19, 47, 0.28) 45%, transparent 72%);
-  filter: blur(3px);
+  background: radial-gradient(circle at 38% 32%, rgba(160, 12, 36, 0.85), rgba(96, 5, 18, 0.75) 55%, rgba(60, 3, 12, 0.55) 78%, transparent 92%);
+  filter: blur(2px);
 }
-/* Quang sang do bao quanh qua cau (nhip tho) */
+/* Quang sang hong bao quanh qua cau (nhip tho) */
 .tg-halo {
   position: absolute;
   inset: -12%;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(238, 0, 51, 0.32), rgba(238, 0, 51, 0.1) 55%, transparent 72%);
+  background: radial-gradient(circle, rgba(255, 107, 133, 0.35), rgba(255, 107, 133, 0.12) 55%, transparent 72%);
   filter: blur(18px);
   animation: tgHalo 6s ease-in-out infinite;
 }
