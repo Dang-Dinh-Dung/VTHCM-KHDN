@@ -954,6 +954,10 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  aboutMissionTitle?: string | null;
+  aboutVisionTitle?: string | null;
+  aboutMissionDesc?: string | null;
+  aboutVisionDesc?: string | null;
   aboutPrimaryCtaLabel?: string | null;
   aboutPrimaryCtaHref?: string | null;
   aboutSecondaryCtaLabel?: string | null;
@@ -1046,6 +1050,10 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  aboutMissionTitle?: T;
+  aboutVisionTitle?: T;
+  aboutMissionDesc?: T;
+  aboutVisionDesc?: T;
   aboutPrimaryCtaLabel?: T;
   aboutPrimaryCtaHref?: T;
   aboutSecondaryCtaLabel?: T;

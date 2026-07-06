@@ -212,6 +212,13 @@ export const SiteSettings: GlobalConfig = {
                 { name: 'description', type: 'textarea', label: 'Mô tả', required: true },
               ],
             },
+            // Cot cu (Su menh/Tam nhin dang co dinh) - da thay bang aboutHighlights.
+            // Giu lai duoi dang an de push schema chi THEM (khong xoa cot) -> khong hoi
+            // xac nhan mat du lieu, khong treo push tren moi moi truong (local/Neon/IDC).
+            { name: 'aboutMissionTitle', type: 'text', admin: { hidden: true } },
+            { name: 'aboutVisionTitle', type: 'text', admin: { hidden: true } },
+            { name: 'aboutMissionDesc', type: 'textarea', admin: { hidden: true } },
+            { name: 'aboutVisionDesc', type: 'textarea', admin: { hidden: true } },
             {
               type: 'row',
               fields: [
