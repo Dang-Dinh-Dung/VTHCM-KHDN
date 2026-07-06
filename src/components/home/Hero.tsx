@@ -1,6 +1,7 @@
 import { ArrowRight, BadgeCheck, Clock, ShieldCheck } from 'lucide-react'
 
 import { ButtonLink, Container } from '@/components/ui/primitives'
+import { TechGlobe } from '@/components/home/TechGlobe'
 import type { Media, SiteSetting } from '@/payload-types'
 
 const TRUST = [
@@ -65,20 +66,12 @@ export function Hero({ settings }: { settings: SiteSetting }) {
         />
       </div>
 
-      {/* Radar HUD quet xoay (goc phai) */}
+      {/* Qua cau cong nghe 3D xoay (goc phai) */}
       <div
-        className="pointer-events-none absolute right-[8%] top-1/2 hidden h-[30rem] w-[30rem] -translate-y-1/2 overflow-hidden rounded-full lg:block"
+        className="pointer-events-none absolute right-[8%] top-1/2 hidden -translate-y-1/2 lg:block"
         aria-hidden
       >
-        <div
-          className="hero-radar h-full w-full"
-          style={{
-            background:
-              'conic-gradient(from 0deg, rgba(255,255,255,0.16), rgba(255,255,255,0) 28%)',
-            maskImage: 'radial-gradient(circle, #000 0%, #000 55%, transparent 72%)',
-            WebkitMaskImage: 'radial-gradient(circle, #000 0%, #000 55%, transparent 72%)',
-          }}
-        />
+        <TechGlobe />
       </div>
 
       {/* Luoi mang + goi du lieu chay + node nhip nhang (digital transformation) */}
