@@ -136,14 +136,14 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
           backgroundImage: `linear-gradient(140deg, ${color}14, transparent 55%)`,
           boxShadow: active ? `0 18px 44px -16px ${color}` : `0 12px 32px -18px ${color}`,
         }}
-        className="group relative w-full rounded-[1.4rem] border bg-surface p-4 text-left transition-all duration-200 hover:-translate-y-0.5 md:flex md:h-[8.5rem] md:items-center"
+        className="group relative w-full rounded-2xl border bg-surface p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 md:flex md:h-[6.5rem] md:items-center"
       >
         <div className="flex w-full items-start gap-3">
           <span
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white"
-            style={{ background: `linear-gradient(140deg, ${color}, ${color} 55%, rgba(0,0,0,0.28) 150%)`, boxShadow: `0 8px 20px -6px ${color}` }}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+            style={{ background: `linear-gradient(140deg, ${color}, ${color} 55%, rgba(0,0,0,0.28) 150%)`, boxShadow: `0 6px 16px -6px ${color}` }}
           >
-            <Icon className="h-[22px] w-[22px]" aria-hidden strokeWidth={1.75} />
+            <Icon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
@@ -176,17 +176,17 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
   const CenterCore = () => (
     <div className="relative flex items-center justify-center">
       {/* Quang sang do */}
-      <span className="absolute -inset-6 rounded-full bg-viettel-red/20 blur-2xl" aria-hidden />
+      <span className="absolute -inset-5 rounded-full bg-viettel-red/20 blur-2xl" aria-hidden />
       {/* Vong xoay */}
-      <span className="absolute -inset-4 rounded-full border border-viettel-red/25 [animation:spin_22s_linear_infinite]" aria-hidden />
+      <span className="absolute -inset-3.5 rounded-full border border-viettel-red/25 [animation:spin_22s_linear_infinite]" aria-hidden />
       <span className="absolute -inset-1.5 rounded-full border-2 border-dashed border-viettel-red/30 [animation:spin_16s_linear_infinite_reverse]" aria-hidden />
       <div
-        className="relative flex h-40 w-40 flex-col items-center justify-center rounded-full text-center text-white shadow-[0_20px_55px_-12px_rgba(200,19,47,0.6)] md:h-44 md:w-44"
+        className="relative flex h-32 w-32 flex-col items-center justify-center rounded-full text-center text-white shadow-[0_16px_44px_-12px_rgba(200,19,47,0.6)] md:h-36 md:w-36"
         style={{ background: 'radial-gradient(circle at 32% 26%, #ff4d6d 0%, #e11537 40%, #a30e28 100%)' }}
       >
-        <span className="absolute left-6 top-6 h-10 w-10 rounded-full bg-white/25 blur-md" aria-hidden />
-        <span className="relative text-2xl font-black leading-none drop-shadow md:text-3xl">Viettel</span>
-        <span className="relative mt-2 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur-sm">
+        <span className="absolute left-5 top-5 h-8 w-8 rounded-full bg-white/25 blur-md" aria-hidden />
+        <span className="relative text-xl font-black leading-none drop-shadow md:text-2xl">Viettel</span>
+        <span className="relative mt-1.5 rounded-full bg-white/20 px-2.5 py-0.5 text-[11px] font-bold backdrop-blur-sm">
           {total > 0 ? `${total}+ giải pháp` : '6 trụ cột'}
         </span>
       </div>
@@ -259,7 +259,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             <ellipse cx="50" cy="50" rx="34" ry="40" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.16" strokeWidth="6" vectorEffect="non-scaling-stroke" />
           </svg>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {LEFT_PILLARS.map((v, i) => (
               <Reveal key={v} delay={i * 90 + 60}>
                 <PillarCard value={v} />
@@ -267,7 +267,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             ))}
           </div>
 
-          <div className="flex flex-col items-center gap-8 lg:gap-10">
+          <div className="flex flex-col items-center gap-6">
             <Reveal delay={0} className="w-full">
               <PillarCard value={TOP_PILLAR} />
             </Reveal>
@@ -279,7 +279,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             </Reveal>
           </div>
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             {RIGHT_PILLARS.map((v, i) => (
               <Reveal key={v} delay={i * 90 + 120}>
                 <PillarCard value={v} />
