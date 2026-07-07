@@ -71,6 +71,15 @@ export default async function SolutionDetailPage({
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover"
             />
+            {/* Lop phu do tham - chong choi, giu chu ro (dam ben trai, nhat dan sang phai) */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(100deg, rgba(64,3,16,0.86) 0%, rgba(82,5,22,0.7) 45%, rgba(110,7,26,0.45) 100%)',
+              }}
+              aria-hidden
+            />
           </>
         )}
         <Container className="relative pb-12 pt-24 md:pt-28">
