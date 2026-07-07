@@ -245,20 +245,20 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
 
       {/* ===== DESKTOP/TABLET (>=md): 6 the bao quanh khoi cau + elip quy dao ===== */}
       <div className="relative hidden md:block">
-        {/* Elip quy dao chay qua 6 tru cot */}
-        <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-          <defs>
-            <linearGradient id="eco-orbit" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#ee0033" />
-              <stop offset="0.5" stopColor="#d926a9" />
-              <stop offset="1" stopColor="#7c3aed" />
-            </linearGradient>
-          </defs>
-          <ellipse cx="50" cy="50" rx="34" ry="37" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.4" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-          <ellipse cx="50" cy="50" rx="34" ry="37" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.18" strokeWidth="6" vectorEffect="non-scaling-stroke" />
-        </svg>
-
         <div className="relative grid grid-cols-[1fr_auto_1fr] items-center gap-x-8 lg:gap-x-12">
+          {/* Elip quy dao chay qua 6 tru cot - tam trung voi khoi cau (giua luoi) */}
+          <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+            <defs>
+              <linearGradient id="eco-orbit" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#ee0033" />
+                <stop offset="0.5" stopColor="#d926a9" />
+                <stop offset="1" stopColor="#7c3aed" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="50" cy="50" rx="34" ry="40" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.4" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+            <ellipse cx="50" cy="50" rx="34" ry="40" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.16" strokeWidth="6" vectorEffect="non-scaling-stroke" />
+          </svg>
+
           <div className="flex flex-col gap-14">
             {LEFT_PILLARS.map((v, i) => (
               <Reveal key={v} delay={i * 90 + 60}>
