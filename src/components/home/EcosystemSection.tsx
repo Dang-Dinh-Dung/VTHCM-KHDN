@@ -56,14 +56,14 @@ export function EcosystemSection({
 
       <Container className="relative">
         {/* Tieu de gradient (do -> hong -> tim) theo phong cach tech */}
-        <Reveal className="mb-7 text-center md:mb-9">
+        <Reveal className="mb-5 text-center md:mb-7">
           <h2
-            className="bg-clip-text text-2xl font-black uppercase leading-tight tracking-tight text-transparent md:text-4xl"
+            className="bg-clip-text pb-1 text-xl font-black uppercase leading-[1.3] tracking-tight text-transparent md:text-3xl"
             style={{ backgroundImage: 'linear-gradient(90deg, #ee0033 0%, #d926a9 50%, #7c3aed 100%)' }}
           >
             Hệ sinh thái sản phẩm Viettel
           </h2>
-          <p className="mt-2 text-sm text-ink-soft md:text-lg">
+          <p className="mt-1.5 text-sm text-ink-soft md:text-base">
             Giải pháp toàn diện theo <span className="font-bold text-viettel-red">6 trụ cột</span> — nhấn
             vào từng trụ cột để xem giải pháp bên trong.
           </p>
