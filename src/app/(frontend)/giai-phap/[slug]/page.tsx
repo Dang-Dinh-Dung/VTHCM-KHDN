@@ -71,18 +71,10 @@ export default async function SolutionDetailPage({
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover"
             />
-            {/* Lop phu do (dam ben trai de chu de doc, nhat dan sang phai lo anh) */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(100deg, rgba(88,6,26,0.9) 0%, rgba(120,8,24,0.6) 45%, rgba(120,8,24,0.12) 100%)',
-              }}
-              aria-hidden
-            />
           </>
         )}
         <Container className="relative pb-12 pt-24 md:pt-28">
+          <div style={{ textShadow: '0 2px 16px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.45)' }}>
           <nav className="mb-4 text-sm text-white/60">
             <Link href="/" className="hover:text-white">Trang chủ</Link>
             <span className="mx-2">/</span>
@@ -124,6 +116,7 @@ export default async function SolutionDetailPage({
                 Xem bảng giá
               </ButtonLink>
             )}
+          </div>
           </div>
         </Container>
       </div>
