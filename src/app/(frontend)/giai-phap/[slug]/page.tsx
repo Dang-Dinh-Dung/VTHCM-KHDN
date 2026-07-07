@@ -58,7 +58,7 @@ export default async function SolutionDetailPage({
   return (
     <>
       {/* Hero - nen anh upload trong admin (heroImage), fallback nen navy */}
-      <div className="relative overflow-hidden border-b border-border-soft bg-ink text-white">
+      <div className="relative -mt-[60px] overflow-hidden border-b border-border-soft bg-ink text-white md:-mt-[72px]">
         {heroUrl && (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -79,7 +79,7 @@ export default async function SolutionDetailPage({
             />
           </>
         )}
-        <Container className="relative py-12">
+        <Container className="relative pb-12 pt-24 md:pt-28">
           <nav className="mb-4 text-sm text-white/60">
             <Link href="/" className="hover:text-white">Trang chủ</Link>
             <span className="mx-2">/</span>
