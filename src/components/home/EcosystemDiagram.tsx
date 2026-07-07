@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { useState } from 'react'
 import {
   ArrowRight,
@@ -29,11 +30,22 @@ const PILLAR_ICONS: Record<string, LucideIcon> = {
   'san-pham-hop-tac': Handshake,
 }
 
-// Bo tri quanh khoi cau (theo thiet ke tham khao): tren - trai x2 - phai x2 - duoi
 const TOP_PILLAR = 'vien-thong'
 const LEFT_PILLARS = ['chuyen-doi-so', 'data-center-an-ninh-mang']
 const RIGHT_PILLARS = ['quan-tri-doanh-nghiep', 'logistics-van-tai-nang-luong']
 const BOTTOM_PILLAR = 'san-pham-hop-tac'
+
+// Duong noi cong tu tam toi 6 the (toa do trong he 0..100), mau theo tru cot
+const CONNECTORS: Array<{ pillar: string; d: string }> = [
+  { pillar: TOP_PILLAR, d: 'M50 50 C 50 34, 50 26, 50 15' },
+  { pillar: BOTTOM_PILLAR, d: 'M50 50 C 50 66, 50 74, 50 85' },
+  { pillar: LEFT_PILLARS[0], d: 'M50 50 C 40 44, 34 36, 26 31' },
+  { pillar: LEFT_PILLARS[1], d: 'M50 50 C 40 58, 34 66, 26 70' },
+  { pillar: RIGHT_PILLARS[0], d: 'M50 50 C 60 44, 66 36, 74 31' },
+  { pillar: RIGHT_PILLARS[1], d: 'M50 50 C 60 58, 66 66, 74 70' },
+]
+
+const colorOf = (value: string) => PILLARS.find((p) => p.value === value)?.color ?? '#ee0033'
 
 type Props = {
   counts: Record<string, number>
@@ -41,27 +53,35 @@ type Props = {
 }
 
 /** The giai phap dang dung (bang chi tiet duoi cung - desktop/tablet). */
-function SolutionTile({ item }: { item: PillarSolutionItem }) {
+function SolutionTile({ item, color }: { item: PillarSolutionItem; color: string }) {
+  const cssVar = { ['--pc']: color } as CSSProperties
   return (
     <Link
       href={`/giai-phap/${item.slug}`}
-      className="group flex h-full flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-viettel-red/40 hover:shadow-lg"
+      style={cssVar}
+      className="group flex h-full flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--pc)] hover:shadow-[0_18px_40px_-16px_var(--pc)]"
     >
-      <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-viettel-red/10 text-viettel-red ring-1 ring-viettel-red/10">
+      <span
+        className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl text-white shadow-md"
+        style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)`, boxShadow: `0 8px 18px -6px ${color}` }}
+      >
         {item.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.logoUrl} alt={item.name} className="h-7 w-7 object-contain" loading="lazy" />
+          <img src={item.logoUrl} alt={item.name} className="h-7 w-7 rounded object-contain" loading="lazy" />
         ) : (
           <Layers className="h-5 w-5" aria-hidden />
         )}
       </span>
-      <span className="mt-2.5 block truncate text-sm font-bold text-ink transition-colors group-hover:text-viettel-red">
+      <span className="mt-2.5 block truncate text-sm font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
         {item.name}
       </span>
       {item.slogan && (
         <span className="mt-1 line-clamp-2 flex-1 text-xs leading-relaxed text-ink-soft">{item.slogan}</span>
       )}
-      <span className="mt-3 inline-flex items-center gap-1 self-start rounded-full bg-viettel-red px-3 py-1 text-xs font-semibold text-white transition-colors group-hover:bg-viettel-red-dark">
+      <span
+        className="mt-3 inline-flex items-center gap-1 self-start rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm transition-transform group-hover:-translate-y-0.5"
+        style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}
+      >
         Chi tiết
         <ArrowRight className="h-3 w-3" aria-hidden />
       </span>
@@ -69,32 +89,34 @@ function SolutionTile({ item }: { item: PillarSolutionItem }) {
   )
 }
 
-/** The giai phap dang hang ngang (bung duoi tru cot - mobile). */
-function SolutionRow({ item }: { item: PillarSolutionItem }) {
+/** The giai phap hang ngang (bung duoi tru cot - mobile). */
+function SolutionRow({ item, color }: { item: PillarSolutionItem; color: string }) {
+  const cssVar = { ['--pc']: color } as CSSProperties
   return (
     <Link
       href={`/giai-phap/${item.slug}`}
-      className="group/item relative flex items-center gap-3 overflow-hidden rounded-xl border border-border-soft bg-surface p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-viettel-red/50 hover:shadow-lg"
+      style={cssVar}
+      className="group/item relative flex items-center gap-3 overflow-hidden rounded-xl border border-border-soft bg-surface p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--pc)] hover:shadow-lg"
     >
+      <span className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-[color:var(--pc)] transition-transform duration-200 group-hover/item:scale-y-100" aria-hidden />
       <span
-        className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-viettel-red transition-transform duration-200 group-hover/item:scale-y-100"
-        aria-hidden
-      />
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-viettel-red/10 ring-1 ring-viettel-red/10">
+        className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-white"
+        style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)` }}
+      >
         {item.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.logoUrl} alt={item.name} className="h-8 w-8 object-contain" loading="lazy" />
+          <img src={item.logoUrl} alt={item.name} className="h-8 w-8 rounded object-contain" loading="lazy" />
         ) : (
-          <Layers className="h-5 w-5 text-viettel-red" aria-hidden />
+          <Layers className="h-5 w-5" aria-hidden />
         )}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-bold text-ink transition-colors group-hover/item:text-viettel-red">
+        <span className="block truncate text-sm font-bold text-ink transition-colors group-hover/item:text-[color:var(--pc)]">
           {item.name}
         </span>
         {item.slogan && <span className="line-clamp-1 text-xs text-ink-soft">{item.slogan}</span>}
       </span>
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-muted text-ink-soft transition-colors duration-200 group-hover/item:bg-viettel-red group-hover/item:text-white">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-muted text-ink-soft transition-colors duration-200 group-hover/item:bg-[color:var(--pc)] group-hover/item:text-white">
         <ArrowRight className="h-4 w-4" aria-hidden />
       </span>
     </Link>
@@ -102,17 +124,17 @@ function SolutionRow({ item }: { item: PillarSolutionItem }) {
 }
 
 export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
-  // Mac dinh mo tru cot dau tien co giai phap (desktop hien bang duoi nhu thiet ke)
   const firstWithItems =
     PILLARS.find((p) => (solutionsByPillar[p.value] ?? []).length > 0)?.value ?? null
   const [open, setOpen] = useState<string | null>(firstWithItems)
   const total = Object.values(counts).reduce((a, b) => a + (b || 0), 0)
 
-  /** The tru cot pill trang, icon tron do (theo thiet ke tham khao). */
+  /** The tru cot: glow theo mau, icon gradient (phong cach tech tren nen trang). */
   const PillarCard = ({ value }: { value: string }) => {
     const pillar = PILLARS.find((p) => p.value === value)
     if (!pillar) return null
     const Icon = PILLAR_ICONS[pillar.value] ?? ShieldCheck
+    const color = pillar.color
     const active = open === pillar.value
     const count = counts[pillar.value]
 
@@ -121,41 +143,40 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
         type="button"
         onClick={() => setOpen(active ? null : pillar.value)}
         aria-expanded={active}
-        className={cn(
-          'group relative w-full rounded-[1.75rem] border bg-surface p-4 text-left shadow-[0_10px_30px_-12px_rgba(200,19,47,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-brand md:p-5',
-          active ? 'border-viettel-red ring-1 ring-viettel-red/30' : 'border-border-soft',
-        )}
+        style={{
+          borderColor: active ? color : `${color}55`,
+          backgroundImage: `linear-gradient(140deg, ${color}14, transparent 55%)`,
+          boxShadow: active ? `0 18px 44px -16px ${color}` : `0 12px 32px -18px ${color}`,
+        }}
+        className="group relative w-full rounded-[1.4rem] border bg-surface p-4 text-left transition-all duration-200 hover:-translate-y-0.5 md:p-5"
       >
         <div className="flex items-start gap-3.5">
           <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white shadow-md shadow-viettel-red/30"
-            style={{ background: 'linear-gradient(135deg, #e11537 0%, #a30e28 100%)' }}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white"
+            style={{ background: `linear-gradient(140deg, ${color}, ${color} 55%, rgba(0,0,0,0.28) 150%)`, boxShadow: `0 8px 20px -6px ${color}` }}
           >
             <Icon className="h-6 w-6" aria-hidden strokeWidth={1.75} />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
               <h3
-                className={cn(
-                  'text-base font-bold leading-snug transition-colors',
-                  active ? 'text-viettel-red' : 'text-ink group-hover:text-viettel-red',
-                )}
+                className={cn('text-base font-bold leading-snug transition-colors', active ? 'text-ink' : 'text-ink')}
+                style={active ? { color } : undefined}
               >
                 {pillar.label}
               </h3>
-              <span className="mt-0.5 shrink-0 whitespace-nowrap rounded-full bg-viettel-red px-2.5 py-0.5 text-[11px] font-bold text-white">
+              <span
+                className="mt-0.5 shrink-0 whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-bold"
+                style={{ backgroundColor: `${color}1f`, color }}
+              >
                 {count ? `${count} giải pháp` : 'Mới'}
               </span>
             </div>
-            <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-ink-soft">
-              {pillar.description}
-            </p>
+            <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-ink-soft">{pillar.description}</p>
           </div>
           <ChevronDown
-            className={cn(
-              'mt-1 hidden h-5 w-5 shrink-0 text-ink-soft/40 transition-transform duration-200 md:block',
-              active && 'rotate-180 text-viettel-red',
-            )}
+            className={cn('mt-1 hidden h-5 w-5 shrink-0 text-ink-soft/40 transition-transform duration-200 md:block', active && 'rotate-180')}
+            style={active ? { color } : undefined}
             aria-hidden
           />
         </div>
@@ -163,51 +184,48 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
     )
   }
 
-  /** Khoi cau do trung tam. */
+  /** Khoi cau nang luong do phat sang o tam. */
   const CenterCore = () => (
-    <div className="relative">
-      {/* Vong cham dut bao quanh */}
-      <span className="absolute -inset-3 rounded-full border-2 border-dashed border-viettel-red/25" aria-hidden />
+    <div className="relative flex items-center justify-center">
+      {/* Quang sang do */}
+      <span className="absolute -inset-6 rounded-full bg-viettel-red/20 blur-2xl" aria-hidden />
+      {/* Vong xoay */}
+      <span className="absolute -inset-4 rounded-full border border-viettel-red/25 [animation:spin_22s_linear_infinite]" aria-hidden />
+      <span className="absolute -inset-1.5 rounded-full border-2 border-dashed border-viettel-red/30 [animation:spin_16s_linear_infinite_reverse]" aria-hidden />
       <div
-        className="flex h-44 w-44 flex-col items-center justify-center rounded-full text-center text-white shadow-[0_20px_50px_-12px_rgba(200,19,47,0.55)] ring-8 ring-viettel-red/5 md:h-48 md:w-48"
-        style={{ background: 'radial-gradient(circle at 30% 25%, #e11537 0%, #c8132f 45%, #a30e28 100%)' }}
+        className="relative flex h-44 w-44 flex-col items-center justify-center rounded-full text-center text-white shadow-[0_20px_55px_-12px_rgba(200,19,47,0.6)] md:h-48 md:w-48"
+        style={{ background: 'radial-gradient(circle at 32% 26%, #ff4d6d 0%, #e11537 40%, #a30e28 100%)' }}
       >
-        <span className="text-3xl font-black leading-none">Viettel</span>
-        <span className="mt-2.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold">
+        <span className="absolute left-6 top-6 h-10 w-10 rounded-full bg-white/25 blur-md" aria-hidden />
+        <span className="relative text-3xl font-black leading-none drop-shadow">Viettel</span>
+        <span className="relative mt-2.5 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur-sm">
           {total > 0 ? `${total}+ giải pháp` : '6 trụ cột'}
         </span>
       </div>
     </div>
   )
 
-  /** Bang giai phap bung ra ngay duoi tru cot (mobile). */
+  /** Panel bung duoi tru cot (mobile). */
   const MobileInlinePanel = ({ value }: { value: string }) => {
     const pillar = PILLARS.find((p) => p.value === value)
     if (!pillar) return null
+    const color = pillar.color
     const active = open === pillar.value
     const items = solutionsByPillar[pillar.value] ?? []
     return (
-      <div
-        className={cn(
-          'grid transition-all duration-300 ease-out',
-          active ? 'mt-2.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-        )}
-      >
+      <div className={cn('grid transition-all duration-300 ease-out', active ? 'mt-2.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
         <div className="overflow-hidden">
-          <div className="rounded-2xl border border-viettel-red/20 bg-viettel-red/[0.04] p-3">
+          <div className="rounded-2xl border p-3" style={{ borderColor: `${color}30`, backgroundImage: `linear-gradient(180deg, ${color}10, transparent 40%)` }}>
             {items.length === 0 ? (
               <p className="px-1 py-2 text-sm text-ink-soft">Sắp có giải pháp trong trụ cột này.</p>
             ) : (
               <div className="flex flex-col gap-2">
                 {items.map((s) => (
-                  <SolutionRow key={s.id} item={s} />
+                  <SolutionRow key={s.id} item={s} color={color} />
                 ))}
               </div>
             )}
-            <Link
-              href={`/giai-phap?pillar=${pillar.value}`}
-              className="mt-2.5 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-viettel-red"
-            >
+            <Link href={`/giai-phap?pillar=${pillar.value}`} style={{ color }} className="mt-2.5 inline-flex items-center gap-1.5 px-1 text-sm font-semibold">
               Xem tất cả giải pháp {pillar.label}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
@@ -218,12 +236,13 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
   }
 
   const openPillar = open ? PILLARS.find((p) => p.value === open) : null
+  const openColor = openPillar ? openPillar.color : '#ee0033'
   const openItems = open ? solutionsByPillar[open] ?? [] : []
   const OpenIcon = openPillar ? PILLAR_ICONS[openPillar.value] ?? ShieldCheck : ShieldCheck
 
   return (
     <>
-      {/* ===== MOBILE (<md): the xep doc, giai phap bung ngay duoi tru cot ===== */}
+      {/* ===== MOBILE (<md) ===== */}
       <div className="flex flex-col gap-3 md:hidden">
         <div className="mb-1 flex justify-center">
           <CenterCore />
@@ -238,25 +257,26 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
 
       {/* ===== DESKTOP/TABLET (>=md): 6 the bao quanh khoi cau + duong noi ===== */}
       <div className="relative hidden md:block">
-        {/* Duong noi toa ra tu tam (trang tri) */}
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <g stroke="#ee0033" strokeOpacity="0.22" strokeWidth="1.5" vectorEffect="non-scaling-stroke">
-            <line x1="50" y1="50" x2="50" y2="10" vectorEffect="non-scaling-stroke" />
-            <line x1="50" y1="50" x2="50" y2="90" vectorEffect="non-scaling-stroke" />
-            <line x1="50" y1="50" x2="17" y2="27" vectorEffect="non-scaling-stroke" />
-            <line x1="50" y1="50" x2="17" y2="73" vectorEffect="non-scaling-stroke" />
-            <line x1="50" y1="50" x2="83" y2="27" vectorEffect="non-scaling-stroke" />
-            <line x1="50" y1="50" x2="83" y2="73" vectorEffect="non-scaling-stroke" />
-          </g>
+        {/* Duong cong noi toa ra tu tam, mau theo tru cot */}
+        <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
+          {CONNECTORS.map((c) => {
+            const col = colorOf(c.pillar)
+            const on = open === c.pillar
+            return (
+              <path
+                key={c.pillar}
+                d={c.d}
+                fill="none"
+                stroke={col}
+                strokeOpacity={on ? 0.7 : 0.28}
+                strokeWidth={on ? 2 : 1.5}
+                vectorEffect="non-scaling-stroke"
+              />
+            )
+          })}
         </svg>
 
         <div className="relative grid grid-cols-[1fr_auto_1fr] items-center gap-x-8 lg:gap-x-12">
-          {/* Cot trai: 2 tru cot */}
           <div className="flex flex-col gap-14">
             {LEFT_PILLARS.map((v, i) => (
               <Reveal key={v} delay={i * 90 + 60}>
@@ -265,7 +285,6 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             ))}
           </div>
 
-          {/* Cot giua: tru cot tren - khoi cau - tru cot duoi */}
           <div className="flex max-w-md flex-col items-center gap-7">
             <Reveal delay={0} className="w-full">
               <PillarCard value={TOP_PILLAR} />
@@ -278,7 +297,6 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             </Reveal>
           </div>
 
-          {/* Cot phai: 2 tru cot */}
           <div className="flex flex-col gap-14">
             {RIGHT_PILLARS.map((v, i) => (
               <Reveal key={v} delay={i * 90 + 120}>
@@ -289,27 +307,20 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
         </div>
 
         {/* Bang giai phap chi tiet cua tru cot dang mo */}
-        <div
-          className={cn(
-            'grid transition-all duration-300 ease-out',
-            open ? 'mt-8 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-          )}
-        >
+        <div className={cn('grid transition-all duration-300 ease-out', open ? 'mt-8 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
           <div className="overflow-hidden">
             {openPillar && (
               <div>
                 <div className="mb-4 flex items-end justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white shadow-md shadow-viettel-red/30"
-                      style={{ background: 'linear-gradient(135deg, #e11537 0%, #a30e28 100%)' }}
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-white"
+                      style={{ background: `linear-gradient(140deg, ${openColor}, ${openColor}bb)`, boxShadow: `0 8px 20px -6px ${openColor}` }}
                     >
                       <OpenIcon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
                     </span>
                     <div>
-                      <h4 className="text-lg font-extrabold text-ink">
-                        Giải pháp {openPillar.label}
-                      </h4>
+                      <h4 className="text-lg font-extrabold text-ink">Giải pháp {openPillar.label}</h4>
                       <p className="text-xs text-ink-soft">
                         {openItems.length} sản phẩm trong hệ sinh thái{' '}
                         <span className="font-bold text-viettel-red">Viettel</span>
@@ -318,7 +329,8 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                   </div>
                   <Link
                     href={`/giai-phap?pillar=${openPillar.value}`}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-viettel-red px-4 py-2 text-sm font-semibold text-white shadow-md shadow-viettel-red/30 transition-transform hover:-translate-y-0.5"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-md transition-transform hover:-translate-y-0.5"
+                    style={{ background: `linear-gradient(135deg, ${openColor}, ${openColor}cc)` }}
                   >
                     Xem chi tiết
                     <ArrowRight className="h-4 w-4" aria-hidden />
@@ -330,7 +342,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                 ) : (
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-3">
                     {openItems.map((s) => (
-                      <SolutionTile key={s.id} item={s} />
+                      <SolutionTile key={s.id} item={s} color={openColor} />
                     ))}
                   </div>
                 )}
@@ -340,11 +352,12 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
         </div>
       </div>
 
-      {/* Nut kham pha tat ca */}
+      {/* Nut kham pha - gradient do -> tim */}
       <div className="mt-7 flex justify-center">
         <Link
           href="/giai-phap"
-          className="inline-flex items-center gap-2 rounded-full bg-viettel-red px-7 py-3 text-sm font-bold text-white shadow-lg shadow-viettel-red/30 transition-all hover:-translate-y-0.5 hover:bg-viettel-red-dark"
+          className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold text-white shadow-lg shadow-viettel-red/30 transition-all hover:-translate-y-0.5"
+          style={{ background: 'linear-gradient(135deg, #ee0033 0%, #d926a9 55%, #7c3aed 100%)' }}
         >
           Khám phá tất cả giải pháp
           <ArrowRight className="h-4 w-4" aria-hidden />

@@ -55,10 +55,13 @@ export function EcosystemSection({
       />
 
       <Container className="relative">
-        {/* Tieu de theo thiet ke tham khao */}
+        {/* Tieu de gradient (do -> hong -> tim) theo phong cach tech */}
         <Reveal className="mb-7 text-center md:mb-9">
-          <h2 className="text-2xl font-black uppercase leading-tight tracking-tight text-ink md:text-4xl">
-            Hệ sinh thái sản phẩm <span className="text-viettel-red">Viettel</span>
+          <h2
+            className="bg-clip-text text-2xl font-black uppercase leading-tight tracking-tight text-transparent md:text-4xl"
+            style={{ backgroundImage: 'linear-gradient(90deg, #ee0033 0%, #d926a9 50%, #7c3aed 100%)' }}
+          >
+            Hệ sinh thái sản phẩm Viettel
           </h2>
           <p className="mt-2 text-sm text-ink-soft md:text-lg">
             Giải pháp toàn diện theo <span className="font-bold text-viettel-red">6 trụ cột</span> — nhấn
