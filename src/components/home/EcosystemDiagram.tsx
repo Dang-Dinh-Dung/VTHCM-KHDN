@@ -267,7 +267,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
             ))}
           </div>
 
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-8 lg:gap-10">
             <Reveal delay={0} className="w-full">
               <PillarCard value={TOP_PILLAR} />
             </Reveal>
