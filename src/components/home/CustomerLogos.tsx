@@ -25,7 +25,7 @@ export function CustomerLogos({ logos }: { logos?: SiteSetting['customerLogos'] 
           <img
             src={url}
             alt={l.name ?? 'Khách hàng'}
-            className="h-12 w-auto max-w-[160px] object-contain opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 md:h-16"
+            className="h-12 w-auto max-w-[160px] object-contain opacity-90 transition duration-300 hover:opacity-100 md:h-16"
             loading="lazy"
           />
         )
