@@ -57,8 +57,11 @@ export default async function SolutionDetailPage({
 
   return (
     <>
-      {/* Hero - nen anh upload trong admin (heroImage), fallback nen navy */}
-      <div className="relative -mt-[60px] overflow-hidden border-b border-border-soft bg-ink text-white md:-mt-[72px]">
+      {/* Hero - nen anh upload trong admin (heroImage), fallback nen do */}
+      <div
+        className="relative -mt-[60px] overflow-hidden border-b border-border-soft text-white md:-mt-[72px]"
+        style={{ backgroundColor: '#58061a' }}
+      >
         {heroUrl && (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -68,12 +71,12 @@ export default async function SolutionDetailPage({
               aria-hidden
               className="absolute inset-0 h-full w-full object-cover"
             />
-            {/* Lop phu toi de chu de doc */}
+            {/* Lop phu do (dam ben trai de chu de doc, nhat dan sang phai lo anh) */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(100deg, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.78) 45%, rgba(15,23,42,0.5) 100%)',
+                  'linear-gradient(100deg, rgba(88,6,26,0.9) 0%, rgba(120,8,24,0.6) 45%, rgba(120,8,24,0.12) 100%)',
               }}
               aria-hidden
             />
