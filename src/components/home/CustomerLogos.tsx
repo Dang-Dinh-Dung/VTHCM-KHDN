@@ -45,7 +45,7 @@ export function CustomerLogos({ logos }: { logos?: SiteSetting['customerLogos'] 
   )
 
   return (
-    <section className="border-y border-border-soft bg-surface py-12 md:py-16">
+    <section className="bg-surface py-12 md:py-16">
       <Container>
         <h2 className="mb-9 text-center text-xl font-extrabold uppercase tracking-wide text-ink md:text-2xl">
           Khách hàng tin dùng <span className="text-viettel-red">Viettel</span>
