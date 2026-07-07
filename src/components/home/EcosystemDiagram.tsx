@@ -35,18 +35,6 @@ const LEFT_PILLARS = ['chuyen-doi-so', 'data-center-an-ninh-mang']
 const RIGHT_PILLARS = ['quan-tri-doanh-nghiep', 'logistics-van-tai-nang-luong']
 const BOTTOM_PILLAR = 'san-pham-hop-tac'
 
-// Duong noi cong tu tam toi 6 the (toa do trong he 0..100), mau theo tru cot
-const CONNECTORS: Array<{ pillar: string; d: string }> = [
-  { pillar: TOP_PILLAR, d: 'M50 50 C 50 34, 50 26, 50 15' },
-  { pillar: BOTTOM_PILLAR, d: 'M50 50 C 50 66, 50 74, 50 85' },
-  { pillar: LEFT_PILLARS[0], d: 'M50 50 C 40 44, 34 36, 26 31' },
-  { pillar: LEFT_PILLARS[1], d: 'M50 50 C 40 58, 34 66, 26 70' },
-  { pillar: RIGHT_PILLARS[0], d: 'M50 50 C 60 44, 66 36, 74 31' },
-  { pillar: RIGHT_PILLARS[1], d: 'M50 50 C 60 58, 66 66, 74 70' },
-]
-
-const colorOf = (value: string) => PILLARS.find((p) => p.value === value)?.color ?? '#ee0033'
-
 type Props = {
   counts: Record<string, number>
   solutionsByPillar: Record<string, PillarSolutionItem[]>
@@ -255,25 +243,19 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
         ))}
       </div>
 
-      {/* ===== DESKTOP/TABLET (>=md): 6 the bao quanh khoi cau + duong noi ===== */}
+      {/* ===== DESKTOP/TABLET (>=md): 6 the bao quanh khoi cau + elip quy dao ===== */}
       <div className="relative hidden md:block">
-        {/* Duong cong noi toa ra tu tam, mau theo tru cot */}
+        {/* Elip quy dao chay qua 6 tru cot */}
         <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
-          {CONNECTORS.map((c) => {
-            const col = colorOf(c.pillar)
-            const on = open === c.pillar
-            return (
-              <path
-                key={c.pillar}
-                d={c.d}
-                fill="none"
-                stroke={col}
-                strokeOpacity={on ? 0.7 : 0.28}
-                strokeWidth={on ? 2 : 1.5}
-                vectorEffect="non-scaling-stroke"
-              />
-            )
-          })}
+          <defs>
+            <linearGradient id="eco-orbit" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#ee0033" />
+              <stop offset="0.5" stopColor="#d926a9" />
+              <stop offset="1" stopColor="#7c3aed" />
+            </linearGradient>
+          </defs>
+          <ellipse cx="50" cy="50" rx="34" ry="37" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.4" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+          <ellipse cx="50" cy="50" rx="34" ry="37" fill="none" stroke="url(#eco-orbit)" strokeOpacity="0.18" strokeWidth="6" vectorEffect="non-scaling-stroke" />
         </svg>
 
         <div className="relative grid grid-cols-[1fr_auto_1fr] items-center gap-x-8 lg:gap-x-12">
