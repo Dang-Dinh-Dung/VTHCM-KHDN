@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Liên hệ',
   description:
     'Liên hệ Phòng Khách hàng Doanh nghiệp Viettel Hồ Chí Minh: hotline, email, địa chỉ và đăng ký tư vấn giải pháp chuyển đổi số.',
+  alternates: { canonical: '/lien-he' },
 }
 
 export const dynamic = 'force-dynamic'

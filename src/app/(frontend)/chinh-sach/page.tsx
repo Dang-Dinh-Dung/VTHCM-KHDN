@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Nghị định & chính sách',
   description:
     'Tra cứu nghị định, thông tư, chính sách nhà nước liên quan tới hóa đơn điện tử, chữ ký số, BHXH, vận tải... và giải pháp Viettel tương ứng.',
+  alternates: { canonical: '/chinh-sach' },
 }
 
 export const dynamic = 'force-dynamic'

@@ -42,6 +42,8 @@ export const metadata: Metadata = {
     locale: 'vi_VN',
     siteName: 'KHDN Viettel Hồ Chí Minh',
   },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

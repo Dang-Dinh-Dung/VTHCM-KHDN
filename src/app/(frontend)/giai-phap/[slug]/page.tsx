@@ -8,6 +8,7 @@ import { PricingTable } from '@/components/solutions/PricingTable'
 import { SolutionCard } from '@/components/solutions/SolutionCard'
 import { Badge, ButtonLink, Container, Section, SectionHeading } from '@/components/ui/primitives'
 import { getSolutionBySlug } from '@/lib/queries'
+import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
 import { labelOf, PILLARS, PRODUCT_GROUPS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
@@ -31,10 +32,20 @@ export async function generateMetadata({
   const solution = await getSolutionBySlug(slug)
   if (!solution) return { title: 'Không tìm thấy giải pháp' }
   const seo = solution.seo
+  const title = seo?.metaTitle || solution.title
+  const description = seo?.metaDescription || solution.shortDesc
+  const image = heroImageUrl(solution.heroImage)
   return {
-    title: seo?.metaTitle || solution.title,
-    description: seo?.metaDescription || solution.shortDesc,
-    openGraph: { title: seo?.metaTitle || solution.title, description: seo?.metaDescription || solution.shortDesc },
+    title,
+    description,
+    alternates: { canonical: `/giai-phap/${slug}` },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `/giai-phap/${slug}`,
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
   }
 }
 
@@ -55,8 +66,43 @@ export default async function SolutionDetailPage({
   const faqs = solution.faqs ?? []
   const heroUrl = heroImageUrl(solution.heroImage)
 
+  // JSON-LD: Service + Breadcrumb (+ FAQPage neu co cau hoi)
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: solution.title,
+    description: solution.shortDesc,
+    url: siteUrl(`/giai-phap/${slug}`),
+    ...(heroUrl ? { image: heroUrl } : {}),
+    provider: { '@type': 'Organization', name: 'Viettel - KHDN Hồ Chí Minh', url: siteUrl() },
+    areaServed: 'VN',
+    ...(pillar ? { serviceType: pillar.label } : {}),
+  }
+  const crumbsJsonLd = breadcrumbJsonLd([
+    ['Trang chủ', '/'],
+    ['Giải pháp', '/giai-phap'],
+    [solution.title, `/giai-phap/${slug}`],
+  ])
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+          })),
+        }
+      : null
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(crumbsJsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }} />
+      )}
       {/* Hero - nen anh upload trong admin (heroImage), fallback nen do */}
       <div
         className="relative -mt-[60px] overflow-hidden border-b border-border-soft text-white md:-mt-[72px]"

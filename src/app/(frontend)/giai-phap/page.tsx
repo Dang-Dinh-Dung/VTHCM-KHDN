@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Giải pháp doanh nghiệp',
   description:
     'Khám phá toàn bộ giải pháp chuyển đổi số của Viettel cho doanh nghiệp: viễn thông, chữ ký số, hóa đơn điện tử, cloud, quản trị doanh nghiệp.',
+  alternates: { canonical: '/giai-phap' },
 }
 
 type SearchParams = Record<string, string | string[] | undefined>

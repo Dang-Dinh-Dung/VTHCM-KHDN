@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Tìm giải pháp phù hợp',
   description:
     'Trả lời 3 câu hỏi ngắn về ngành nghề, nhu cầu và quy mô — chúng tôi gợi ý các giải pháp chuyển đổi số Viettel phù hợp nhất với doanh nghiệp của bạn.',
+  alternates: { canonical: '/tim-giai-phap' },
 }
 
 // Trang dung chung layout (doc site-settings tu DB) -> tranh prerender luc build

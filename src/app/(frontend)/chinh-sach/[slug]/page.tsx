@@ -8,6 +8,7 @@ import { SolutionCard } from '@/components/solutions/SolutionCard'
 import { Badge, ButtonLink, Container, SectionHeading } from '@/components/ui/primitives'
 import { formatDate } from '@/lib/format'
 import { getPolicyBySlug } from '@/lib/queries'
+import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
 import { labelOf, POLICY_TYPES } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
@@ -17,9 +18,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const item = await getPolicyBySlug(slug)
   if (!item) return { title: 'Không tìm thấy văn bản' }
+  const title = item.seo?.metaTitle || item.title
+  const description = item.seo?.metaDescription || item.summary || undefined
   return {
-    title: item.seo?.metaTitle || item.title,
-    description: item.seo?.metaDescription || item.summary || undefined,
+    title,
+    description,
+    alternates: { canonical: `/chinh-sach/${slug}` },
+    openGraph: { title, description, type: 'article', url: `/chinh-sach/${slug}` },
   }
 }
 
@@ -33,8 +38,27 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
   )
   const attachment = item.attachment && typeof item.attachment === 'object' ? (item.attachment as Media) : null
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: item.title,
+    ...(item.summary ? { description: item.summary } : {}),
+    ...(item.effectiveDate ? { datePublished: item.effectiveDate } : {}),
+    ...(item.updatedAt ? { dateModified: item.updatedAt } : {}),
+    ...(item.issuingBody ? { author: { '@type': 'Organization', name: item.issuingBody } } : {}),
+    publisher: { '@type': 'Organization', name: 'Viettel - KHDN Hồ Chí Minh', url: siteUrl() },
+    mainEntityOfPage: siteUrl(`/chinh-sach/${slug}`),
+  }
+  const crumbsJsonLd = breadcrumbJsonLd([
+    ['Trang chủ', '/'],
+    ['Nghị định & chính sách', '/chinh-sach'],
+    [item.title, `/chinh-sach/${slug}`],
+  ])
+
   return (
     <Container className="py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(crumbsJsonLd) }} />
       <div className="mx-auto max-w-3xl">
         <nav className="mb-4 text-sm text-ink-soft">
           <Link href="/" className="hover:text-viettel-red">Trang chủ</Link>

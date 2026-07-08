@@ -8,18 +8,39 @@ import { SolutionCard } from '@/components/solutions/SolutionCard'
 import { Badge, Container, SectionHeading } from '@/components/ui/primitives'
 import { formatDate } from '@/lib/format'
 import { getNewsBySlug } from '@/lib/queries'
+import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
 import { labelOf, NEWS_CATEGORIES } from '@/lib/taxonomy'
-import type { Solution } from '@/payload-types'
+import type { Media, Solution } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
+
+function coverUrl(ref: number | Media | null | undefined): string | undefined {
+  if (ref && typeof ref === 'object' && 'url' in ref) {
+    const sizes = (ref as Media).sizes
+    return sizes?.og?.url ?? sizes?.card?.url ?? ref.url ?? undefined
+  }
+  return undefined
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const item = await getNewsBySlug(slug)
   if (!item) return { title: 'Không tìm thấy bài viết' }
+  const title = item.seo?.metaTitle || item.title
+  const description = item.seo?.metaDescription || item.excerpt || undefined
+  const image = coverUrl(item.coverImage)
   return {
-    title: item.seo?.metaTitle || item.title,
-    description: item.seo?.metaDescription || item.excerpt || undefined,
+    title,
+    description,
+    alternates: { canonical: `/tin-tuc/${slug}` },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: `/tin-tuc/${slug}`,
+      ...(item.publishedAt ? { publishedTime: item.publishedAt } : {}),
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
   }
 }
 
@@ -32,8 +53,28 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
     (r): r is Solution => typeof r === 'object' && r !== null,
   )
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: item.title,
+    ...(item.excerpt ? { description: item.excerpt } : {}),
+    ...(coverUrl(item.coverImage) ? { image: [coverUrl(item.coverImage)] } : {}),
+    ...(item.publishedAt ? { datePublished: item.publishedAt } : {}),
+    ...(item.updatedAt ? { dateModified: item.updatedAt } : {}),
+    ...(item.author ? { author: { '@type': 'Person', name: item.author } } : {}),
+    publisher: { '@type': 'Organization', name: 'Viettel - KHDN Hồ Chí Minh', url: siteUrl() },
+    mainEntityOfPage: siteUrl(`/tin-tuc/${slug}`),
+  }
+  const crumbsJsonLd = breadcrumbJsonLd([
+    ['Trang chủ', '/'],
+    ['Tin tức', '/tin-tuc'],
+    [item.title, `/tin-tuc/${slug}`],
+  ])
+
   return (
     <Container className="py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(crumbsJsonLd) }} />
       <article className="mx-auto max-w-3xl">
         <nav className="mb-4 text-sm text-ink-soft">
           <Link href="/" className="hover:text-viettel-red">Trang chủ</Link>

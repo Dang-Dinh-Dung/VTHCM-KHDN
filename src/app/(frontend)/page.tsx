@@ -22,6 +22,8 @@ import {
 // Render dong de phan anh thay doi tu CMS va tranh phu thuoc DB luc build (CI).
 export const dynamic = 'force-dynamic'
 
+export const metadata = { alternates: { canonical: '/' } }
+
 export default async function HomePage() {
   const [settings, featured, counts, solutionsByPillar, news, policies] = await Promise.all([
     getSiteSettings(),

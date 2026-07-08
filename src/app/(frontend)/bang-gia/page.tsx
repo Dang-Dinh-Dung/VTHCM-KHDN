@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Bảng giá dịch vụ',
   description:
     'Tham khảo bảng giá các gói giải pháp chuyển đổi số của Viettel cho doanh nghiệp. Liên hệ KHDN Viettel HCM để nhận báo giá chi tiết theo quy mô.',
+  alternates: { canonical: '/bang-gia' },
 }
 
 export const dynamic = 'force-dynamic'

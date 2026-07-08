@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Đặt lịch tư vấn / demo',
   description:
     'Đăng ký nhận tư vấn hoặc demo giải pháp chuyển đổi số từ Phòng KHDN Viettel Hồ Chí Minh. Đội ngũ chuyên gia sẽ liên hệ trong thời gian sớm nhất.',
+  alternates: { canonical: '/dat-lich' },
 }
 
 export const dynamic = 'force-dynamic'
