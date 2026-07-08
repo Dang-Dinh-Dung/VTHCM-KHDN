@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { SolutionFinder } from '@/components/solutions/SolutionFinder'
 import { Container } from '@/components/ui/primitives'
+import { getSolutionFacets } from '@/lib/queries'
 
 export const metadata: Metadata = {
   title: 'Tìm giải pháp phù hợp',
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 // de khong query DB khi schema chua dong bo. Schema se duoc tao luc chay (DB_PUSH).
 export const dynamic = 'force-dynamic'
 
-export default function FindSolutionPage() {
+export default async function FindSolutionPage() {
+  const facets = await getSolutionFacets()
   return (
     <div className="bg-surface-muted">
       <div
@@ -74,7 +76,7 @@ export default function FindSolutionPage() {
         </Container>
       </div>
       <Container className="relative z-10 -mt-8 pb-16 md:-mt-10">
-        <SolutionFinder />
+        <SolutionFinder facets={facets} />
       </Container>
     </div>
   )

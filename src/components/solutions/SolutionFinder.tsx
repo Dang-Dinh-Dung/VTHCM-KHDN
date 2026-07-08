@@ -6,9 +6,18 @@ import { ArrowLeft, ArrowRight, Check, Search } from 'lucide-react'
 
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
+import type { SolutionFacet } from '@/lib/queries'
 import { COMPANY_SIZES, INDUSTRIES, NEEDS, type Option } from '@/lib/taxonomy'
 
-type StepDef = { key: 'industry' | 'need' | 'companySize'; title: string; desc: string; options: Option[] }
+type StepKey = 'industry' | 'need' | 'companySize'
+type StepDef = { key: StepKey; title: string; desc: string; options: Option[] }
+
+// Anh xa key buoc -> truong facet tuong ung
+const FACET_FIELD: Record<StepKey, keyof SolutionFacet> = {
+  industry: 'industries',
+  need: 'needs',
+  companySize: 'companySizes',
+}
 
 const STEPS: StepDef[] = [
   {
@@ -31,7 +40,7 @@ const STEPS: StepDef[] = [
   },
 ]
 
-export function SolutionFinder() {
+export function SolutionFinder({ facets = [] }: { facets?: SolutionFacet[] }) {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -40,7 +49,21 @@ export function SolutionFinder() {
   const isLast = step === STEPS.length - 1
   const progress = Math.round(((step + 1) / STEPS.length) * 100)
 
+  // Mot giai phap khop bo lua chon neu voi moi chieu da chon, mang facet chua gia tri do
+  const facetMatches = (facet: SolutionFacet, ans: Record<string, string>) =>
+    (Object.entries(ans) as Array<[StepKey, string]>).every(
+      ([k, v]) => !v || facet[FACET_FIELD[k]].includes(v),
+    )
+
+  // Chon gia tri nay o buoc hien tai co con >=1 giai pháp khong? (lam xam neu = 0)
+  const optionViable = (value: string) => {
+    if (facets.length === 0) return true // chua co du lieu -> khong lam xam
+    const trial = { ...answers, [current.key]: value }
+    return facets.some((f) => facetMatches(f, trial))
+  }
+
   const select = (value: string) => {
+    if (!optionViable(value) && answers[current.key] !== value) return
     setAnswers((a) => ({ ...a, [current.key]: a[current.key] === value ? '' : value }))
   }
 
@@ -80,24 +103,33 @@ export function SolutionFinder() {
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {current.options.map((opt) => {
           const selected = answers[current.key] === opt.value
+          const viable = selected || optionViable(opt.value)
           return (
             <button
               key={opt.value}
               type="button"
               onClick={() => select(opt.value)}
+              disabled={!viable}
               aria-pressed={selected}
+              title={!viable ? 'Chưa có giải pháp phù hợp với lựa chọn này' : undefined}
               className={cn(
                 'flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all',
                 selected
                   ? 'border-viettel-red bg-viettel-red/5 text-ink ring-1 ring-viettel-red'
-                  : 'border-border-soft text-ink hover:border-viettel-red/40 hover:bg-surface-muted',
+                  : viable
+                    ? 'border-border-soft text-ink hover:border-viettel-red/40 hover:bg-surface-muted'
+                    : 'cursor-not-allowed border-border-soft/60 bg-surface-muted/40 text-ink-soft/40',
               )}
             >
               {opt.label}
               <span
                 className={cn(
                   'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border',
-                  selected ? 'border-viettel-red bg-viettel-red text-white' : 'border-border-soft',
+                  selected
+                    ? 'border-viettel-red bg-viettel-red text-white'
+                    : viable
+                      ? 'border-border-soft'
+                      : 'border-border-soft/50',
                 )}
               >
                 {selected && <Check className="h-3 w-3" aria-hidden />}

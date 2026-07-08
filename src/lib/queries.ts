@@ -61,6 +61,28 @@ export async function getSiteSettings(): Promise<SiteSetting> {
   return payload.findGlobal({ slug: 'site-settings', depth: 1 })
 }
 
+/** Facet ngành/nhu cầu/quy mô cua tung giai phap da xuat ban - cho Solution Finder
+ *  lam xam cac lua chon dan toi 0 ket qua. */
+export type SolutionFacet = { industries: string[]; needs: string[]; companySizes: string[] }
+export async function getSolutionFacets(): Promise<SolutionFacet[]> {
+  const payload = await getPayloadClient()
+  const res = await payload.find({
+    collection: 'solutions',
+    where: { status: { equals: 'published' } },
+    limit: 1000,
+    depth: 0,
+    select: { industries: true, needs: true, companySizes: true },
+  })
+  return res.docs.map((d) => {
+    const s = d as { industries?: string[]; needs?: string[]; companySizes?: string[] }
+    return {
+      industries: s.industries ?? [],
+      needs: s.needs ?? [],
+      companySizes: s.companySizes ?? [],
+    }
+  })
+}
+
 export async function getSolutions(filters: SolutionFilters = {}) {
   const payload = await getPayloadClient()
   const and: Where[] = [{ status: { equals: 'published' } }]
