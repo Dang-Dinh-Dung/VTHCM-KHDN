@@ -3,12 +3,11 @@
 import { useEffect } from 'react'
 
 /**
- * Trang chu (desktop): moi lan lan chuot NHAY THANG sang muc truoc/sau
- * (hero -> Ve Viettel -> He sinh thai -> Vi sao chon -> ...), moi muc
- * hien tron man hinh. Cac muc duoc danh dau bang thuoc tinh [data-snap].
- * - Chi desktop (>=1024px) + ton trong reduced-motion.
- * - Cham/keyboard/thanh cuon van hoat dong tu nhien (chi chan wheel).
- * - Qua khoi muc cuoi (footer) -> tra lai cuon tu nhien.
+ * Trang chu (desktop): CHI snap giua HERO va khoi noi dung dau tien (Ve Viettel).
+ * - Cuon xuong o hero -> tu cuon muot toi dau khoi noi dung (duoi nav noi).
+ * - Cuon len o dau noi dung -> ve hero.
+ * - Tu "Ve Viettel" tro xuong: cuon TU NHIEN, khong nhay trang.
+ * Chi desktop (>=1024px) + ton trong reduced-motion.
  */
 export function SnapController() {
   useEffect(() => {
@@ -16,61 +15,36 @@ export function SnapController() {
     if (!window.matchMedia('(min-width: 1024px)').matches) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // Khoang chua duoi nav noi khi dung o dau moi muc
-    const NAV_GAP = 88
     let locked = false
+    let lastY = window.scrollY
 
-    const getTargets = () => {
-      const els = Array.from(document.querySelectorAll<HTMLElement>('[data-snap]'))
-      return els.map((el, i) => {
-        const top = el.getBoundingClientRect().top + window.scrollY
-        return i === 0 ? 0 : Math.max(0, top - NAV_GAP)
-      })
-    }
-
-    const onWheel = (e: WheelEvent) => {
-      if (e.ctrlKey) return // zoom bang Ctrl+lan chuot
-      const targets = getTargets()
-      if (targets.length === 0) return
-
+    const onScroll = () => {
       const y = window.scrollY
-      const last = targets[targets.length - 1]
+      const dir = y > lastY ? 'down' : y < lastY ? 'up' : 'none'
+      lastY = y
+      if (locked || dir === 'none') return
 
-      // Da qua muc cuoi (vung footer)
-      if (y > last + 40) {
-        if (e.deltaY > 0) return // cuon xuong tu nhien trong footer
-        // cuon len tu footer -> nhay ve muc cuoi
-        e.preventDefault()
-        if (locked) return
+      const content = document.getElementById('home-content')
+      if (!content) return
+      const contentTop = content.getBoundingClientRect().top + window.scrollY
+      // Dung thap hon nav noi mot khoang -> chua dai do tren cung cho nav noi bat
+      const NAV_GAP = 88
+      const snapPos = Math.max(0, contentTop - NAV_GAP)
+
+      // Dang o vung hero (giua dau trang va vi tri snap) -> keo han sang mot phia
+      if (y > 4 && y < snapPos - 4) {
         locked = true
-        window.scrollTo({ top: last, behavior: 'smooth' })
-        window.setTimeout(() => (locked = false), 850)
-        return
+        const target = dir === 'up' ? 0 : snapPos
+        window.scrollTo({ top: target, behavior: 'smooth' })
+        window.setTimeout(() => {
+          locked = false
+          lastY = window.scrollY
+        }, 700)
       }
-
-      e.preventDefault()
-      if (locked || Math.abs(e.deltaY) < 8) return
-
-      const dir = e.deltaY > 0 ? 1 : -1
-      // Muc hien tai: moc gan nhat phia tren vi tri cuon
-      let idx = 0
-      for (let i = 0; i < targets.length; i++) {
-        if (y >= targets[i] - 8) idx = i
-      }
-      const next = Math.min(targets.length - 1, Math.max(0, idx + dir))
-      if (next === idx) {
-        // Dang o muc cuoi va cuon xuong -> tha cho troi xuong footer
-        if (dir > 0) window.scrollBy({ top: e.deltaY })
-        return
-      }
-
-      locked = true
-      window.scrollTo({ top: targets[next], behavior: 'smooth' })
-      window.setTimeout(() => (locked = false), 850)
     }
 
-    window.addEventListener('wheel', onWheel, { passive: false })
-    return () => window.removeEventListener('wheel', onWheel)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return null
