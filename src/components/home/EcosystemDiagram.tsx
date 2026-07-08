@@ -49,10 +49,10 @@ function SolutionTile({ item, color }: { item: PillarSolutionItem; color: string
       style={cssVar}
       className="group flex h-full flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--pc)] hover:shadow-[0_18px_40px_-16px_var(--pc)]"
     >
-      <span className="mb-2.5 flex h-10 items-center">
+      <span className="mb-2.5 flex h-11 items-center">
         {item.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.logoUrl} alt={item.name} className="h-10 w-auto max-w-[7rem] object-contain" loading="lazy" />
+          <img src={item.logoUrl} alt={item.name} className="max-h-11 max-w-full object-contain" loading="lazy" />
         ) : (
           <span
             className="flex h-10 w-10 items-center justify-center rounded-xl text-white"
@@ -90,8 +90,10 @@ function SolutionRow({ item, color }: { item: PillarSolutionItem; color: string 
     >
       <span className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-[color:var(--pc)] transition-transform duration-200 group-hover/item:scale-y-100" aria-hidden />
       {item.logoUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={item.logoUrl} alt={item.name} className="h-10 w-12 shrink-0 object-contain" loading="lazy" />
+        <span className="flex h-11 w-14 shrink-0 items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={item.logoUrl} alt={item.name} className="max-h-11 max-w-full object-contain" loading="lazy" />
+        </span>
       ) : (
         <span
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white"
