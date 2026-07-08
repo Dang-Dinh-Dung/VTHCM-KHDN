@@ -30,7 +30,8 @@ export async function getSolutionsByPillar(): Promise<Record<string, PillarSolut
   for (const s of res.docs as Solution[]) {
     const pillar = s.pillar
     if (!pillar) continue
-    const logo = s.logo && typeof s.logo === 'object' ? (s.logo.sizes?.thumbnail?.url ?? s.logo.url ?? undefined) : undefined
+    // Dung anh GOC (khong dung thumbnail vi thumbnail bi crop giua -> xen logo rong)
+    const logo = s.logo && typeof s.logo === 'object' ? (s.logo.url ?? undefined) : undefined
     if (!s.slug) continue
     ;(out[pillar] ??= []).push({
       id: s.id,
