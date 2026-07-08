@@ -49,18 +49,20 @@ function SolutionTile({ item, color }: { item: PillarSolutionItem; color: string
       style={cssVar}
       className="group flex h-full flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[color:var(--pc)] hover:shadow-[0_18px_40px_-16px_var(--pc)]"
     >
-      <span
-        className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl text-white shadow-md"
-        style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)`, boxShadow: `0 8px 18px -6px ${color}` }}
-      >
+      <span className="mb-2.5 flex h-10 items-center">
         {item.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.logoUrl} alt={item.name} className="h-7 w-7 rounded object-contain" loading="lazy" />
+          <img src={item.logoUrl} alt={item.name} className="h-10 w-auto max-w-[7rem] object-contain" loading="lazy" />
         ) : (
-          <Layers className="h-5 w-5" aria-hidden />
+          <span
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-white"
+            style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)` }}
+          >
+            <Layers className="h-5 w-5" aria-hidden />
+          </span>
         )}
       </span>
-      <span className="mt-2.5 block truncate text-sm font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
+      <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-[color:var(--pc)]">
         {item.name}
       </span>
       {item.slogan && (
@@ -87,17 +89,17 @@ function SolutionRow({ item, color }: { item: PillarSolutionItem; color: string 
       className="group/item relative flex items-center gap-3 overflow-hidden rounded-xl border border-border-soft bg-surface p-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--pc)] hover:shadow-lg"
     >
       <span className="absolute inset-y-0 left-0 w-1 origin-top scale-y-0 bg-[color:var(--pc)] transition-transform duration-200 group-hover/item:scale-y-100" aria-hidden />
-      <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-white"
-        style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)` }}
-      >
-        {item.logoUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.logoUrl} alt={item.name} className="h-8 w-8 rounded object-contain" loading="lazy" />
-        ) : (
+      {item.logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={item.logoUrl} alt={item.name} className="h-10 w-12 shrink-0 object-contain" loading="lazy" />
+      ) : (
+        <span
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white"
+          style={{ background: `linear-gradient(135deg, ${color}, ${color}bb)` }}
+        >
           <Layers className="h-5 w-5" aria-hidden />
-        )}
-      </span>
+        </span>
+      )}
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-bold text-ink transition-colors group-hover/item:text-[color:var(--pc)]">
           {item.name}
