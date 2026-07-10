@@ -14,6 +14,7 @@ import {
   RefreshCw,
   ShieldCheck,
   Truck,
+  X,
 } from 'lucide-react'
 
 import { cn } from '@/lib/cn'
@@ -72,7 +73,8 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
     )
   }, [sols, pillar, sort])
 
-  const selected = filtered.find((s) => s.id === selectedId) ?? filtered[0] ?? null
+  // Chi hien panel khi NGUOI DUNG da bam chon (mac dinh chua chon -> chi hien luoi)
+  const selected = selectedId ? (filtered.find((s) => s.id === selectedId) ?? null) : null
 
   const onPillar = (v: string) => {
     setPillar(v)
@@ -119,8 +121,13 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px] xl:grid-cols-[1fr_400px]">
-        {/* ===== Luoi the giai phap ===== */}
+      <div
+        className={cn(
+          'grid gap-6',
+          selected ? 'lg:grid-cols-[minmax(340px,380px)_1fr]' : 'grid-cols-1',
+        )}
+      >
+        {/* ===== Luoi the giai phap (co ve 1 cot khi da mo panel) ===== */}
         <div>
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="text-lg font-extrabold text-ink">Các giải pháp</h2>
@@ -137,7 +144,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
             </label>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className={cn('grid gap-4', selected ? 'grid-cols-1' : 'sm:grid-cols-2 lg:grid-cols-3')}>
             {filtered.map((s) => (
               <SolutionCard
                 key={s.id}
@@ -149,11 +156,13 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
           </div>
         </div>
 
-        {/* ===== Panel so sanh goi cua giai phap dang chon ===== */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          {selected ? <ComparePanel sol={selected} /> : null}
-          <ConsultCard />
-        </div>
+        {/* ===== Panel so sanh - chi hien khi da bam chon ===== */}
+        {selected && (
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <ComparePanel sol={selected} onClose={() => setSelectedId(null)} />
+            <ConsultCard />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -242,7 +251,7 @@ function SolutionCard({
   )
 }
 
-function ComparePanel({ sol }: { sol: PricingSolution }) {
+function ComparePanel({ sol, onClose }: { sol: PricingSolution; onClose: () => void }) {
   const tiers = sol.tiers.slice(0, 3)
   // Union cac dong tinh nang (theo thu tu xuat hien)
   const featureRows = useMemo(() => {
@@ -263,11 +272,21 @@ function ComparePanel({ sol }: { sol: PricingSolution }) {
 
   return (
     <div className="mb-4 overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm">
-      <div className="border-b border-border-soft px-4 py-3.5">
-        <h3 className="text-base font-extrabold text-ink">
-          {sol.shortName || sol.title} <span className="font-semibold text-ink-soft">— các gói</span>
-        </h3>
-        <p className="text-xs text-ink-soft">So sánh tính năng các gói dịch vụ</p>
+      <div className="flex items-start justify-between gap-3 border-b border-border-soft px-4 py-3.5">
+        <div className="min-w-0">
+          <h3 className="text-base font-extrabold text-ink">
+            {sol.shortName || sol.title} <span className="font-semibold text-ink-soft">— các gói</span>
+          </h3>
+          <p className="text-xs text-ink-soft">So sánh tính năng các gói dịch vụ</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Đóng bảng so sánh"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-ink-soft transition-colors hover:bg-surface-muted hover:text-ink"
+        >
+          <X className="h-5 w-5" aria-hidden />
+        </button>
       </div>
 
       <div className="overflow-x-auto">
