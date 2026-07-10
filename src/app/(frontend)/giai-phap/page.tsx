@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { SolutionsExplorer, type ExplorerSolution } from '@/components/solutions/SolutionsExplorer'
 import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
-import { buildPageMetadata } from '@/lib/seo'
+import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
 import { labelOf, PILLARS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
@@ -46,7 +46,7 @@ export default async function SolutionsPage({
 }) {
   const sp = await searchParams
   const pillar = first(sp.pillar)
-  const result = await getSolutions({ limit: 500 })
+  const [result, heroBg] = await Promise.all([getSolutions({ limit: 500 }), getPageHeroImage('giai-phap')])
   const sols = result.docs.filter((s) => s.slug).map(toExplorer)
   const pillarLabel = pillar ? labelOf(PILLARS, pillar) : null
 
@@ -54,6 +54,13 @@ export default async function SolutionsPage({
     <>
       {/* Hero */}
       <div className="relative -mt-[60px] overflow-hidden bg-surface-muted pt-[60px] md:-mt-[72px] md:pt-[72px]">
+        {heroBg && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+            <div className="pointer-events-none absolute inset-0 bg-surface/[0.78]" aria-hidden />
+          </>
+        )}
         <div
           className="pointer-events-none absolute right-0 top-0 h-80 w-[36rem] opacity-[0.07] blur-3xl"
           style={{ background: 'radial-gradient(circle, #ee0033, transparent 70%)' }}

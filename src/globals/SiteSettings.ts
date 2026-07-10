@@ -278,7 +278,7 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
-          label: 'SEO',
+          label: 'SEO & Ảnh nền trang',
           fields: [
             {
               name: 'seoDefaultOgImage',
@@ -293,11 +293,11 @@ export const SiteSettings: GlobalConfig = {
             {
               name: 'pageSeo',
               type: 'array',
-              label: 'SEO từng trang (trang chủ & các menu)',
+              label: 'SEO & ảnh nền từng trang (trang chủ & các menu)',
               labels: { singular: 'Trang', plural: 'Trang' },
               admin: {
                 description:
-                  'Đặt tiêu đề/mô tả SEO cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.',
+                  'Đặt tiêu đề/mô tả SEO và ảnh nền hero cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.',
               },
               fields: [
                 {
@@ -337,6 +337,16 @@ export const SiteSettings: GlobalConfig = {
                   relationTo: 'media',
                   label: 'Ảnh chia sẻ riêng (tùy chọn)',
                   admin: { description: 'Ảnh khi chia sẻ link trang này. Bỏ trống sẽ dùng ảnh OG mặc định ở trên.' },
+                },
+                {
+                  name: 'heroImage',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: 'Ảnh nền hero của trang (tùy chọn)',
+                  admin: {
+                    description:
+                      'Ảnh nền cho khối tiêu đề đầu trang (hero). Áp dụng cho các trang: Giải pháp, Bảng giá, Tin tức, Nghị định & chính sách. Khuyến nghị ảnh ngang, chất lượng cao (≥1600px). Bỏ trống sẽ dùng nền mặc định. (Trang chủ dùng "Ảnh nền hero" ở tab Trang chủ.)',
+                  },
                 },
               ],
             },

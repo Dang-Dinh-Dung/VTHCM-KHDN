@@ -984,7 +984,7 @@ export interface SiteSetting {
    */
   seoDefaultOgImage?: (number | null) | Media;
   /**
-   * Đặt tiêu đề/mô tả SEO cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.
+   * Đặt tiêu đề/mô tả SEO và ảnh nền hero cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.
    */
   pageSeo?:
     | {
@@ -1001,6 +1001,10 @@ export interface SiteSetting {
          * Ảnh khi chia sẻ link trang này. Bỏ trống sẽ dùng ảnh OG mặc định ở trên.
          */
         ogImage?: (number | null) | Media;
+        /**
+         * Ảnh nền cho khối tiêu đề đầu trang (hero). Áp dụng cho các trang: Giải pháp, Bảng giá, Tin tức, Nghị định & chính sách. Khuyến nghị ảnh ngang, chất lượng cao (≥1600px). Bỏ trống sẽ dùng nền mặc định. (Trang chủ dùng "Ảnh nền hero" ở tab Trang chủ.)
+         */
+        heroImage?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -1100,6 +1104,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         metaTitle?: T;
         metaDescription?: T;
         ogImage?: T;
+        heroImage?: T;
         id?: T;
       };
   footerNote?: T;

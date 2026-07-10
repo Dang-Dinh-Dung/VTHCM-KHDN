@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { NewsCard } from '@/components/content/ContentCards'
 import { Container, Section } from '@/components/ui/primitives'
 import { getNewsList } from '@/lib/queries'
-import { buildPageMetadata } from '@/lib/seo'
+import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
 import { cn } from '@/lib/cn'
 import { NEWS_CATEGORIES } from '@/lib/taxonomy'
 
@@ -25,14 +25,24 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
   const sp = await searchParams
   const category = first(sp.category)
   const page = Number(first(sp.page) ?? '1') || 1
-  const res = await getNewsList({ category, page, limit: 9 })
+  const [res, heroBg] = await Promise.all([
+    getNewsList({ category, page, limit: 9 }),
+    getPageHeroImage('tin-tuc'),
+  ])
 
   const chipHref = (cat?: string) => (cat ? `/tin-tuc?category=${cat}` : '/tin-tuc')
 
   return (
     <>
-      <div className="border-b border-border-soft bg-surface-muted">
-        <Container className="py-10">
+      <div className="relative overflow-hidden border-b border-border-soft bg-surface-muted">
+        {heroBg && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/85 to-surface/50" aria-hidden />
+          </>
+        )}
+        <Container className="relative py-10">
           <nav className="mb-3 text-sm text-ink-soft">
             <Link href="/" className="hover:text-viettel-red">Trang chủ</Link>
             <span className="mx-2">/</span>

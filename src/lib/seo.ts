@@ -28,6 +28,17 @@ function mediaUrl(ref: number | Media | null | undefined): string | undefined {
   return undefined
 }
 
+/** URL anh nen hero do admin cau hinh cho 1 trang (uu tien ban goc, do phan giai cao). */
+export async function getPageHeroImage(key: PageSeoKey): Promise<string | undefined> {
+  const settings = await getSiteSettings()
+  const row = (settings.pageSeo ?? []).find((p) => p.page === key)
+  const ref = row?.heroImage
+  if (ref && typeof ref === 'object' && 'url' in ref) {
+    return (ref as Media).url ?? undefined
+  }
+  return undefined
+}
+
 /**
  * Tao Metadata cho 1 trang cong khai, uu tien cau hinh SEO tu admin (site-settings)
  * roi moi den mac dinh trong code. `title`/`description` truyen vao la ban mac dinh.

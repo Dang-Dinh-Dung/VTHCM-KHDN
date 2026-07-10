@@ -4,7 +4,7 @@ import { PolicyFilters } from '@/components/content/PolicyFilters'
 import { PolicyRow } from '@/components/content/PolicyRow'
 import { Container, Section } from '@/components/ui/primitives'
 import { getPoliciesList, getPolicyIssuingBodies } from '@/lib/queries'
-import { buildPageMetadata } from '@/lib/seo'
+import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
 
 export const generateMetadata = () =>
   buildPageMetadata({
@@ -28,9 +28,10 @@ export default async function PoliciesListPage({ searchParams }: { searchParams:
   const year = first(sp.year)
   const page = Number(first(sp.page) ?? '1') || 1
 
-  const [res, issuingBodies] = await Promise.all([
+  const [res, issuingBodies, heroBg] = await Promise.all([
     getPoliciesList({ documentType, q, issuingBody, year, page, limit: 12 }),
     getPolicyIssuingBodies(),
+    getPageHeroImage('chinh-sach'),
   ])
 
   const currentYear = new Date().getFullYear()
@@ -48,8 +49,15 @@ export default async function PoliciesListPage({ searchParams }: { searchParams:
 
   return (
     <>
-      <div className="border-b border-border-soft bg-surface-muted">
-        <Container className="py-10">
+      <div className="relative overflow-hidden border-b border-border-soft bg-surface-muted">
+        {heroBg && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/85 to-surface/50" aria-hidden />
+          </>
+        )}
+        <Container className="relative py-10">
           <nav className="mb-3 text-sm text-ink-soft">
             <Link href="/" className="hover:text-viettel-red">Trang chủ</Link>
             <span className="mx-2">/</span>
