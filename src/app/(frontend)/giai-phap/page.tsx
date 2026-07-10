@@ -55,11 +55,8 @@ export default async function SolutionsPage({
       {/* Hero */}
       <div className="relative -mt-[60px] overflow-hidden bg-surface-muted pt-[60px] md:-mt-[72px] md:pt-[72px]">
         {heroBg && (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
-            <div className="pointer-events-none absolute inset-0 bg-surface/[0.78]" aria-hidden />
-          </>
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
         )}
         <div
           className="pointer-events-none absolute right-0 top-0 h-80 w-[36rem] opacity-[0.07] blur-3xl"

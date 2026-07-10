@@ -39,7 +39,7 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={heroBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/85 to-surface/50" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-surface/80 via-surface/30 to-transparent" aria-hidden />
           </>
         )}
         <Container className="relative py-10">
