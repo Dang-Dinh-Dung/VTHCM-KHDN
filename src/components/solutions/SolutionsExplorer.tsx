@@ -74,8 +74,8 @@ export function SolutionsExplorer({
 
   return (
     <div>
-      {/* ===== Tabs tru cot ===== */}
-      <div className="mb-8 flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* ===== Tabs tru cot (tu xuong hang khi het cho) ===== */}
+      <div className="mb-8 flex flex-wrap gap-3">
         {tabs.map((p) => {
           const Icon = p.value === 'all' ? LayoutGrid : (PILLAR_ICONS[p.value] ?? ShieldCheck)
           const active = p.value === pillar
@@ -85,7 +85,7 @@ export function SolutionsExplorer({
               type="button"
               onClick={() => setPillar(p.value)}
               className={cn(
-                'flex min-w-[12.5rem] shrink-0 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
+                'flex min-w-[12rem] flex-1 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
                 active
                   ? 'border-viettel-red bg-viettel-red/5 shadow-brand'
                   : 'border-border-soft bg-surface hover:border-viettel-red/40',

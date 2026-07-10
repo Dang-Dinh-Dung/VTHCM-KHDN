@@ -83,9 +83,9 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
 
   return (
     <div>
-      {/* ===== Tabs tru cot ===== */}
+      {/* ===== Tabs tru cot (tu xuong hang khi het cho) ===== */}
       <div className="relative mb-8">
-        <div className="flex snap-x gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-wrap gap-3">
           {pillarsPresent.map((p) => {
             const Icon = PILLAR_ICONS[p.value] ?? ShieldCheck
             const active = p.value === pillar
@@ -95,7 +95,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
                 type="button"
                 onClick={() => onPillar(p.value)}
                 className={cn(
-                  'flex min-w-[13rem] shrink-0 snap-start items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
+                  'flex min-w-[12rem] flex-1 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
                   active
                     ? 'border-viettel-red bg-viettel-red/5 shadow-brand'
                     : 'border-border-soft bg-surface hover:border-viettel-red/40',
