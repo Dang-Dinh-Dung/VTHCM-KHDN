@@ -95,7 +95,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
                 type="button"
                 onClick={() => onPillar(p.value)}
                 className={cn(
-                  'flex min-w-[12rem] flex-1 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
+                  'flex min-w-[12rem] items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
                   active
                     ? 'border-viettel-red bg-viettel-red/5 shadow-brand'
                     : 'border-border-soft bg-surface hover:border-viettel-red/40',
