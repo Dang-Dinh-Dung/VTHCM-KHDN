@@ -124,7 +124,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
       <div
         className={cn(
           'grid gap-6',
-          selected ? 'lg:grid-cols-[minmax(340px,380px)_1fr]' : 'grid-cols-1',
+          selected ? 'lg:grid-cols-[minmax(370px,420px)_1fr]' : 'grid-cols-1',
         )}
       >
         {/* ===== Luoi the giai phap (co ve 1 cot khi da mo panel) ===== */}
@@ -214,17 +214,17 @@ function SolutionCard({
       )}
 
       {/* Cac goi gia */}
-      <div className="mt-3 grid grid-cols-3 gap-2">
+      <div className="mt-3 grid grid-cols-3 gap-1.5">
         {sol.tiers.slice(0, 3).map((t, i) => (
           <div
             key={i}
             className={cn(
-              'rounded-lg border px-2 py-2 text-center',
+              'rounded-lg border px-1 py-2 text-center',
               t.highlight ? 'border-viettel-red/40 bg-viettel-red/5' : 'border-border-soft',
             )}
           >
-            <div className="truncate text-[11px] font-semibold text-ink-soft">{t.name}</div>
-            <div className="mt-1 text-[13px] font-extrabold leading-tight text-viettel-red">
+            <div className="truncate text-[10px] font-semibold text-ink-soft">{t.name}</div>
+            <div className="mt-1 break-words text-[11px] font-extrabold leading-tight text-viettel-red">
               {t.priceLabel}
             </div>
           </div>
