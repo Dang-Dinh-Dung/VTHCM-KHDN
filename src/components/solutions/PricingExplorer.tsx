@@ -1,13 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {
   ArrowRight,
   Building2,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Handshake,
   Headset,
+  LayoutGrid,
   type LucideIcon,
   Minus,
   RadioTower,
@@ -28,6 +31,9 @@ const PILLAR_ICONS: Record<string, LucideIcon> = {
   'logistics-van-tai-nang-luong': Truck,
   'san-pham-hop-tac': Handshake,
 }
+
+// Huy hieu luc giac (flat-top) cho tab tru cot
+const HEXAGON = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)'
 
 export type PricingTierData = {
   name: string
@@ -65,6 +71,8 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
   const [pillar, setPillar] = useState(pillarsPresent[0]?.value ?? '')
   const [sort, setSort] = useState<Sort>('popular')
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const scrollTabs = (dir: number) => tabsRef.current?.scrollBy({ left: dir * 280, behavior: 'smooth' })
 
   const filtered = useMemo(() => {
     const list = sols.filter((s) => s.pillar === pillar)
@@ -83,9 +91,22 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
 
   return (
     <div>
-      {/* ===== Tabs tru cot (tu xuong hang khi het cho) ===== */}
-      <div className="relative mb-8">
-        <div className="flex flex-wrap gap-3">
+      {/* ===== Tabs tru cot - dai cuon ngang co nut mui ten ===== */}
+      <div className="relative mb-8 border-b border-border-soft">
+        {/* Nut cuon trai */}
+        <button
+          type="button"
+          onClick={() => scrollTabs(-1)}
+          aria-label="Cuộn trụ cột sang trái"
+          className="absolute -left-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border-soft bg-surface text-ink-soft shadow-sm transition-colors hover:border-viettel-red/40 hover:text-viettel-red"
+        >
+          <ChevronLeft className="h-5 w-5" aria-hidden />
+        </button>
+
+        <div
+          ref={tabsRef}
+          className="flex gap-2 overflow-x-auto scroll-smooth px-11 pb-px [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           {pillarsPresent.map((p) => {
             const Icon = PILLAR_ICONS[p.value] ?? ShieldCheck
             const active = p.value === pillar
@@ -95,30 +116,54 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
                 type="button"
                 onClick={() => onPillar(p.value)}
                 className={cn(
-                  'flex min-w-[12rem] items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all',
-                  active
-                    ? 'border-viettel-red bg-viettel-red/5 shadow-brand'
-                    : 'border-border-soft bg-surface hover:border-viettel-red/40',
+                  'group relative flex shrink-0 items-center gap-3 rounded-t-xl px-4 py-3 text-left transition-colors',
+                  active ? 'bg-viettel-red/[0.04]' : 'hover:bg-surface-muted/60',
                 )}
               >
                 <span
                   className={cn(
-                    'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
-                    active ? 'bg-viettel-red text-white' : 'bg-surface-muted text-ink-soft',
+                    'flex h-11 w-11 shrink-0 items-center justify-center transition-colors',
+                    active
+                      ? 'bg-viettel-red text-white'
+                      : 'bg-surface-muted text-ink-soft group-hover:bg-viettel-red/10 group-hover:text-viettel-red',
                   )}
+                  style={{ clipPath: HEXAGON }}
                 >
                   <Icon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
                 </span>
                 <span className="min-w-0">
-                  <span className={cn('block text-sm font-bold leading-snug', active ? 'text-viettel-red' : 'text-ink')}>
+                  <span
+                    className={cn(
+                      'block max-w-[9.5rem] text-sm font-bold leading-snug',
+                      active ? 'text-viettel-red' : 'text-ink',
+                    )}
+                  >
                     {p.label}
                   </span>
                   <span className="text-xs text-ink-soft">{p.count} giải pháp</span>
                 </span>
+                {/* Gach do duoi tab dang chon */}
+                <span
+                  className={cn(
+                    'absolute inset-x-3 -bottom-px h-[3px] rounded-full bg-viettel-red transition-opacity',
+                    active ? 'opacity-100' : 'opacity-0',
+                  )}
+                  aria-hidden
+                />
               </button>
             )
           })}
         </div>
+
+        {/* Nut cuon phai */}
+        <button
+          type="button"
+          onClick={() => scrollTabs(1)}
+          aria-label="Cuộn trụ cột sang phải"
+          className="absolute -right-1 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-border-soft bg-surface text-ink-soft shadow-sm transition-colors hover:border-viettel-red/40 hover:text-viettel-red"
+        >
+          <ChevronRight className="h-5 w-5" aria-hidden />
+        </button>
       </div>
 
       <div
@@ -130,7 +175,10 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
         {/* ===== Luoi the giai phap (co ve 1 cot khi da mo panel) ===== */}
         <div>
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-lg font-extrabold text-ink">Các giải pháp</h2>
+            <h2 className="flex items-center gap-2 text-lg font-extrabold text-ink">
+              <LayoutGrid className="h-5 w-5 text-viettel-red" aria-hidden strokeWidth={2} />
+              Các giải pháp nổi bật
+            </h2>
             <label className="flex items-center gap-2 text-sm text-ink-soft">
               Sắp xếp:
               <select
