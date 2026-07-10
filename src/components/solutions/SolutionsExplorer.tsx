@@ -135,7 +135,7 @@ export function SolutionsExplorer({
           Chưa có giải pháp trong nhóm này.
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((s) => (
             <SolutionCard key={s.id} sol={s} />
           ))}
@@ -151,7 +151,7 @@ function SolutionCard({ sol }: { sol: ExplorerSolution }) {
   return (
     <Link
       href={`/giai-phap/${sol.slug}`}
-      className="group relative flex h-full flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all hover:-translate-y-1 hover:border-viettel-red/40 hover:shadow-brand"
+      className="group relative flex h-full min-w-0 flex-col rounded-2xl border border-border-soft bg-surface p-4 shadow-sm transition-all hover:-translate-y-1 hover:border-viettel-red/40 hover:shadow-brand"
     >
       {sol.popular && (
         <span className="absolute right-3 top-3 inline-flex items-center rounded-full bg-viettel-red/10 px-2 py-0.5 text-[11px] font-bold text-viettel-red">

@@ -192,7 +192,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
             </label>
           </div>
 
-          <div className={cn('grid gap-4', selected ? 'grid-cols-1' : 'sm:grid-cols-2 lg:grid-cols-3')}>
+          <div className={cn('grid gap-4', selected ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3')}>
             {filtered.map((s) => (
               <SolutionCard
                 key={s.id}
@@ -231,7 +231,7 @@ function SolutionCard({
       type="button"
       onClick={onSelect}
       className={cn(
-        'group relative flex flex-col rounded-2xl border bg-surface p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-brand',
+        'group relative flex min-w-0 flex-col rounded-2xl border bg-surface p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-brand',
         active ? 'border-viettel-red ring-1 ring-viettel-red/30 shadow-brand' : 'border-border-soft',
       )}
     >
