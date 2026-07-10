@@ -92,8 +92,25 @@ export function PolicyCard({ item, compact = false }: { item: Policy; compact?: 
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ink/10 to-ink/5 text-ink/30">
-            <ScrollText className={compact ? 'h-8 w-8' : 'h-12 w-12'} aria-hidden strokeWidth={1.5} />
+          <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-ink/[0.08] via-surface-muted to-viettel-red/[0.06]">
+            {/* Hoa tiet "trang van ban" nhe de o anh khong bi trong */}
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full text-ink/[0.06]"
+              viewBox="0 0 200 90"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="24" y1="24" x2="120" y2="24" />
+                <line x1="24" y1="38" x2="150" y2="38" />
+                <line x1="24" y1="52" x2="140" y2="52" />
+                <line x1="24" y1="66" x2="96" y2="66" />
+              </g>
+            </svg>
+            <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/70 text-viettel-red/70 shadow-sm ring-1 ring-ink/5 backdrop-blur-sm">
+              <ScrollText className={compact ? 'h-6 w-6' : 'h-7 w-7'} aria-hidden strokeWidth={1.5} />
+            </span>
           </div>
         )}
         <span className="absolute left-3 top-3 flex flex-wrap items-center gap-2">

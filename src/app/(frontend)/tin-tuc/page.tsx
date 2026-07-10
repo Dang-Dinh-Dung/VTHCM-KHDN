@@ -1,17 +1,20 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { NewsCard } from '@/components/content/ContentCards'
 import { Container, Section } from '@/components/ui/primitives'
 import { getNewsList } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 import { cn } from '@/lib/cn'
 import { NEWS_CATEGORIES } from '@/lib/taxonomy'
 
-export const metadata: Metadata = {
-  title: 'Tin tức',
-  description: 'Tin tức Viettel, khuyến mãi, sự kiện và cập nhật chuyển đổi số cho doanh nghiệp tại TP. Hồ Chí Minh.',
-  alternates: { canonical: '/tin-tuc' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'tin-tuc',
+    path: '/tin-tuc',
+    title: 'Tin tức',
+    description:
+      'Tin tức Viettel, khuyến mãi, sự kiện và cập nhật chuyển đổi số cho doanh nghiệp tại TP. Hồ Chí Minh.',
+  })
 
 export const dynamic = 'force-dynamic'
 

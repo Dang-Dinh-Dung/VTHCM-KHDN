@@ -1,17 +1,19 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { BookingForm } from '@/components/booking/BookingForm'
 import { Container } from '@/components/ui/primitives'
 import { getSiteSettings, getSolutions } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Đặt lịch tư vấn / demo',
-  description:
-    'Đăng ký nhận tư vấn hoặc demo giải pháp chuyển đổi số từ Phòng KHDN Viettel Hồ Chí Minh. Đội ngũ chuyên gia sẽ liên hệ trong thời gian sớm nhất.',
-  alternates: { canonical: '/dat-lich' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'dat-lich',
+    path: '/dat-lich',
+    title: 'Đặt lịch tư vấn / demo',
+    description:
+      'Đăng ký nhận tư vấn hoặc demo giải pháp chuyển đổi số từ Phòng KHDN Viettel Hồ Chí Minh. Đội ngũ chuyên gia sẽ liên hệ trong thời gian sớm nhất.',
+  })
 
 export const dynamic = 'force-dynamic'
 

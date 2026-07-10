@@ -10,6 +10,7 @@ import { WaveDivider } from '@/components/home/WaveDivider'
 import { Hero } from '@/components/home/Hero'
 import { WhyChooseUs } from '@/components/home/WhyChooseUs'
 import { ButtonLink, Container, Section, SectionHeading } from '@/components/ui/primitives'
+import { buildPageMetadata } from '@/lib/seo'
 import {
   getFeaturedSolutions,
   getLatestNews,
@@ -22,7 +23,7 @@ import {
 // Render dong de phan anh thay doi tu CMS va tranh phu thuoc DB luc build (CI).
 export const dynamic = 'force-dynamic'
 
-export const metadata = { alternates: { canonical: '/' } }
+export const generateMetadata = () => buildPageMetadata({ key: 'home', path: '/' })
 
 export default async function HomePage() {
   const [settings, featured, counts, solutionsByPillar, news, policies] = await Promise.all([

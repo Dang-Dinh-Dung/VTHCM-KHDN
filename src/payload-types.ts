@@ -979,6 +979,31 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Ảnh hiển thị khi chia sẻ link lên Facebook/Zalo/Google cho các trang chưa có ảnh riêng. Khuyến nghị 1200×630px. Bỏ trống sẽ dùng ảnh OG mặc định của hệ thống.
+   */
+  seoDefaultOgImage?: (number | null) | Media;
+  /**
+   * Đặt tiêu đề/mô tả SEO cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.
+   */
+  pageSeo?:
+    | {
+        page: 'home' | 'giai-phap' | 'bang-gia' | 'tim-giai-phap' | 'tin-tuc' | 'chinh-sach' | 'dat-lich' | 'lien-he';
+        /**
+         * Tiêu đề hiển thị trên kết quả Google & tab trình duyệt. Nên 50–60 ký tự, chứa từ khóa chính. Với trang menu, hãy ghi ĐẦY ĐỦ (kể cả thương hiệu) vì nội dung này thay thế toàn bộ tiêu đề.
+         */
+        metaTitle?: string | null;
+        /**
+         * Đoạn mô tả dưới tiêu đề trên Google. Nên 140–160 ký tự.
+         */
+        metaDescription?: string | null;
+        /**
+         * Ảnh khi chia sẻ link trang này. Bỏ trống sẽ dùng ảnh OG mặc định ở trên.
+         */
+        ogImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   footerNote?: string | null;
   copyright?: string | null;
   /**
@@ -1065,6 +1090,16 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         icon?: T;
         value?: T;
         label?: T;
+        id?: T;
+      };
+  seoDefaultOgImage?: T;
+  pageSeo?:
+    | T
+    | {
+        page?: T;
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
         id?: T;
       };
   footerNote?: T;

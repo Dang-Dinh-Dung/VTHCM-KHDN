@@ -1,18 +1,20 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { SolutionsExplorer, type ExplorerSolution } from '@/components/solutions/SolutionsExplorer'
 import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 import { labelOf, PILLARS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
-export const metadata: Metadata = {
-  title: 'Giải pháp doanh nghiệp',
-  description:
-    'Khám phá toàn bộ giải pháp chuyển đổi số của Viettel cho doanh nghiệp: viễn thông, chữ ký số, hóa đơn điện tử, cloud, quản trị doanh nghiệp.',
-  alternates: { canonical: '/giai-phap' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'giai-phap',
+    path: '/giai-phap',
+    title: 'Giải pháp doanh nghiệp',
+    description:
+      'Khám phá toàn bộ giải pháp chuyển đổi số của Viettel cho doanh nghiệp: viễn thông, chữ ký số, hóa đơn điện tử, cloud, quản trị doanh nghiệp.',
+  })
 
 export const dynamic = 'force-dynamic'
 

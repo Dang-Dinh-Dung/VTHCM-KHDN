@@ -278,6 +278,71 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'SEO',
+          fields: [
+            {
+              name: 'seoDefaultOgImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Ảnh chia sẻ mặc định (OG image)',
+              admin: {
+                description:
+                  'Ảnh hiển thị khi chia sẻ link lên Facebook/Zalo/Google cho các trang chưa có ảnh riêng. Khuyến nghị 1200×630px. Bỏ trống sẽ dùng ảnh OG mặc định của hệ thống.',
+              },
+            },
+            {
+              name: 'pageSeo',
+              type: 'array',
+              label: 'SEO từng trang (trang chủ & các menu)',
+              labels: { singular: 'Trang', plural: 'Trang' },
+              admin: {
+                description:
+                  'Đặt tiêu đề/mô tả SEO cho trang chủ và các trang menu. Mỗi trang thêm tối đa 1 dòng. Bỏ trống dòng nào thì trang đó dùng nội dung mặc định.',
+              },
+              fields: [
+                {
+                  name: 'page',
+                  type: 'select',
+                  label: 'Trang',
+                  required: true,
+                  options: [
+                    { value: 'home', label: 'Trang chủ (tên miền chính)' },
+                    { value: 'giai-phap', label: 'Giải pháp (danh mục)' },
+                    { value: 'bang-gia', label: 'Bảng giá' },
+                    { value: 'tim-giai-phap', label: 'Tìm giải pháp' },
+                    { value: 'tin-tuc', label: 'Tin tức (danh mục)' },
+                    { value: 'chinh-sach', label: 'Nghị định & chính sách (danh mục)' },
+                    { value: 'dat-lich', label: 'Đặt lịch tư vấn' },
+                    { value: 'lien-he', label: 'Liên hệ' },
+                  ],
+                },
+                {
+                  name: 'metaTitle',
+                  type: 'text',
+                  label: 'Tiêu đề SEO (Meta title)',
+                  admin: {
+                    description:
+                      'Tiêu đề hiển thị trên kết quả Google & tab trình duyệt. Nên 50–60 ký tự, chứa từ khóa chính. Với trang menu, hãy ghi ĐẦY ĐỦ (kể cả thương hiệu) vì nội dung này thay thế toàn bộ tiêu đề.',
+                  },
+                },
+                {
+                  name: 'metaDescription',
+                  type: 'textarea',
+                  label: 'Mô tả SEO (Meta description)',
+                  admin: { description: 'Đoạn mô tả dưới tiêu đề trên Google. Nên 140–160 ký tự.' },
+                },
+                {
+                  name: 'ogImage',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: 'Ảnh chia sẻ riêng (tùy chọn)',
+                  admin: { description: 'Ảnh khi chia sẻ link trang này. Bỏ trống sẽ dùng ảnh OG mặc định ở trên.' },
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Footer',
           fields: [
             { name: 'footerNote', type: 'textarea', label: 'Ghi chú chân trang' },

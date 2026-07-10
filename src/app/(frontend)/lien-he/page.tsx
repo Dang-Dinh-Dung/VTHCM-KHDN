@@ -1,16 +1,18 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { ButtonLink, Container, Section } from '@/components/ui/primitives'
 import { getSiteSettings } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Liên hệ',
-  description:
-    'Liên hệ Phòng Khách hàng Doanh nghiệp Viettel Hồ Chí Minh: hotline, email, địa chỉ và đăng ký tư vấn giải pháp chuyển đổi số.',
-  alternates: { canonical: '/lien-he' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'lien-he',
+    path: '/lien-he',
+    title: 'Liên hệ',
+    description:
+      'Liên hệ Phòng Khách hàng Doanh nghiệp Viettel Hồ Chí Minh: hotline, email, địa chỉ và đăng ký tư vấn giải pháp chuyển đổi số.',
+  })
 
 export const dynamic = 'force-dynamic'
 

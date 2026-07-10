@@ -1,17 +1,19 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { PolicyFilters } from '@/components/content/PolicyFilters'
 import { PolicyRow } from '@/components/content/PolicyRow'
 import { Container, Section } from '@/components/ui/primitives'
 import { getPoliciesList, getPolicyIssuingBodies } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Nghị định & chính sách',
-  description:
-    'Tra cứu nghị định, thông tư, chính sách nhà nước liên quan tới hóa đơn điện tử, chữ ký số, BHXH, vận tải... và giải pháp Viettel tương ứng.',
-  alternates: { canonical: '/chinh-sach' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'chinh-sach',
+    path: '/chinh-sach',
+    title: 'Nghị định & chính sách',
+    description:
+      'Tra cứu nghị định, thông tư, chính sách nhà nước liên quan tới hóa đơn điện tử, chữ ký số, BHXH, vận tải... và giải pháp Viettel tương ứng.',
+  })
 
 export const dynamic = 'force-dynamic'
 

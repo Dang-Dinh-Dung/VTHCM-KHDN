@@ -1,18 +1,20 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Expand, Headphones, Rocket, ShieldCheck } from 'lucide-react'
 
 import { PricingExplorer, type PricingSolution } from '@/components/solutions/PricingExplorer'
 import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
+import { buildPageMetadata } from '@/lib/seo'
 import type { Media, Solution } from '@/payload-types'
 
-export const metadata: Metadata = {
-  title: 'Bảng giá dịch vụ',
-  description:
-    'Tham khảo bảng giá các gói giải pháp chuyển đổi số của Viettel cho doanh nghiệp. Liên hệ KHDN Viettel HCM để nhận báo giá chi tiết theo quy mô.',
-  alternates: { canonical: '/bang-gia' },
-}
+export const generateMetadata = () =>
+  buildPageMetadata({
+    key: 'bang-gia',
+    path: '/bang-gia',
+    title: 'Bảng giá dịch vụ',
+    description:
+      'Tham khảo bảng giá các gói giải pháp chuyển đổi số của Viettel cho doanh nghiệp. Liên hệ KHDN Viettel HCM để nhận báo giá chi tiết theo quy mô.',
+  })
 
 export const dynamic = 'force-dynamic'
 
