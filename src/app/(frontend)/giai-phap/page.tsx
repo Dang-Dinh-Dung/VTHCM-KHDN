@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-import { SolutionFilters } from '@/components/solutions/SolutionFilters'
-import { SolutionsKanban } from '@/components/solutions/SolutionsKanban'
-import { Container, Section } from '@/components/ui/primitives'
+import { SolutionsExplorer, type ExplorerSolution } from '@/components/solutions/SolutionsExplorer'
+import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
 import { labelOf, PILLARS } from '@/lib/taxonomy'
+import type { Media, Solution } from '@/payload-types'
 
 export const metadata: Metadata = {
   title: 'Giải pháp doanh nghiệp',
@@ -14,9 +14,28 @@ export const metadata: Metadata = {
   alternates: { canonical: '/giai-phap' },
 }
 
-type SearchParams = Record<string, string | string[] | undefined>
+export const dynamic = 'force-dynamic'
 
+type SearchParams = Record<string, string | string[] | undefined>
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)
+
+function logoUrl(ref: number | Media | null | undefined): string | undefined {
+  return ref && typeof ref === 'object' && 'url' in ref ? (ref.url ?? undefined) : undefined
+}
+
+function toExplorer(s: Solution): ExplorerSolution {
+  return {
+    id: String(s.id),
+    slug: s.slug ?? '',
+    title: s.title,
+    shortName: s.shortName ?? undefined,
+    tagline: s.tagline ?? undefined,
+    shortDesc: s.shortDesc ?? undefined,
+    pillar: s.pillar ?? undefined,
+    logoUrl: logoUrl(s.logo),
+    popular: Boolean(s.isFeatured),
+  }
+}
 
 export default async function SolutionsPage({
   searchParams,
@@ -25,58 +44,49 @@ export default async function SolutionsPage({
 }) {
   const sp = await searchParams
   const pillar = first(sp.pillar)
-  const filters = {
-    pillar,
-    productGroup: first(sp.productGroup),
-    industry: first(sp.industry),
-    need: first(sp.need),
-    companySize: first(sp.companySize),
-    q: first(sp.q),
-    // Kanban gom theo tru cot -> lay toan bo ket qua, khong phan trang
-    limit: 500,
-  }
-
-  const result = await getSolutions(filters)
+  const result = await getSolutions({ limit: 500 })
+  const sols = result.docs.filter((s) => s.slug).map(toExplorer)
   const pillarLabel = pillar ? labelOf(PILLARS, pillar) : null
 
   return (
     <>
-      <div className="border-b border-border-soft bg-surface-muted">
-        <Container className="py-10">
+      {/* Hero */}
+      <div className="relative -mt-[60px] overflow-hidden bg-surface-muted pt-[60px] md:-mt-[72px] md:pt-[72px]">
+        <div
+          className="pointer-events-none absolute right-0 top-0 h-80 w-[36rem] opacity-[0.07] blur-3xl"
+          style={{ background: 'radial-gradient(circle, #ee0033, transparent 70%)' }}
+          aria-hidden
+        />
+        <Container className="relative py-12 text-center md:py-14">
           <nav className="mb-3 text-sm text-ink-soft">
             <Link href="/" className="hover:text-viettel-red">Trang chủ</Link>
             <span className="mx-2">/</span>
             <span className="text-ink">Giải pháp</span>
           </nav>
-          <h1 className="text-3xl font-extrabold text-ink md:text-4xl">
-            {pillarLabel ? `Giải pháp ${pillarLabel}` : 'Tất cả giải pháp'}
+          <h1 className="text-3xl font-extrabold text-ink md:text-5xl">
+            {pillarLabel ? (
+              <>
+                Giải pháp <span className="text-viettel-red">{pillarLabel}</span>
+              </>
+            ) : (
+              <>
+                Hệ sinh thái <span className="text-viettel-red">giải pháp số</span>
+              </>
+            )}
           </h1>
-          <p className="mt-2 max-w-2xl text-ink-soft">
-            Lọc theo trụ cột, ngành nghề, nhu cầu và quy mô để tìm giải pháp phù hợp với doanh nghiệp của bạn.
+          <p className="mx-auto mt-3 max-w-2xl text-ink-soft md:text-lg">
+            Chọn nhóm giải pháp để khám phá — nhấn vào từng giải pháp để xem chi tiết, tính năng và bảng giá.
           </p>
         </Container>
       </div>
 
-      <Section className="py-10">
-        <Container>
-          <SolutionFilters />
-
-          <p className="mb-5 mt-6 text-sm text-ink-soft">
-            Tìm thấy <strong className="text-ink">{result.totalDocs}</strong> giải pháp · xếp theo trụ cột
-          </p>
-
-          {result.docs.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border-soft p-12 text-center">
-              <p className="text-ink-soft">Không tìm thấy giải pháp phù hợp với bộ lọc hiện tại.</p>
-              <Link href="/giai-phap" className="mt-3 inline-block font-semibold text-viettel-red">
-                Xóa bộ lọc
-              </Link>
-            </div>
-          ) : (
-            <SolutionsKanban solutions={result.docs} />
-          )}
-        </Container>
-      </Section>
+      <Container className="py-10 md:py-12">
+        {sols.length === 0 ? (
+          <p className="text-ink-soft">Hiện chưa có giải pháp nào được đăng.</p>
+        ) : (
+          <SolutionsExplorer sols={sols} initialPillar={pillar ?? 'all'} />
+        )}
+      </Container>
     </>
   )
 }
