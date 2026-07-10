@@ -169,11 +169,11 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
       <div
         className={cn(
           'grid gap-6',
-          selected ? 'lg:grid-cols-[minmax(370px,420px)_1fr]' : 'grid-cols-1',
+          selected ? 'grid-cols-1 lg:grid-cols-[minmax(370px,420px)_1fr]' : 'grid-cols-1',
         )}
       >
         {/* ===== Luoi the giai phap (co ve 1 cot khi da mo panel) ===== */}
-        <div>
+        <div className="min-w-0">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="flex items-center gap-2 text-lg font-extrabold text-ink">
               <LayoutGrid className="h-5 w-5 text-viettel-red" aria-hidden strokeWidth={2} />
@@ -206,7 +206,7 @@ export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
 
         {/* ===== Panel so sanh - chi hien khi da bam chon ===== */}
         {selected && (
-          <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
             <ComparePanel sol={selected} onClose={() => setSelectedId(null)} />
             <ConsultCard />
           </div>
@@ -344,7 +344,7 @@ function ComparePanel({ sol, onClose }: { sol: PricingSolution; onClose: () => v
               <th className="px-3 py-2.5 text-left text-xs font-semibold text-ink-soft">Tính năng</th>
               {tiers.map((t, i) => (
                 <th key={i} className="px-2 py-2.5 text-center">
-                  <span className={cn('text-xs font-bold', t.highlight ? 'text-viettel-red' : 'text-ink')}>
+                  <span className={cn('block break-words text-xs font-bold', t.highlight ? 'text-viettel-red' : 'text-ink')}>
                     {t.name}
                   </span>
                   {t.highlight && (
