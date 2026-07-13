@@ -1,6 +1,7 @@
 'use client'
 
 import { useLocale } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
 
 import { cn } from '@/lib/cn'
 import { Link, usePathname } from '@/i18n/navigation'
@@ -9,6 +10,9 @@ import { LOCALE_LABELS, routing, type AppLocale } from '@/i18n/routing'
 export function LanguageSwitcher({ className }: { className?: string }) {
   const pathname = usePathname()
   const active = useLocale()
+  const searchParams = useSearchParams()
+  const queryString = searchParams.toString()
+  const href = queryString ? `${pathname}?${queryString}` : pathname
 
   return (
     <div
@@ -21,7 +25,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         return (
           <Link
             key={locale}
-            href={pathname}
+            href={href}
             locale={locale}
             hrefLang={locale}
             aria-current={isActive ? 'true' : undefined}
