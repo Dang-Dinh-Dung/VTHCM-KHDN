@@ -1,5 +1,27 @@
 {
   "common": {
-    "languageSwitcherLabel": "Ngôn ngữ"
+    "languageSwitcherLabel": "Ngôn ngữ",
+    "skipToContent": "Bỏ qua tới nội dung chính"
+  },
+  "nav": {
+    "solutions": "Giải pháp",
+    "finder": "Tìm giải pháp",
+    "pricing": "Bảng giá",
+    "news": "Tin tức",
+    "policies": "Nghị định & chính sách",
+    "contact": "Liên hệ",
+    "ariaMain": "Điều hướng chính",
+    "ariaMobile": "Điều hướng di động",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
+  },
+  "header": {
+    "cta": "Đăng ký tư vấn",
+    "hotline": "Hotline"
+  },
+  "footer": {
+    "quickLinks": "Liên kết nhanh",
+    "contactInfo": "Thông tin liên hệ",
+    "followUs": "Theo dõi chúng tôi"
   }
 }

@@ -1,5 +1,27 @@
 {
   "common": {
-    "languageSwitcherLabel": "语言"
+    "languageSwitcherLabel": "语言",
+    "skipToContent": "跳转到主要内容"
+  },
+  "nav": {
+    "solutions": "解决方案",
+    "finder": "寻找方案",
+    "pricing": "价格表",
+    "news": "新闻",
+    "policies": "法规与政策",
+    "contact": "联系我们",
+    "ariaMain": "主导航",
+    "ariaMobile": "移动端导航",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单"
+  },
+  "header": {
+    "cta": "预约咨询",
+    "hotline": "热线"
+  },
+  "footer": {
+    "quickLinks": "快速链接",
+    "contactInfo": "联系方式",
+    "followUs": "关注我们"
   }
 }

@@ -1,5 +1,27 @@
 {
   "common": {
-    "languageSwitcherLabel": "Language"
+    "languageSwitcherLabel": "Language",
+    "skipToContent": "Skip to main content"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "finder": "Find a solution",
+    "pricing": "Pricing",
+    "news": "News",
+    "policies": "Regulations & policies",
+    "contact": "Contact",
+    "ariaMain": "Main navigation",
+    "ariaMobile": "Mobile navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "header": {
+    "cta": "Request a consultation",
+    "hotline": "Hotline"
+  },
+  "footer": {
+    "quickLinks": "Quick links",
+    "contactInfo": "Contact information",
+    "followUs": "Follow us"
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { ChevronRight, Menu, Phone, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { buttonClass } from '@/components/ui/primitives'
@@ -9,13 +10,13 @@ import { cn } from '@/lib/cn'
 import { Link, usePathname } from '@/i18n/navigation'
 
 const NAV = [
-  { href: '/giai-phap', label: 'Giải pháp' },
-  { href: '/tim-giai-phap', label: 'Tìm giải pháp' },
-  { href: '/bang-gia', label: 'Bảng giá' },
-  { href: '/tin-tuc', label: 'Tin tức' },
-  { href: '/chinh-sach', label: 'Nghị định & chính sách' },
-  { href: '/lien-he', label: 'Liên hệ' },
-]
+  { href: '/giai-phap', key: 'solutions' },
+  { href: '/tim-giai-phap', key: 'finder' },
+  { href: '/bang-gia', key: 'pricing' },
+  { href: '/tin-tuc', key: 'news' },
+  { href: '/chinh-sach', key: 'policies' },
+  { href: '/lien-he', key: 'contact' },
+] as const
 
 export function SiteHeader({
   hotline,
@@ -27,6 +28,8 @@ export function SiteHeader({
   logoUrl?: string | null
 }) {
   const [open, setOpen] = useState(false)
+  const t = useTranslations('nav')
+  const tHeader = useTranslations('header')
   const pathname = usePathname()
   const telHref = hotline ? `tel:${hotline.replace(/[^0-9+]/g, '')}` : undefined
 
@@ -55,7 +58,7 @@ export function SiteHeader({
             )}
           </Link>
 
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Điều hướng chính">
+          <nav className="hidden items-center gap-0.5 lg:flex" aria-label={t('ariaMain')}>
             {NAV.map((item) => (
               <Link
                 key={item.href}
@@ -68,7 +71,7 @@ export function SiteHeader({
                     : 'text-ink hover:bg-surface-muted hover:text-viettel-red',
                 )}
               >
-                {item.label}
+                {t(item.key)}
               </Link>
             ))}
           </nav>
@@ -88,14 +91,14 @@ export function SiteHeader({
               href="/dat-lich"
               className="inline-flex items-center gap-1.5 rounded-xl bg-viettel-red px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-viettel-red-dark"
             >
-              Đăng ký tư vấn
+              {tHeader('cta')}
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
 
           <button
             type="button"
-            aria-label={open ? 'Đóng menu' : 'Mở menu'}
+            aria-label={open ? t('closeMenu') : t('openMenu')}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface-muted lg:hidden"
@@ -107,7 +110,7 @@ export function SiteHeader({
         {/* Menu mobile - the noi bo tron */}
         {open && (
           <div className="mt-2 rounded-3xl border border-border-soft bg-surface p-2 shadow-lg shadow-ink/5 lg:hidden">
-            <nav className="flex flex-col gap-1" aria-label="Điều hướng di động">
+            <nav className="flex flex-col gap-1" aria-label={t('ariaMobile')}>
               {NAV.map((item) => (
                 <Link
                   key={item.href}
@@ -118,7 +121,7 @@ export function SiteHeader({
                     isActive(item.href) ? 'bg-viettel-red/5 text-viettel-red' : 'text-ink hover:bg-surface-muted',
                   )}
                 >
-                  {item.label}
+                  {t(item.key)}
                   <ChevronRight className="h-4 w-4 opacity-40" aria-hidden />
                 </Link>
               ))}
@@ -127,11 +130,11 @@ export function SiteHeader({
                 onClick={() => setOpen(false)}
                 className={buttonClass('primary', 'lg', 'mt-2')}
               >
-                Đăng ký tư vấn
+                {tHeader('cta')}
               </Link>
               {hotline && (
                 <a href={telHref} className="mt-1 inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-bold text-viettel-red">
-                  <Phone className="h-4 w-4" aria-hidden /> Hotline: {hotline}
+                  <Phone className="h-4 w-4" aria-hidden /> {tHeader('hotline')}: {hotline}
                 </a>
               )}
               <LanguageSwitcher className="mt-2 self-center" />

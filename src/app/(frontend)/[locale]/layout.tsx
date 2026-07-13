@@ -1,4 +1,5 @@
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
 import { notFound } from 'next/navigation'
@@ -64,6 +65,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound()
 
   const settings = await getSiteSettings()
+  const t = await getTranslations('common')
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -87,7 +89,7 @@ export default async function LocaleLayout({
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-viettel-red focus:px-4 focus:py-2 focus:text-white"
           >
-            Bỏ qua tới nội dung chính
+            {t('skipToContent')}
           </a>
           <SiteHeader
             hotline={settings.hotline}
