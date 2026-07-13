@@ -20,8 +20,11 @@
     "hotline": "热线"
   },
   "footer": {
+    "ecosystem": "生态系统",
     "quickLinks": "快速链接",
     "contactInfo": "联系方式",
-    "followUs": "关注我们"
+    "followUs": "关注我们",
+    "bookConsultation": "预约咨询",
+    "socialFallback": "社交媒体"
   }
 }

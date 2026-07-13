@@ -20,8 +20,11 @@
     "hotline": "Hotline"
   },
   "footer": {
+    "ecosystem": "Ecosystem",
     "quickLinks": "Quick links",
     "contactInfo": "Contact information",
-    "followUs": "Follow us"
+    "followUs": "Follow us",
+    "bookConsultation": "Book a consultation",
+    "socialFallback": "Social media"
   }
 }

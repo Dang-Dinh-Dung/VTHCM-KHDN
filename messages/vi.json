@@ -20,8 +20,11 @@
     "hotline": "Hotline"
   },
   "footer": {
+    "ecosystem": "Hệ sinh thái",
     "quickLinks": "Liên kết nhanh",
     "contactInfo": "Thông tin liên hệ",
-    "followUs": "Theo dõi chúng tôi"
+    "followUs": "Theo dõi chúng tôi",
+    "bookConsultation": "Đặt lịch tư vấn",
+    "socialFallback": "Mạng xã hội"
   }
 }

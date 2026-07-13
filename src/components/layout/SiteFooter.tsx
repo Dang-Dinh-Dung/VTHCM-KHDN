@@ -17,7 +17,6 @@ const SOCIAL_LABEL: Record<string, string> = {
 export async function SiteFooter({ settings }: { settings: SiteSetting }) {
   const t = await getTranslations('footer')
   const tNav = await getTranslations('nav')
-  const tHeader = await getTranslations('header')
   return (
     <footer className="mt-10 border-t-2 border-viettel-red bg-surface text-ink-soft">
       <Container className="py-12">
@@ -38,7 +37,7 @@ export async function SiteFooter({ settings }: { settings: SiteSetting }) {
 
           {/* Tru cot */}
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">Hệ sinh thái</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">{t('ecosystem')}</h3>
             <ul className="space-y-2 text-sm">
               {PILLARS.map((p) => (
                 <li key={p.value}>
@@ -59,7 +58,7 @@ export async function SiteFooter({ settings }: { settings: SiteSetting }) {
               <li><Link href="/bang-gia" className="text-ink-soft hover:text-viettel-red">{tNav('pricing')}</Link></li>
               <li><Link href="/tin-tuc" className="text-ink-soft hover:text-viettel-red">{tNav('news')}</Link></li>
               <li><Link href="/chinh-sach" className="text-ink-soft hover:text-viettel-red">{tNav('policies')}</Link></li>
-              <li><Link href="/dat-lich" className="text-ink-soft hover:text-viettel-red">{tHeader('cta')}</Link></li>
+              <li><Link href="/dat-lich" className="text-ink-soft hover:text-viettel-red">{t('bookConsultation')}</Link></li>
             </ul>
           </div>
 
@@ -106,8 +105,8 @@ export async function SiteFooter({ settings }: { settings: SiteSetting }) {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={SOCIAL_LABEL[s.platform ?? ''] ?? 'Mạng xã hội'}
-                    title={SOCIAL_LABEL[s.platform ?? ''] ?? 'Mạng xã hội'}
+                    aria-label={SOCIAL_LABEL[s.platform ?? ''] ?? t('socialFallback')}
+                    title={SOCIAL_LABEL[s.platform ?? ''] ?? t('socialFallback')}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-soft bg-surface-muted text-ink-soft transition-colors hover:bg-viettel-red hover:text-white"
                   >
                     <Globe className="h-4 w-4" aria-hidden />
