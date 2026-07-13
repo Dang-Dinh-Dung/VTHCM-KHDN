@@ -4,7 +4,7 @@ import { SolutionsExplorer, type ExplorerSolution } from '@/components/solutions
 import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
 import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
-import { labelOf, PILLARS } from '@/lib/taxonomy'
+import { COMPANY_SIZES, INDUSTRIES, labelOf, NEEDS, PILLARS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
 export const generateMetadata = () =>
@@ -46,9 +46,33 @@ export default async function SolutionsPage({
 }) {
   const sp = await searchParams
   const pillar = first(sp.pillar)
-  const [result, heroBg] = await Promise.all([getSolutions({ limit: 500 }), getPageHeroImage('giai-phap')])
+  // Bo loc goi y den tu Solution Finder (/tim-giai-phap)
+  const industry = first(sp.industry)
+  const need = first(sp.need)
+  const companySize = first(sp.companySize)
+  const isSuggested = Boolean(industry || need || companySize)
+
+  const [result, heroBg] = await Promise.all([
+    getSolutions({
+      pillar,
+      productGroup: first(sp.productGroup),
+      industry,
+      need,
+      companySize,
+      q: first(sp.q),
+      limit: 500,
+    }),
+    getPageHeroImage('giai-phap'),
+  ])
   const sols = result.docs.filter((s) => s.slug).map(toExplorer)
   const pillarLabel = pillar ? labelOf(PILLARS, pillar) : null
+
+  // Nhan mo ta cac lua chon nguoi dung da chon o Finder
+  const criteria = [
+    industry && labelOf(INDUSTRIES, industry),
+    need && labelOf(NEEDS, need),
+    companySize && labelOf(COMPANY_SIZES, companySize),
+  ].filter(Boolean) as string[]
 
   return (
     <>
@@ -70,7 +94,11 @@ export default async function SolutionsPage({
             <span className="text-ink">Giải pháp</span>
           </nav>
           <h1 className="text-3xl font-extrabold text-ink md:text-5xl">
-            {pillarLabel ? (
+            {isSuggested ? (
+              <>
+                Giải pháp <span className="text-viettel-red">gợi ý cho bạn</span>
+              </>
+            ) : pillarLabel ? (
               <>
                 Giải pháp <span className="text-viettel-red">{pillarLabel}</span>
               </>
@@ -81,14 +109,53 @@ export default async function SolutionsPage({
             )}
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-ink-soft md:text-lg">
-            Chọn nhóm giải pháp để khám phá — nhấn vào từng giải pháp để xem chi tiết, tính năng và bảng giá.
+            {isSuggested
+              ? 'Dựa trên lựa chọn của bạn, đây là các giải pháp phù hợp nhất.'
+              : 'Chọn nhóm giải pháp để khám phá — nhấn vào từng giải pháp để xem chi tiết, tính năng và bảng giá.'}
           </p>
         </Container>
       </div>
 
       <Container className="py-10 md:py-12">
+        {/* Dai bo loc goi y tu Solution Finder */}
+        {isSuggested && (
+          <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-viettel-red/25 bg-viettel-red/5 px-4 py-3">
+            <span className="text-sm font-semibold text-ink">
+              Gợi ý theo lựa chọn của bạn ({result.totalDocs} giải pháp):
+            </span>
+            {criteria.map((c) => (
+              <span
+                key={c}
+                className="inline-flex items-center rounded-full bg-surface px-3 py-1 text-xs font-medium text-ink ring-1 ring-border-soft"
+              >
+                {c}
+              </span>
+            ))}
+            <Link
+              href="/giai-phap"
+              className="ml-auto text-sm font-semibold text-viettel-red hover:underline"
+            >
+              Xem tất cả giải pháp →
+            </Link>
+          </div>
+        )}
+
         {sols.length === 0 ? (
-          <p className="text-ink-soft">Hiện chưa có giải pháp nào được đăng.</p>
+          isSuggested || pillar ? (
+            <div className="rounded-2xl border border-dashed border-border-soft p-12 text-center">
+              <p className="text-ink-soft">Không tìm thấy giải pháp phù hợp với lựa chọn hiện tại.</p>
+              <div className="mt-4 flex flex-wrap justify-center gap-3">
+                <Link href="/giai-phap" className="font-semibold text-viettel-red hover:underline">
+                  Xem tất cả giải pháp
+                </Link>
+                <Link href="/dat-lich" className="font-semibold text-ink hover:underline">
+                  Đặt lịch tư vấn 1-1
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <p className="text-ink-soft">Hiện chưa có giải pháp nào được đăng.</p>
+          )
         ) : (
           <SolutionsExplorer sols={sols} initialPillar={pillar ?? 'all'} />
         )}
