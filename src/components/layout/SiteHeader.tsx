@@ -1,12 +1,12 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { ChevronRight, Menu, Phone, X } from 'lucide-react'
 
+import { LanguageSwitcher } from '@/components/layout/LanguageSwitcher'
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
+import { Link, usePathname } from '@/i18n/navigation'
 
 const NAV = [
   { href: '/giai-phap', label: 'Giải pháp' },
@@ -74,6 +74,7 @@ export function SiteHeader({
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
+            <LanguageSwitcher />
             {hotline && (
               <a
                 href={telHref}
@@ -133,6 +134,7 @@ export function SiteHeader({
                   <Phone className="h-4 w-4" aria-hidden /> Hotline: {hotline}
                 </a>
               )}
+              <LanguageSwitcher className="mt-2 self-center" />
             </nav>
           </div>
         )}
