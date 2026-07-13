@@ -5,6 +5,9 @@ export const routing = defineRouting({
   defaultLocale: 'vi',
   // VI khong co tien to (/gia-phap), EN/ZH co (/en/..., /zh/...)
   localePrefix: 'as-needed',
+  // Tat auto-detect theo Accept-Language: cac URL tieng Viet (khong tien to) da duoc Google index,
+  // khong duoc tu dong redirect nguoi dung/Googlebot sang /en hay /zh dua tren trinh duyet.
+  localeDetection: false,
 })
 
 export type AppLocale = (typeof routing.locales)[number]
