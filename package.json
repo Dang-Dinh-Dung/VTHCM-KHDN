@@ -35,6 +35,7 @@
     "graphql": "^16.8.1",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
+    "next-intl": "^4.13.2",
     "nodemailer": "^6.9.16",
     "payload": "3.85.1",
     "react": "19.2.6",
