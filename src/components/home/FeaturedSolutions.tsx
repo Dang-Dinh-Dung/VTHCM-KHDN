@@ -16,9 +16,12 @@ import {
   Truck,
 } from 'lucide-react'
 
+import { getTranslations } from 'next-intl/server'
+
 import { Container } from '@/components/ui/primitives'
 import { WaveDivider } from '@/components/home/WaveDivider'
 import { PILLARS } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import type { Solution } from '@/payload-types'
 
 const pillarOf = (value?: string | null) => PILLARS.find((p) => p.value === value)
@@ -52,8 +55,10 @@ function logoUrl(solution: Solution): string | undefined {
   return undefined
 }
 
-function FeaturedCard({ solution }: { solution: Solution }) {
+async function FeaturedCard({ solution }: { solution: Solution }) {
+  const t = await getTranslations('taxonomy')
   const pillar = pillarOf(solution.pillar)
+  const pillarLabel = pillar ? taxonomyLabel(t, 'pillars', pillar.value, PILLARS) : ''
   const url = logoUrl(solution)
   const Icon = pickIcon(solution)
 
@@ -85,9 +90,9 @@ function FeaturedCard({ solution }: { solution: Solution }) {
             <Icon className="h-7 w-7" aria-hidden strokeWidth={1.75} />
           )}
         </span>
-        {pillar && (
+        {pillarLabel && (
           <span className="inline-flex items-center rounded-full bg-viettel-red/10 px-2.5 py-1 text-xs font-semibold text-viettel-red">
-            {pillar.label}
+            {pillarLabel}
           </span>
         )}
       </div>
@@ -108,7 +113,7 @@ function FeaturedCard({ solution }: { solution: Solution }) {
   )
 }
 
-export function FeaturedSolutions({ solutions }: { solutions: Solution[] }) {
+export async function FeaturedSolutions({ solutions }: { solutions: Solution[] }) {
   // Hien thi gon 4 giai phap tren mot hang ngang (desktop).
   const items = solutions.slice(0, 4)
 

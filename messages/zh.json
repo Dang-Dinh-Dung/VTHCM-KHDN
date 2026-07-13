@@ -74,7 +74,7 @@
     "policyTypes": {
       "luat": "法律",
       "nghi-dinh": "法令",
-      "thong-tu": "通知",
+      "thong-tu": "通函",
       "quyet-dinh": "决定",
       "cong-van": "公函"
     }

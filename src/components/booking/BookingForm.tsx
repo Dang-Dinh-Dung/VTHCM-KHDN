@@ -4,11 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslations } from 'next-intl'
 import { z } from 'zod'
 
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
 import { COMPANY_SIZES, LEAD_TYPES, TIME_SLOTS } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 
 const schema = z.object({
   name: z.string().min(2, 'Vui lòng nhập họ tên'),
@@ -49,6 +51,7 @@ export function BookingForm({
   defaultSolutionId?: string | number
   defaultType?: 'tu-van' | 'demo' | 'bao-gia'
 }) {
+  const t = useTranslations('taxonomy')
   const [selected, setSelected] = useState<Array<string | number>>(
     defaultSolutionId ? [defaultSolutionId] : [],
   )
@@ -206,7 +209,7 @@ export function BookingForm({
             <option value="">-- Chọn --</option>
             {COMPANY_SIZES.map((c) => (
               <option key={c.value} value={c.value}>
-                {c.label}
+                {taxonomyLabel(t, 'companySizes', c.value, COMPANY_SIZES)}
               </option>
             ))}
           </select>

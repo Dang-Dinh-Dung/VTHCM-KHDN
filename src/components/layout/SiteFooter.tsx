@@ -3,6 +3,7 @@ import { Clock, Globe, Mail, MapPin, Phone } from 'lucide-react'
 
 import { Container } from '@/components/ui/primitives'
 import { PILLARS } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { Link } from '@/i18n/navigation'
 import type { SiteSetting } from '@/payload-types'
 
@@ -17,6 +18,7 @@ const SOCIAL_LABEL: Record<string, string> = {
 export async function SiteFooter({ settings }: { settings: SiteSetting }) {
   const t = await getTranslations('footer')
   const tNav = await getTranslations('nav')
+  const tTax = await getTranslations('taxonomy')
   return (
     <footer className="mt-10 border-t-2 border-viettel-red bg-surface text-ink-soft">
       <Container className="py-12">
@@ -42,7 +44,7 @@ export async function SiteFooter({ settings }: { settings: SiteSetting }) {
               {PILLARS.map((p) => (
                 <li key={p.value}>
                   <Link href={`/giai-phap?pillar=${p.value}`} className="text-ink-soft hover:text-viettel-red">
-                    {p.label}
+                    {taxonomyLabel(tTax, 'pillars', p.value, PILLARS)}
                   </Link>
                 </li>
               ))}
