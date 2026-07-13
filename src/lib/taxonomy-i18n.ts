@@ -12,8 +12,12 @@ export type TaxonomyGroup =
   | 'newsCategories'
   | 'policyTypes'
 
-/** Ham dich cua next-intl: useTranslations('taxonomy') hoac getTranslations('taxonomy') */
-export type TaxT = (key: string) => string
+/**
+ * Ham dich cua next-intl: useTranslations('taxonomy') hoac getTranslations('taxonomy').
+ * `has` la helper cua next-intl v4 de kiem tra key co ton tai khong (khong co trong ban
+ * cu hon / mock don gian nen de optional va co fallback phong thu ben duoi).
+ */
+export type TaxT = ((key: string) => string) & { has?: (key: string) => boolean }
 
 export function taxonomyLabel(
   t: TaxT,
@@ -22,11 +26,22 @@ export function taxonomyLabel(
   fallbackList: Option[],
 ): string {
   if (!value) return ''
+  const key = `${group}.${value}`
   const viLabel = fallbackList.find((o) => o.value === value)?.label ?? value
+
   try {
-    const translated = t(`${group}.${value}`)
-    // next-intl tra ve chinh key khi thieu ban dich -> coi nhu chua dich, lui ve VI
-    return translated === `${group}.${value}` ? viLabel : translated
+    // Cach chinh: dung t.has() cua next-intl v4 de biet chac key co ban dich khong.
+    if (typeof t.has === 'function') {
+      return t.has(key) ? t(key) : viLabel
+    }
+
+    // Fallback phong thu: khong co t.has (vd mock cu / cau hinh next-intl cu hon).
+    // next-intl KHONG tra ve bare key khi thieu ban dich -- no tra ve ca duong dan
+    // namespaced (vd "taxonomy.pillars.vien-thong") hoac nem loi. Vi vay ta coi
+    // moi ket qua chua chinh key (bare hoac namespaced) la mot cai mieng (miss).
+    const translated = t(key)
+    if (translated === key || translated.endsWith(`.${key}`)) return viLabel
+    return translated
   } catch {
     return viLabel
   }
