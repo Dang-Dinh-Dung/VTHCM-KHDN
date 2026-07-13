@@ -13,8 +13,10 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { cn } from '@/lib/cn'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { PILLARS } from '@/lib/taxonomy'
 
 const PILLAR_ICONS: Record<string, LucideIcon> = {
@@ -47,14 +49,16 @@ export function SolutionsExplorer({
   sols: ExplorerSolution[]
   initialPillar?: string
 }) {
+  const t = useTranslations('taxonomy')
+
   const pillarsPresent = useMemo(
     () =>
       PILLARS.map((p) => ({
         value: p.value,
-        label: p.label,
+        label: taxonomyLabel(t, 'pillars', p.value, PILLARS),
         count: sols.filter((s) => s.pillar === p.value).length,
       })).filter((p) => p.count > 0),
-    [sols],
+    [sols, t],
   )
 
   const validInitial = initialPillar !== 'all' && pillarsPresent.some((p) => p.value === initialPillar)
@@ -146,8 +150,9 @@ export function SolutionsExplorer({
 }
 
 function SolutionCard({ sol }: { sol: ExplorerSolution }) {
+  const t = useTranslations('taxonomy')
   const Icon = PILLAR_ICONS[sol.pillar ?? ''] ?? ShieldCheck
-  const pillarLabel = PILLARS.find((p) => p.value === sol.pillar)?.label
+  const pillarLabel = taxonomyLabel(t, 'pillars', sol.pillar, PILLARS)
   return (
     <Link
       href={`/giai-phap/${sol.slug}`}

@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 
 import { NewsCard } from '@/components/content/ContentCards'
 import { Container, Section } from '@/components/ui/primitives'
 import { getNewsList } from '@/lib/queries'
 import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
 import { cn } from '@/lib/cn'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { NEWS_CATEGORIES } from '@/lib/taxonomy'
 
 export const generateMetadata = () =>
@@ -25,6 +27,7 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
   const sp = await searchParams
   const category = first(sp.category)
   const page = Number(first(sp.page) ?? '1') || 1
+  const t = await getTranslations('taxonomy')
   const [res, heroBg] = await Promise.all([
     getNewsList({ category, page, limit: 9 }),
     getPageHeroImage('tin-tuc'),
@@ -72,7 +75,7 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
                   category === c.value ? 'bg-viettel-red text-white' : 'bg-surface text-ink-soft ring-1 ring-border-soft hover:text-viettel-red',
                 )}
               >
-                {c.label}
+                {taxonomyLabel(t, 'newsCategories', c.value, NEWS_CATEGORIES)}
               </Link>
             ))}
           </div>

@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 
 import { SolutionsExplorer, type ExplorerSolution } from '@/components/solutions/SolutionsExplorer'
 import { Container } from '@/components/ui/primitives'
 import { getSolutions } from '@/lib/queries'
 import { buildPageMetadata, getPageHeroImage } from '@/lib/seo'
-import { COMPANY_SIZES, INDUSTRIES, labelOf, NEEDS, PILLARS } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { COMPANY_SIZES, INDUSTRIES, NEEDS, PILLARS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
 export const generateMetadata = () =>
@@ -52,6 +54,8 @@ export default async function SolutionsPage({
   const companySize = first(sp.companySize)
   const isSuggested = Boolean(industry || need || companySize)
 
+  const t = await getTranslations('taxonomy')
+
   const [result, heroBg] = await Promise.all([
     getSolutions({
       pillar,
@@ -65,13 +69,13 @@ export default async function SolutionsPage({
     getPageHeroImage('giai-phap'),
   ])
   const sols = result.docs.filter((s) => s.slug).map(toExplorer)
-  const pillarLabel = pillar ? labelOf(PILLARS, pillar) : null
+  const pillarLabel = pillar ? taxonomyLabel(t, 'pillars', pillar, PILLARS) : null
 
   // Nhan mo ta cac lua chon nguoi dung da chon o Finder
   const criteria = [
-    industry && labelOf(INDUSTRIES, industry),
-    need && labelOf(NEEDS, need),
-    companySize && labelOf(COMPANY_SIZES, companySize),
+    industry && taxonomyLabel(t, 'industries', industry, INDUSTRIES),
+    need && taxonomyLabel(t, 'needs', need, NEEDS),
+    companySize && taxonomyLabel(t, 'companySizes', companySize, COMPANY_SIZES),
   ].filter(Boolean) as string[]
 
   return (

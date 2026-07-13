@@ -9,7 +9,9 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { PILLARS } from '@/lib/taxonomy'
 import type { Solution } from '@/payload-types'
 
@@ -89,7 +91,8 @@ function KanbanCard({ solution, color }: { solution: Solution; color: string }) 
   )
 }
 
-export function SolutionsKanban({ solutions }: { solutions: Solution[] }) {
+export async function SolutionsKanban({ solutions }: { solutions: Solution[] }) {
+  const t = await getTranslations('taxonomy')
   // Gom giai phap theo trung tru cot, giu thu tu PILLARS; bo cot rong.
   const columns = PILLARS.map((pillar) => ({
     pillar,
@@ -118,7 +121,9 @@ export function SolutionsKanban({ solutions }: { solutions: Solution[] }) {
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/20">
                   <Icon className="h-5 w-5" aria-hidden strokeWidth={2} />
                 </span>
-                <h2 className="truncate text-base font-extrabold">{pillar.label}</h2>
+                <h2 className="truncate text-base font-extrabold">
+                  {taxonomyLabel(t, 'pillars', pillar.value, PILLARS)}
+                </h2>
               </div>
               <span className="grid h-7 min-w-7 shrink-0 place-items-center rounded-full bg-white/25 px-2 text-sm font-bold tabular-nums">
                 {items.length}

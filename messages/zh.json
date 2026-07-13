@@ -26,5 +26,57 @@
     "followUs": "关注我们",
     "bookConsultation": "预约咨询",
     "socialFallback": "社交媒体"
+  },
+  "taxonomy": {
+    "pillars": {
+      "vien-thong": "电信",
+      "chuyen-doi-so": "数字化转型",
+      "data-center-an-ninh-mang": "数据中心与网络安全",
+      "quan-tri-doanh-nghiep": "企业管理",
+      "logistics-van-tai-nang-luong": "物流 - 运输 - 能源",
+      "san-pham-hop-tac": "合作产品"
+    },
+    "industries": {
+      "ban-le-thuong-mai": "零售与贸易",
+      "f-and-b": "餐饮 - F&B",
+      "san-xuat": "制造业",
+      "van-tai-logistics": "运输与物流",
+      "giao-duc": "教育与培训",
+      "y-te": "医疗与制药",
+      "tai-chinh-ngan-hang": "金融与银行",
+      "xay-dung-bat-dong-san": "建筑与房地产",
+      "dich-vu": "专业服务",
+      "nong-nghiep": "农业",
+      "da-nganh": "多行业 / 其他"
+    },
+    "needs": {
+      "vien-thong-ket-noi": "电信与连接",
+      "van-phong-so": "数字办公与协作",
+      "hoa-don-ke-toan-chu-ky-so": "电子发票 - 会计 - 数字签名",
+      "ban-hang-marketing": "销售与营销",
+      "nhan-su-bao-hiem": "人力资源与社保",
+      "cloud-ha-tang": "云与基础设施",
+      "an-ninh-mang": "网络安全",
+      "logistics-van-tai": "物流与运输"
+    },
+    "companySizes": {
+      "sieu-nho": "微型（10 人以下）",
+      "nho": "小型（10 - 50 人）",
+      "vua": "中型（50 - 200 人）",
+      "lon": "大型（200 人以上）"
+    },
+    "newsCategories": {
+      "tin-viettel": "Viettel 新闻",
+      "chuyen-doi-so": "数字化转型",
+      "khuyen-mai": "促销活动",
+      "su-kien": "活动"
+    },
+    "policyTypes": {
+      "luat": "法律",
+      "nghi-dinh": "法令",
+      "thong-tu": "通知",
+      "quyet-dinh": "决定",
+      "cong-van": "公函"
+    }
   }
 }

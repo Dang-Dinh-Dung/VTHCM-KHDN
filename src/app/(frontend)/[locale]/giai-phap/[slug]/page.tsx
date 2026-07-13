@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Check, Plus } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { RichText } from '@/components/RichText'
 import { PricingTable } from '@/components/solutions/PricingTable'
@@ -9,6 +10,7 @@ import { SolutionCard } from '@/components/solutions/SolutionCard'
 import { Badge, ButtonLink, Container, Section, SectionHeading } from '@/components/ui/primitives'
 import { getSolutionBySlug } from '@/lib/queries'
 import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { labelOf, PILLARS, PRODUCT_GROUPS } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
@@ -58,7 +60,9 @@ export default async function SolutionDetailPage({
   const solution = await getSolutionBySlug(slug)
   if (!solution) notFound()
 
+  const t = await getTranslations('taxonomy')
   const pillar = pillarOf(solution.pillar)
+  const pillarLabel = taxonomyLabel(t, 'pillars', solution.pillar, PILLARS)
   const related = (solution.relatedSolutions ?? []).filter(
     (r): r is Solution => typeof r === 'object' && r !== null,
   )
@@ -76,7 +80,7 @@ export default async function SolutionDetailPage({
     ...(heroUrl ? { image: heroUrl } : {}),
     provider: { '@type': 'Organization', name: 'Viettel - KHDN Hồ Chí Minh', url: siteUrl() },
     areaServed: 'VN',
-    ...(pillar ? { serviceType: pillar.label } : {}),
+    ...(pillar ? { serviceType: pillarLabel } : {}),
   }
   const crumbsJsonLd = breadcrumbJsonLd([
     ['Trang chủ', '/'],
@@ -144,7 +148,7 @@ export default async function SolutionDetailPage({
                 className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
                 style={{ backgroundColor: pillar.color }}
               >
-                {pillar.label}
+                {pillarLabel}
               </span>
             )}
             {solution.productGroup && (

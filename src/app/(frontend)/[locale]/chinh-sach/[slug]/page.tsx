@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Building2, CalendarCheck, ExternalLink, FileText, Hash } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { RichText } from '@/components/RichText'
 import { SolutionCard } from '@/components/solutions/SolutionCard'
@@ -9,7 +10,8 @@ import { Badge, ButtonLink, Container, SectionHeading } from '@/components/ui/pr
 import { formatDate } from '@/lib/format'
 import { getPolicyBySlug } from '@/lib/queries'
 import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
-import { labelOf, POLICY_TYPES } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { POLICY_TYPES } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
@@ -33,6 +35,7 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
   const item = await getPolicyBySlug(slug)
   if (!item) notFound()
 
+  const t = await getTranslations('taxonomy')
   const related = (item.relatedSolutions ?? []).filter(
     (r): r is Solution => typeof r === 'object' && r !== null,
   )
@@ -67,7 +70,7 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
         </nav>
 
         <Badge className="bg-pillar-datacenter/10 text-pillar-datacenter">
-          {labelOf(POLICY_TYPES, item.documentType)}
+          {taxonomyLabel(t, 'policyTypes', item.documentType, POLICY_TYPES)}
         </Badge>
         <h1 className="mt-3 text-2xl font-extrabold leading-tight text-ink md:text-3xl">{item.title}</h1>
 

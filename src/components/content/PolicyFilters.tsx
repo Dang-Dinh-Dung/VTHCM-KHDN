@@ -2,7 +2,9 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { POLICY_TYPES } from '@/lib/taxonomy'
 import { cn } from '@/lib/cn'
 
@@ -16,6 +18,7 @@ export function PolicyFilters({
   const router = useRouter()
   const pathname = usePathname()
   const sp = useSearchParams()
+  const t = useTranslations('taxonomy')
   const [q, setQ] = useState(sp.get('q') ?? '')
 
   const setParam = (key: string, value?: string) => {
@@ -52,8 +55,8 @@ export function PolicyFilters({
         <div className="mb-2 text-sm font-semibold text-ink">Loại văn bản</div>
         <div className="space-y-1">
           <button onClick={() => setParam('documentType')} className={cn('block text-sm', !documentType ? 'font-semibold text-viettel-red' : 'text-ink-soft hover:text-viettel-red')}>Tất cả</button>
-          {POLICY_TYPES.map((t) => (
-            <button key={t.value} onClick={() => setParam('documentType', t.value)} className={cn('block text-sm', documentType === t.value ? 'font-semibold text-viettel-red' : 'text-ink-soft hover:text-viettel-red')}>{t.label}</button>
+          {POLICY_TYPES.map((pt) => (
+            <button key={pt.value} onClick={() => setParam('documentType', pt.value)} className={cn('block text-sm', documentType === pt.value ? 'font-semibold text-viettel-red' : 'text-ink-soft hover:text-viettel-red')}>{taxonomyLabel(t, 'policyTypes', pt.value, POLICY_TYPES)}</button>
           ))}
         </div>
       </div>

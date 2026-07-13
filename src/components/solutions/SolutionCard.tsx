@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { Badge } from '@/components/ui/primitives'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { PILLARS } from '@/lib/taxonomy'
 import type { Solution } from '@/payload-types'
 
@@ -13,7 +15,8 @@ function logoUrl(solution: Solution): string | undefined {
   return undefined
 }
 
-export function SolutionCard({ solution }: { solution: Solution }) {
+export async function SolutionCard({ solution }: { solution: Solution }) {
+  const t = await getTranslations('taxonomy')
   const pillar = pillarOf(solution.pillar)
   const url = logoUrl(solution)
 
@@ -34,7 +37,9 @@ export function SolutionCard({ solution }: { solution: Solution }) {
             (solution.shortName ?? solution.title).charAt(0)
           )}
         </div>
-        {pillar && <Badge color={pillar.color}>{pillar.label}</Badge>}
+        {pillar && (
+          <Badge color={pillar.color}>{taxonomyLabel(t, 'pillars', pillar.value, PILLARS)}</Badge>
+        )}
       </div>
 
       <h3 className="text-lg font-bold leading-snug text-ink group-hover:text-viettel-red">

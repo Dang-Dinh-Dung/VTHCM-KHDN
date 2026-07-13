@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CalendarDays, User } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { RichText } from '@/components/RichText'
 import { SolutionCard } from '@/components/solutions/SolutionCard'
@@ -9,7 +10,8 @@ import { Badge, Container, SectionHeading } from '@/components/ui/primitives'
 import { formatDate } from '@/lib/format'
 import { getNewsBySlug } from '@/lib/queries'
 import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
-import { labelOf, NEWS_CATEGORIES } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { NEWS_CATEGORIES } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
@@ -49,6 +51,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
   const item = await getNewsBySlug(slug)
   if (!item) notFound()
 
+  const t = await getTranslations('taxonomy')
   const related = (item.relatedSolutions ?? []).filter(
     (r): r is Solution => typeof r === 'object' && r !== null,
   )
@@ -82,7 +85,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
           <Link href="/tin-tuc" className="hover:text-viettel-red">Tin tức</Link>
         </nav>
 
-        <Badge className="bg-viettel-red/10 text-viettel-red">{labelOf(NEWS_CATEGORIES, item.category)}</Badge>
+        <Badge className="bg-viettel-red/10 text-viettel-red">{taxonomyLabel(t, 'newsCategories', item.category, NEWS_CATEGORIES)}</Badge>
         <h1 className="mt-3 text-3xl font-extrabold leading-tight text-ink md:text-4xl">{item.title}</h1>
 
         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-ink-soft">

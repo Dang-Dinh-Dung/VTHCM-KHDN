@@ -2,8 +2,10 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { cn } from '@/lib/cn'
+import { taxonomyLabel, type TaxonomyGroup } from '@/lib/taxonomy-i18n'
 import { COMPANY_SIZES, INDUSTRIES, NEEDS, type Option, PILLARS, PRODUCT_GROUPS } from '@/lib/taxonomy'
 
 const selectClass =
@@ -13,15 +15,19 @@ function Select({
   label,
   param,
   options,
+  group,
   value,
   onChange,
 }: {
   label: string
   param: string
   options: Option[]
+  /** Nhom taxonomy de dich nhan lua chon; bo trong => giu label goc (vd nhom san pham) */
+  group?: TaxonomyGroup
   value: string
   onChange: (param: string, value: string) => void
 }) {
+  const t = useTranslations('taxonomy')
   return (
     <label className="block">
       <span className="mb-1 block text-xs font-semibold text-ink-soft">{label}</span>
@@ -29,7 +35,7 @@ function Select({
         <option value="">Tất cả</option>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
-            {o.label}
+            {group ? taxonomyLabel(t, group, o.value, options) : o.label}
           </option>
         ))}
       </select>
@@ -82,11 +88,11 @@ export function SolutionFilters() {
       </form>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <Select label="Trụ cột" param="pillar" options={pillarOptions} value={current('pillar')} onChange={setParam} />
+        <Select label="Trụ cột" param="pillar" options={pillarOptions} group="pillars" value={current('pillar')} onChange={setParam} />
         <Select label="Nhóm sản phẩm" param="productGroup" options={PRODUCT_GROUPS} value={current('productGroup')} onChange={setParam} />
-        <Select label="Ngành nghề" param="industry" options={INDUSTRIES} value={current('industry')} onChange={setParam} />
-        <Select label="Nhu cầu" param="need" options={NEEDS} value={current('need')} onChange={setParam} />
-        <Select label="Quy mô" param="companySize" options={COMPANY_SIZES} value={current('companySize')} onChange={setParam} />
+        <Select label="Ngành nghề" param="industry" options={INDUSTRIES} group="industries" value={current('industry')} onChange={setParam} />
+        <Select label="Nhu cầu" param="need" options={NEEDS} group="needs" value={current('need')} onChange={setParam} />
+        <Select label="Quy mô" param="companySize" options={COMPANY_SIZES} group="companySizes" value={current('companySize')} onChange={setParam} />
       </div>
 
       {hasFilters && (

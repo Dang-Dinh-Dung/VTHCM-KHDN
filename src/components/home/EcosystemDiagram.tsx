@@ -15,9 +15,11 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { cn } from '@/lib/cn'
 import type { PillarSolutionItem } from '@/lib/queries'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { PILLARS } from '@/lib/taxonomy'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -116,6 +118,7 @@ function SolutionRow({ item, color }: { item: PillarSolutionItem; color: string 
 }
 
 export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
+  const t = useTranslations('taxonomy')
   const firstWithItems =
     PILLARS.find((p) => (solutionsByPillar[p.value] ?? []).length > 0)?.value ?? null
   const [open, setOpen] = useState<string | null>(firstWithItems)
@@ -155,7 +158,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                 className="line-clamp-2 text-[15px] font-bold leading-snug text-ink transition-colors"
                 style={active ? { color } : undefined}
               >
-                {pillar.label}
+                {taxonomyLabel(t, 'pillars', pillar.value, PILLARS)}
               </h3>
               <span
                 className="mt-0.5 shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold"
@@ -218,7 +221,7 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
               </div>
             )}
             <Link href={`/giai-phap?pillar=${pillar.value}`} style={{ color }} className="mt-2.5 inline-flex items-center gap-1.5 px-1 text-sm font-semibold">
-              Xem tất cả giải pháp {pillar.label}
+              Xem tất cả giải pháp {taxonomyLabel(t, 'pillars', pillar.value, PILLARS)}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -306,7 +309,9 @@ export function EcosystemDiagram({ counts, solutionsByPillar }: Props) {
                       <OpenIcon className="h-5 w-5" aria-hidden strokeWidth={1.75} />
                     </span>
                     <div>
-                      <h4 className="text-lg font-extrabold text-ink">Giải pháp {openPillar.label}</h4>
+                      <h4 className="text-lg font-extrabold text-ink">
+                        Giải pháp {taxonomyLabel(t, 'pillars', openPillar.value, PILLARS)}
+                      </h4>
                       <p className="text-xs text-ink-soft">
                         {openItems.length} sản phẩm trong hệ sinh thái{' '}
                         <span className="font-bold text-viettel-red">Viettel</span>

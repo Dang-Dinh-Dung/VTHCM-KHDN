@@ -19,8 +19,10 @@ import {
   Truck,
   X,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { cn } from '@/lib/cn'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
 import { PILLARS } from '@/lib/taxonomy'
 
 const PILLAR_ICONS: Record<string, LucideIcon> = {
@@ -59,14 +61,16 @@ export type PricingSolution = {
 type Sort = 'popular' | 'price-asc'
 
 export function PricingExplorer({ sols }: { sols: PricingSolution[] }) {
+  const t = useTranslations('taxonomy')
+
   // Cac tru cot co giai phap co gia, theo thu tu PILLARS
   const pillarsPresent = useMemo(() => {
     return PILLARS.map((p) => ({
       value: p.value,
-      label: p.label,
+      label: taxonomyLabel(t, 'pillars', p.value, PILLARS),
       count: sols.filter((s) => s.pillar === p.value).length,
     })).filter((p) => p.count > 0)
-  }, [sols])
+  }, [sols, t])
 
   const [pillar, setPillar] = useState(pillarsPresent[0]?.value ?? '')
   const [sort, setSort] = useState<Sort>('popular')
