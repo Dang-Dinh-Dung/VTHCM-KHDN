@@ -1,12 +1,16 @@
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import { Be_Vietnam_Pro } from 'next/font/google'
+import { notFound } from 'next/navigation'
 import React from 'react'
 
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { FloatingZalo } from '@/components/layout/FloatingZalo'
+import { routing } from '@/i18n/routing'
 import { getSiteSettings } from '@/lib/queries'
-import './globals.css'
+import '../globals.css'
 
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -46,9 +50,22 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) notFound()
+
   const settings = await getSiteSettings()
+  const t = await getTranslations('common')
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -65,29 +82,31 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const umamiId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
 
   return (
-    <html lang="vi" className={beVietnam.variable}>
+    <html lang={locale} className={beVietnam.variable}>
       <body className="flex min-h-screen flex-col">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-viettel-red focus:px-4 focus:py-2 focus:text-white"
-        >
-          Bỏ qua tới nội dung chính
-        </a>
-        <SiteHeader
-          hotline={settings.hotline}
-          email={settings.email}
-          departmentName={settings.departmentName}
-          logoUrl={
-            settings.logo && typeof settings.logo === 'object' && 'url' in settings.logo
-              ? (settings.logo.url ?? undefined)
-              : undefined
-          }
-        />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter settings={settings} />
-        <FloatingZalo zaloOaUrl={settings.zaloOaUrl} />
+        <NextIntlClientProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-viettel-red focus:px-4 focus:py-2 focus:text-white"
+          >
+            {t('skipToContent')}
+          </a>
+          <SiteHeader
+            hotline={settings.hotline}
+            email={settings.email}
+            departmentName={settings.departmentName}
+            logoUrl={
+              settings.logo && typeof settings.logo === 'object' && 'url' in settings.logo
+                ? (settings.logo.url ?? undefined)
+                : undefined
+            }
+          />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter settings={settings} />
+          <FloatingZalo zaloOaUrl={settings.zaloOaUrl} />
+        </NextIntlClientProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

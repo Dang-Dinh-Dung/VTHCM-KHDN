@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { ButtonLink, Container, Section } from '@/components/ui/primitives'

@@ -1,0 +1,82 @@
+{
+  "common": {
+    "languageSwitcherLabel": "Ngôn ngữ",
+    "skipToContent": "Bỏ qua tới nội dung chính"
+  },
+  "nav": {
+    "solutions": "Giải pháp",
+    "finder": "Tìm giải pháp",
+    "pricing": "Bảng giá",
+    "news": "Tin tức",
+    "policies": "Nghị định & chính sách",
+    "contact": "Liên hệ",
+    "ariaMain": "Điều hướng chính",
+    "ariaMobile": "Điều hướng di động",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
+  },
+  "header": {
+    "cta": "Đăng ký tư vấn",
+    "hotline": "Hotline"
+  },
+  "footer": {
+    "ecosystem": "Hệ sinh thái",
+    "quickLinks": "Liên kết nhanh",
+    "contactInfo": "Thông tin liên hệ",
+    "followUs": "Theo dõi chúng tôi",
+    "bookConsultation": "Đặt lịch tư vấn",
+    "socialFallback": "Mạng xã hội"
+  },
+  "taxonomy": {
+    "pillars": {
+      "vien-thong": "Viễn thông",
+      "chuyen-doi-so": "Chuyển đổi số",
+      "data-center-an-ninh-mang": "Data Center & An ninh mạng",
+      "quan-tri-doanh-nghiep": "Quản trị doanh nghiệp",
+      "logistics-van-tai-nang-luong": "Logistics - Vận tải - Năng lượng",
+      "san-pham-hop-tac": "Sản phẩm hợp tác"
+    },
+    "industries": {
+      "ban-le-thuong-mai": "Bán lẻ & thương mại",
+      "f-and-b": "Nhà hàng - F&B",
+      "san-xuat": "Sản xuất",
+      "van-tai-logistics": "Vận tải & logistics",
+      "giao-duc": "Giáo dục & đào tạo",
+      "y-te": "Y tế & dược",
+      "tai-chinh-ngan-hang": "Tài chính & ngân hàng",
+      "xay-dung-bat-dong-san": "Xây dựng & bất động sản",
+      "dich-vu": "Dịch vụ chuyên nghiệp",
+      "nong-nghiep": "Nông nghiệp",
+      "da-nganh": "Đa ngành / Khác"
+    },
+    "needs": {
+      "vien-thong-ket-noi": "Viễn thông & kết nối",
+      "van-phong-so": "Văn phòng số & cộng tác",
+      "hoa-don-ke-toan-chu-ky-so": "Hóa đơn - kế toán - chữ ký số",
+      "ban-hang-marketing": "Bán hàng & marketing",
+      "nhan-su-bao-hiem": "Nhân sự & bảo hiểm xã hội",
+      "cloud-ha-tang": "Cloud & hạ tầng",
+      "an-ninh-mang": "An ninh mạng",
+      "logistics-van-tai": "Logistics & vận tải"
+    },
+    "companySizes": {
+      "sieu-nho": "Siêu nhỏ (dưới 10 nhân sự)",
+      "nho": "Nhỏ (10 - 50 nhân sự)",
+      "vua": "Vừa (50 - 200 nhân sự)",
+      "lon": "Lớn (trên 200 nhân sự)"
+    },
+    "newsCategories": {
+      "tin-viettel": "Tin Viettel",
+      "chuyen-doi-so": "Chuyển đổi số",
+      "khuyen-mai": "Khuyến mãi",
+      "su-kien": "Sự kiện"
+    },
+    "policyTypes": {
+      "luat": "Luật",
+      "nghi-dinh": "Nghị định",
+      "thong-tu": "Thông tư",
+      "quyet-dinh": "Quyết định",
+      "cong-van": "Công văn"
+    }
+  }
+}

@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+import { Link } from '@/i18n/navigation'
 import { Building2, CalendarCheck, ExternalLink, FileText, Hash } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { RichText } from '@/components/RichText'
 import { SolutionCard } from '@/components/solutions/SolutionCard'
-import { Badge, ButtonLink, Container, SectionHeading } from '@/components/ui/primitives'
+import { Badge, buttonClass, Container, SectionHeading } from '@/components/ui/primitives'
 import { formatDate } from '@/lib/format'
 import { getPolicyBySlug } from '@/lib/queries'
 import { breadcrumbJsonLd, jsonLdScript, siteUrl } from '@/lib/seo'
-import { labelOf, POLICY_TYPES } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { POLICY_TYPES } from '@/lib/taxonomy'
 import type { Media, Solution } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
@@ -33,6 +36,7 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
   const item = await getPolicyBySlug(slug)
   if (!item) notFound()
 
+  const t = await getTranslations('taxonomy')
   const related = (item.relatedSolutions ?? []).filter(
     (r): r is Solution => typeof r === 'object' && r !== null,
   )
@@ -67,7 +71,7 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
         </nav>
 
         <Badge className="bg-pillar-datacenter/10 text-pillar-datacenter">
-          {labelOf(POLICY_TYPES, item.documentType)}
+          {taxonomyLabel(t, 'policyTypes', item.documentType, POLICY_TYPES)}
         </Badge>
         <h1 className="mt-3 text-2xl font-extrabold leading-tight text-ink md:text-3xl">{item.title}</h1>
 
@@ -107,10 +111,17 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
+          {/* File dinh kem la asset (vd /api/media/...), khong phai trang noi bo
+              -> dung <a> thuong de next-intl khong them tien to ngon ngu vao URL. */}
           {attachment?.url && (
-            <ButtonLink href={attachment.url} variant="outline" size="md" target="_blank" rel="noopener noreferrer">
+            <a
+              href={attachment.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass('outline', 'md')}
+            >
               <FileText className="h-4 w-4" aria-hidden /> Tải văn bản (PDF)
-            </ButtonLink>
+            </a>
           )}
           {item.sourceUrl && (
             <a

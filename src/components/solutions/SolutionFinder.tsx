@@ -1,16 +1,25 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Search } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
+import { useRouter } from '@/i18n/navigation'
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
 import type { SolutionFacet } from '@/lib/queries'
+import { taxonomyLabel, type TaxonomyGroup } from '@/lib/taxonomy-i18n'
 import { COMPANY_SIZES, INDUSTRIES, NEEDS, type Option } from '@/lib/taxonomy'
 
 type StepKey = 'industry' | 'need' | 'companySize'
-type StepDef = { key: StepKey; title: string; desc: string; options: Option[] }
+type StepDef = {
+  key: StepKey
+  title: string
+  desc: string
+  options: Option[]
+  /** Nhom taxonomy tuong ung de dich nhan lua chon */
+  group: TaxonomyGroup
+}
 
 // Anh xa key buoc -> truong facet tuong ung
 const FACET_FIELD: Record<StepKey, keyof SolutionFacet> = {
@@ -25,22 +34,26 @@ const STEPS: StepDef[] = [
     title: 'Doanh nghiệp của bạn thuộc ngành nào?',
     desc: 'Giúp chúng tôi gợi ý giải pháp phù hợp với đặc thù ngành.',
     options: INDUSTRIES,
+    group: 'industries',
   },
   {
     key: 'need',
     title: 'Bạn đang cần giải quyết nhu cầu gì?',
     desc: 'Chọn nhu cầu trọng tâm nhất hiện nay của doanh nghiệp.',
     options: NEEDS,
+    group: 'needs',
   },
   {
     key: 'companySize',
     title: 'Quy mô doanh nghiệp của bạn?',
     desc: 'Để chúng tôi đề xuất gói dịch vụ tối ưu chi phí.',
     options: COMPANY_SIZES,
+    group: 'companySizes',
   },
 ]
 
 export function SolutionFinder({ facets = [] }: { facets?: SolutionFacet[] }) {
+  const t = useTranslations('taxonomy')
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -121,7 +134,7 @@ export function SolutionFinder({ facets = [] }: { facets?: SolutionFacet[] }) {
                     : 'cursor-not-allowed border-border-soft/60 bg-surface-muted/40 text-ink-soft/40',
               )}
             >
-              {opt.label}
+              {taxonomyLabel(t, current.group, opt.value, current.options)}
               <span
                 className={cn(
                   'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border',

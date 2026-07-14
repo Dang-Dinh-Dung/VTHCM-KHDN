@@ -15,7 +15,8 @@
 - **KHÔNG commit `src/app/(payload)/admin/importMap.js`** nếu nó bị xoá dòng `S3ClientUploadHandler` (lỗi cũ làm trắng admin trên Vercel/IDC). Nếu file này bị đổi, chạy `git checkout -- "src/app/(payload)/admin/importMap.js"` trước khi commit.
 - Locales: `['vi', 'en', 'zh']`, mặc định `vi`. Nhãn hiển thị trên nút: `VI`, `EN`, `中文`.
 - Windows: mọi lệnh npm/npx chạy trong Git Bash phải nạp PATH trước: `export PATH="/c/Program Files/nodejs:$PATH"`.
-- Repo **không có test framework**. Verify bằng: `npx tsc --noEmit`, `npm run lint`, và `curl` vào dev server đang chạy.
+- Repo **dùng `vitest`** (`npm test` → `vitest run`; test hiện có ở `src/lib/crawler/*.test.ts`). Logic thuần (ví dụ `taxonomyLabel`) **phải có unit test theo TDD**: viết test đỏ trước, rồi mới cài đặt.
+- Phần routing/middleware/UI không unit-test được một cách có ý nghĩa → verify bằng `npx tsc --noEmit`, `npm run lint`, và `curl` vào dev server đang chạy (có expected output cụ thể ở từng task).
 
 ---
 
@@ -945,7 +946,52 @@ Thêm khối tương ứng vào **`messages/zh.json`**:
   }
 ```
 
-- [ ] **Step 2: Tạo `src/lib/taxonomy-i18n.ts`**
+- [ ] **Step 2a: Viết test ĐỎ cho `taxonomyLabel` (TDD)**
+
+Tạo `src/lib/taxonomy-i18n.test.ts`:
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+import { taxonomyLabel } from './taxonomy-i18n'
+import { PILLARS } from './taxonomy'
+
+// Gia lap ham dich cua next-intl: co ban dich thi tra ve, thieu thi tra ve chinh key
+const makeT = (dict: Record<string, string>) => (key: string) => dict[key] ?? key
+
+describe('taxonomyLabel', () => {
+  it('tra ve ban dich khi tu dien co key', () => {
+    const t = makeT({ 'pillars.vien-thong': 'Telecommunications' })
+    expect(taxonomyLabel(t, 'pillars', 'vien-thong', PILLARS)).toBe('Telecommunications')
+  })
+
+  it('lui ve label tieng Viet khi thieu ban dich', () => {
+    const t = makeT({}) // khong co ban dich nao
+    expect(taxonomyLabel(t, 'pillars', 'vien-thong', PILLARS)).toBe('Viễn thông')
+  })
+
+  it('tra ve chuoi rong khi value rong', () => {
+    const t = makeT({})
+    expect(taxonomyLabel(t, 'pillars', null, PILLARS)).toBe('')
+    expect(taxonomyLabel(t, 'pillars', undefined, PILLARS)).toBe('')
+  })
+
+  it('tra ve chinh value khi value khong co trong danh sach va khong co ban dich', () => {
+    const t = makeT({})
+    expect(taxonomyLabel(t, 'pillars', 'khong-ton-tai', PILLARS)).toBe('khong-ton-tai')
+  })
+})
+```
+
+- [ ] **Step 2b: Chạy test để xác nhận nó ĐỎ**
+
+```bash
+export PATH="/c/Program Files/nodejs:$PATH"
+npx vitest run src/lib/taxonomy-i18n.test.ts
+```
+Expected: FAIL — không import được `./taxonomy-i18n` (file chưa tồn tại).
+
+- [ ] **Step 2c: Tạo `src/lib/taxonomy-i18n.ts` để test XANH**
 
 ```ts
 /**
@@ -982,6 +1028,14 @@ export function taxonomyLabel(
   }
 }
 ```
+
+- [ ] **Step 2d: Chạy test để xác nhận nó XANH**
+
+```bash
+export PATH="/c/Program Files/nodejs:$PATH"
+npx vitest run src/lib/taxonomy-i18n.test.ts
+```
+Expected: PASS — 4/4 test.
 
 - [ ] **Step 3: Áp dụng ở các component hiển thị nhãn taxonomy**
 
@@ -1029,14 +1083,15 @@ Với **client component nhận danh sách từ server** (ví dụ `PricingExplo
 
 > **Không** sửa `src/lib/taxonomy.ts` và **không** sửa các file trong `src/collections/` — admin vẫn dùng label tiếng Việt.
 
-- [ ] **Step 4: Verify — nhãn taxonomy đổi theo ngôn ngữ, admin không hỏng**
+- [ ] **Step 4: Verify — test xanh, nhãn taxonomy đổi theo ngôn ngữ, admin không hỏng**
 
 ```bash
 export PATH="/c/Program Files/nodejs:$PATH"
+npm test
 npx tsc --noEmit
 npm run lint
 ```
-Expected: không lỗi.
+Expected: toàn bộ test PASS (gồm 4 test mới của `taxonomyLabel` và các test crawler đã có); tsc/lint không lỗi.
 
 ```bash
 # Trang giai phap tieng Viet: co "Chuyển đổi số"
@@ -1054,7 +1109,7 @@ Expected: 3 dòng đầu `>=1`; dòng cuối `admin=200`.
 
 ```bash
 git checkout -- "src/app/(payload)/admin/importMap.js" 2>/dev/null
-git add messages src/lib/taxonomy-i18n.ts src/components "src/app/(frontend)"
+git add messages src/lib/taxonomy-i18n.ts src/lib/taxonomy-i18n.test.ts src/components "src/app/(frontend)"
 git commit -m "feat(i18n): dich nhan taxonomy (tru cot, nganh, nhu cau, quy mo, loai tin/van ban)"
 ```
 
@@ -1065,12 +1120,14 @@ git commit -m "feat(i18n): dich nhan taxonomy (tru cot, nganh, nhu cau, quy mo, 
 **Files:**
 - Create: `docs/superpowers/plans/2026-07-13-i18n-giai-doan-1-ban-giao.md`
 
-- [ ] **Step 1: Chạy build production (bắt lỗi mà dev không thấy)**
+- [ ] **Step 1: Chạy toàn bộ test + build production (bắt lỗi mà dev không thấy)**
 
 ```bash
 export PATH="/c/Program Files/nodejs:$PATH"
+npm test
 npm run build
 ```
+Expected: toàn bộ test PASS.
 Expected: build thành công, không lỗi.
 Nếu lỗi liên quan Google Fonts (`Failed to fetch 'Be Vietnam Pro'`) → là lỗi mạng tạm thời, chạy lại lệnh.
 

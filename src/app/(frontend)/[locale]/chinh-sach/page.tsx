@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 
 import { PolicyFilters } from '@/components/content/PolicyFilters'
 import { PolicyRow } from '@/components/content/PolicyRow'

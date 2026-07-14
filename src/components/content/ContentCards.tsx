@@ -1,9 +1,11 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { ArrowRight, CalendarDays, Newspaper, ScrollText } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { Badge } from '@/components/ui/primitives'
 import { formatDate } from '@/lib/format'
-import { labelOf, NEWS_CATEGORIES, POLICY_TYPES } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { NEWS_CATEGORIES, POLICY_TYPES } from '@/lib/taxonomy'
 import type { Media, News, Policy } from '@/payload-types'
 
 type MediaRef = number | Media | null | undefined
@@ -18,7 +20,8 @@ function mediaImage(ref: MediaRef): { url: string; alt: string } | null {
   return null
 }
 
-export function NewsCard({ item, compact = false }: { item: News; compact?: boolean }) {
+export async function NewsCard({ item, compact = false }: { item: News; compact?: boolean }) {
+  const t = await getTranslations('taxonomy')
   const img = mediaImage(item.coverImage)
   return (
     <Link
@@ -44,7 +47,7 @@ export function NewsCard({ item, compact = false }: { item: News; compact?: bool
         )}
         <span className="absolute left-3 top-3">
           <Badge className="bg-white/90 text-viettel-red shadow-sm backdrop-blur-sm">
-            {labelOf(NEWS_CATEGORIES, item.category)}
+            {taxonomyLabel(t, 'newsCategories', item.category, NEWS_CATEGORIES)}
           </Badge>
         </span>
       </div>
@@ -72,7 +75,8 @@ export function NewsCard({ item, compact = false }: { item: News; compact?: bool
   )
 }
 
-export function PolicyCard({ item, compact = false }: { item: Policy; compact?: boolean }) {
+export async function PolicyCard({ item, compact = false }: { item: Policy; compact?: boolean }) {
+  const t = await getTranslations('taxonomy')
   const img = mediaImage(item.coverImage)
   return (
     <Link
@@ -115,7 +119,7 @@ export function PolicyCard({ item, compact = false }: { item: Policy; compact?: 
         )}
         <span className="absolute left-3 top-3 flex flex-wrap items-center gap-2">
           <Badge className="bg-white/90 text-ink shadow-sm backdrop-blur-sm">
-            {labelOf(POLICY_TYPES, item.documentType)}
+            {taxonomyLabel(t, 'policyTypes', item.documentType, POLICY_TYPES)}
           </Badge>
           {!compact && item.documentNumber && (
             <Badge className="bg-white/80 text-ink-soft shadow-sm backdrop-blur-sm">

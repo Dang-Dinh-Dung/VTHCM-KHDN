@@ -1,8 +1,10 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Clock, Globe, Mail, MapPin, Phone } from 'lucide-react'
 
 import { Container } from '@/components/ui/primitives'
 import { PILLARS } from '@/lib/taxonomy'
+import { taxonomyLabel } from '@/lib/taxonomy-i18n'
+import { Link } from '@/i18n/navigation'
 import type { SiteSetting } from '@/payload-types'
 
 const SOCIAL_LABEL: Record<string, string> = {
@@ -13,7 +15,10 @@ const SOCIAL_LABEL: Record<string, string> = {
   tiktok: 'TikTok',
 }
 
-export function SiteFooter({ settings }: { settings: SiteSetting }) {
+export async function SiteFooter({ settings }: { settings: SiteSetting }) {
+  const t = await getTranslations('footer')
+  const tNav = await getTranslations('nav')
+  const tTax = await getTranslations('taxonomy')
   return (
     <footer className="mt-10 border-t-2 border-viettel-red bg-surface text-ink-soft">
       <Container className="py-12">
@@ -34,12 +39,12 @@ export function SiteFooter({ settings }: { settings: SiteSetting }) {
 
           {/* Tru cot */}
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">Hệ sinh thái</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">{t('ecosystem')}</h3>
             <ul className="space-y-2 text-sm">
               {PILLARS.map((p) => (
                 <li key={p.value}>
                   <Link href={`/giai-phap?pillar=${p.value}`} className="text-ink-soft hover:text-viettel-red">
-                    {p.label}
+                    {taxonomyLabel(tTax, 'pillars', p.value, PILLARS)}
                   </Link>
                 </li>
               ))}
@@ -48,20 +53,20 @@ export function SiteFooter({ settings }: { settings: SiteSetting }) {
 
           {/* Lien ket */}
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">Khám phá</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">{t('quickLinks')}</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/giai-phap" className="text-ink-soft hover:text-viettel-red">Tất cả giải pháp</Link></li>
-              <li><Link href="/tim-giai-phap" className="text-ink-soft hover:text-viettel-red">Tìm giải pháp phù hợp</Link></li>
-              <li><Link href="/bang-gia" className="text-ink-soft hover:text-viettel-red">Bảng giá</Link></li>
-              <li><Link href="/tin-tuc" className="text-ink-soft hover:text-viettel-red">Tin tức</Link></li>
-              <li><Link href="/chinh-sach" className="text-ink-soft hover:text-viettel-red">Nghị định & chính sách</Link></li>
-              <li><Link href="/dat-lich" className="text-ink-soft hover:text-viettel-red">Đặt lịch tư vấn</Link></li>
+              <li><Link href="/giai-phap" className="text-ink-soft hover:text-viettel-red">{tNav('solutions')}</Link></li>
+              <li><Link href="/tim-giai-phap" className="text-ink-soft hover:text-viettel-red">{tNav('finder')}</Link></li>
+              <li><Link href="/bang-gia" className="text-ink-soft hover:text-viettel-red">{tNav('pricing')}</Link></li>
+              <li><Link href="/tin-tuc" className="text-ink-soft hover:text-viettel-red">{tNav('news')}</Link></li>
+              <li><Link href="/chinh-sach" className="text-ink-soft hover:text-viettel-red">{tNav('policies')}</Link></li>
+              <li><Link href="/dat-lich" className="text-ink-soft hover:text-viettel-red">{t('bookConsultation')}</Link></li>
             </ul>
           </div>
 
           {/* Lien he */}
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">Liên hệ</h3>
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">{t('contactInfo')}</h3>
             <ul className="space-y-2.5 text-sm text-ink-soft">
               {settings.hotline && (
                 <li className="flex items-center gap-2.5">
@@ -93,20 +98,23 @@ export function SiteFooter({ settings }: { settings: SiteSetting }) {
               )}
             </ul>
             {settings.socials && settings.socials.length > 0 && (
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4">
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wide text-ink-soft">{t('followUs')}</h4>
+                <div className="flex gap-2">
                 {settings.socials.map((s, i) => (
                   <a
                     key={i}
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={SOCIAL_LABEL[s.platform ?? ''] ?? 'Mạng xã hội'}
-                    title={SOCIAL_LABEL[s.platform ?? ''] ?? 'Mạng xã hội'}
+                    aria-label={SOCIAL_LABEL[s.platform ?? ''] ?? t('socialFallback')}
+                    title={SOCIAL_LABEL[s.platform ?? ''] ?? t('socialFallback')}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border-soft bg-surface-muted text-ink-soft transition-colors hover:bg-viettel-red hover:text-white"
                   >
                     <Globe className="h-4 w-4" aria-hidden />
                   </a>
                 ))}
+                </div>
               </div>
             )}
           </div>

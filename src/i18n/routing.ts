@@ -1,0 +1,20 @@
+import { defineRouting } from 'next-intl/routing'
+
+export const routing = defineRouting({
+  locales: ['vi', 'en', 'zh'],
+  defaultLocale: 'vi',
+  // VI khong co tien to (/gia-phap), EN/ZH co (/en/..., /zh/...)
+  localePrefix: 'as-needed',
+  // Tat auto-detect theo Accept-Language: cac URL tieng Viet (khong tien to) da duoc Google index,
+  // khong duoc tu dong redirect nguoi dung/Googlebot sang /en hay /zh dua tren trinh duyet.
+  localeDetection: false,
+})
+
+export type AppLocale = (typeof routing.locales)[number]
+
+/** Nhan hien thi tren nut chuyen ngon ngu */
+export const LOCALE_LABELS: Record<AppLocale, string> = {
+  vi: 'VI',
+  en: 'EN',
+  zh: '中文',
+}

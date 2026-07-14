@@ -1,0 +1,82 @@
+{
+  "common": {
+    "languageSwitcherLabel": "Language",
+    "skipToContent": "Skip to main content"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "finder": "Find a solution",
+    "pricing": "Pricing",
+    "news": "News",
+    "policies": "Regulations & policies",
+    "contact": "Contact",
+    "ariaMain": "Main navigation",
+    "ariaMobile": "Mobile navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "header": {
+    "cta": "Request a consultation",
+    "hotline": "Hotline"
+  },
+  "footer": {
+    "ecosystem": "Ecosystem",
+    "quickLinks": "Quick links",
+    "contactInfo": "Contact information",
+    "followUs": "Follow us",
+    "bookConsultation": "Book a consultation",
+    "socialFallback": "Social media"
+  },
+  "taxonomy": {
+    "pillars": {
+      "vien-thong": "Telecommunications",
+      "chuyen-doi-so": "Digital transformation",
+      "data-center-an-ninh-mang": "Data Center & Cybersecurity",
+      "quan-tri-doanh-nghiep": "Business management",
+      "logistics-van-tai-nang-luong": "Logistics - Transport - Energy",
+      "san-pham-hop-tac": "Partner products"
+    },
+    "industries": {
+      "ban-le-thuong-mai": "Retail & commerce",
+      "f-and-b": "Restaurants - F&B",
+      "san-xuat": "Manufacturing",
+      "van-tai-logistics": "Transport & logistics",
+      "giao-duc": "Education & training",
+      "y-te": "Healthcare & pharma",
+      "tai-chinh-ngan-hang": "Finance & banking",
+      "xay-dung-bat-dong-san": "Construction & real estate",
+      "dich-vu": "Professional services",
+      "nong-nghiep": "Agriculture",
+      "da-nganh": "Multi-industry / Other"
+    },
+    "needs": {
+      "vien-thong-ket-noi": "Telecom & connectivity",
+      "van-phong-so": "Digital office & collaboration",
+      "hoa-don-ke-toan-chu-ky-so": "E-invoice - accounting - digital signature",
+      "ban-hang-marketing": "Sales & marketing",
+      "nhan-su-bao-hiem": "HR & social insurance",
+      "cloud-ha-tang": "Cloud & infrastructure",
+      "an-ninh-mang": "Cybersecurity",
+      "logistics-van-tai": "Logistics & transport"
+    },
+    "companySizes": {
+      "sieu-nho": "Micro (under 10 staff)",
+      "nho": "Small (10 - 50 staff)",
+      "vua": "Medium (50 - 200 staff)",
+      "lon": "Large (over 200 staff)"
+    },
+    "newsCategories": {
+      "tin-viettel": "Viettel news",
+      "chuyen-doi-so": "Digital transformation",
+      "khuyen-mai": "Promotions",
+      "su-kien": "Events"
+    },
+    "policyTypes": {
+      "luat": "Law",
+      "nghi-dinh": "Decree",
+      "thong-tu": "Circular",
+      "quyet-dinh": "Decision",
+      "cong-van": "Official dispatch"
+    }
+  }
+}
