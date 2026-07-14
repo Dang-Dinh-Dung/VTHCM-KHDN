@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+import { Link } from '@/i18n/navigation'
 import { CalendarDays, User } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 

@@ -111,6 +111,31 @@ trong UI công khai. Phần lớn thuộc 2 nhóm:
   layout gốc), sitemap.xml liệt kê cả 3 ngôn ngữ, metadata (title/description/
   OG) sinh riêng theo locale thay vì cố định tiếng Việt như hiện tại, và dịch
   nốt danh sách UI tĩnh ở bảng trên qua `messages/*.json`.
+
+  ### ⚠️ Chặn index EN/ZH — BẮT BUỘC sửa ở GĐ3 trước khi mở EN/ZH ra công chúng
+
+  Hiện tại (GĐ1) mọi trang `/en/*` và `/zh/*` đều **tự canonical trỏ về bản tiếng
+  Việt**, và `openGraph.locale` bị hard-code `vi_VN`. Đây là **cố ý** ở GĐ1: nó
+  bảo vệ ~32 URL tiếng Việt đã được Google index, tránh việc bản dịch máy/chưa
+  hoàn chỉnh cạnh tranh hoặc làm loãng thứ hạng. Hệ quả kèm theo: **EN/ZH sẽ
+  không bao giờ được index** chừng nào chưa sửa. Khi GĐ3 chính thức mở EN/ZH,
+  phải làm đủ 4 việc sau:
+
+  1. **Canonical theo từng locale** — `alternates.canonical` phải trỏ về chính
+     URL của locale đang render (`/en/giai-phap` canonical về `/en/giai-phap`),
+     không trỏ về bản tiếng Việt nữa.
+  2. **`alternates.languages` (hreflang)** — mỗi trang khai báo đủ 3 bản
+     `vi` / `en` / `zh` (+ `x-default` trỏ về bản tiếng Việt), khai báo hai
+     chiều (reciprocal) giữa các bản dịch.
+  3. **`openGraph.locale` theo locale** — `vi_VN` / `en_US` / `zh_CN` thay vì
+     hard-code `vi_VN`, kèm `openGraph.alternateLocale` cho 2 ngôn ngữ còn lại.
+  4. **sitemap.xml 3 ngôn ngữ** — liệt kê cả URL `/en/*` và `/zh/*` (không chỉ
+     bản tiếng Việt), mỗi `<url>` kèm `xhtml:link rel="alternate" hreflang=...`.
+  5. **JSON-LD theo locale** — schema.org hiện sinh cố định tiếng Việt; phải cho
+     `inLanguage`, `name`, `description` đổi theo locale đang render.
+
+  Chỉ mở (bỏ canonical trỏ VI) **sau khi** nội dung EN/ZH đã được người thật rà
+  soát ở GĐ4 — mở sớm khi bản dịch còn thô sẽ gây rủi ro SEO cho bản tiếng Việt.
 - **GĐ4 — Vận hành:** nhân viên KHDN nhập bản dịch EN/ZH cho từng Solution/
   News/Policy trực tiếp trong Payload admin (dùng field đã thêm ở GĐ2).
 

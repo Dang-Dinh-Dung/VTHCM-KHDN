@@ -1,10 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { useRouter } from '@/i18n/navigation'
 import { buttonClass } from '@/components/ui/primitives'
 import { cn } from '@/lib/cn'
 import type { SolutionFacet } from '@/lib/queries'

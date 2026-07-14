@@ -7,7 +7,14 @@ import { cn } from '@/lib/cn'
 import { Link, usePathname } from '@/i18n/navigation'
 import { LOCALE_LABELS, routing, type AppLocale } from '@/i18n/routing'
 
-export function LanguageSwitcher({ className }: { className?: string }) {
+export function LanguageSwitcher({
+  className,
+  onNavigate,
+}: {
+  className?: string
+  /** Goi khi nguoi dung bam chon ngon ngu (vd: dong menu mobile). */
+  onNavigate?: () => void
+}) {
   const pathname = usePathname()
   const active = useLocale()
   const searchParams = useSearchParams()
@@ -28,6 +35,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
             href={href}
             locale={locale}
             hrefLang={locale}
+            onClick={onNavigate}
             aria-current={isActive ? 'true' : undefined}
             className={cn(
               'rounded-full px-2.5 py-1 text-xs font-bold transition-colors',

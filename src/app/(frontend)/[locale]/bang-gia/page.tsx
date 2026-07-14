@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { Expand, Headphones, Rocket, ShieldCheck } from 'lucide-react'
 
 import { PricingExplorer, type PricingSolution } from '@/components/solutions/PricingExplorer'

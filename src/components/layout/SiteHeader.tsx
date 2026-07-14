@@ -137,7 +137,7 @@ export function SiteHeader({
                   <Phone className="h-4 w-4" aria-hidden /> {tHeader('hotline')}: {hotline}
                 </a>
               )}
-              <LanguageSwitcher className="mt-2 self-center" />
+              <LanguageSwitcher className="mt-2 self-center" onNavigate={() => setOpen(false)} />
             </nav>
           </div>
         )}

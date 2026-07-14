@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 
 import { BookingForm } from '@/components/booking/BookingForm'

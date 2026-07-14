@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 
+import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 
 export function Container({ className, children }: { className?: string; children: ReactNode }) {
