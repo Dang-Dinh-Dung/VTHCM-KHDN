@@ -23,7 +23,7 @@ export function LanguageSwitcher({
 
   return (
     <div
-      className={cn('flex items-center gap-0.5 rounded-full bg-surface-muted p-0.5', className)}
+      className={cn('flex shrink-0 items-center gap-0.5 rounded-full bg-surface-muted p-0.5', className)}
       role="group"
       aria-label="Chọn ngôn ngữ"
     >
@@ -38,7 +38,7 @@ export function LanguageSwitcher({
             onClick={onNavigate}
             aria-current={isActive ? 'true' : undefined}
             className={cn(
-              'rounded-full px-2.5 py-1 text-xs font-bold transition-colors',
+              'whitespace-nowrap rounded-full px-2 py-1 text-xs font-bold transition-colors 2xl:px-2.5',
               isActive
                 ? 'bg-viettel-red text-white'
                 : 'text-ink-soft hover:bg-surface hover:text-viettel-red',
